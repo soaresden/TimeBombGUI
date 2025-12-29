@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeBomb - Gestionnaire de Parties</title>
+    <title>TimeBomb - Assistant de Jeu</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital@0;1&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,53 +14,73 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #2a2420 0%, #1a1815 50%, #2a2420 100%);
             min-height: 100vh;
-            color: #fff;
-            padding: 10px;
+            color: #e8dcc8;
+            padding: 20px;
+        }
+
+        .border-frame {
+            border: 20px solid #5a4a42;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,0.8),
+                0 0 30px rgba(0,0,0,0.9);
+            background: linear-gradient(135deg, #1a1815 0%, #232220 100%);
+            min-height: 100vh;
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .border-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid #8a6f5e;
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
-            margin: 20px 0;
-            padding: 20px;
+            margin-bottom: 40px;
         }
 
         .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #3b82f6 0%, #ef4444 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            color: #C50D19;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
         .subtitle {
-            color: #cbd5e0;
-            font-size: 0.9rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            color: #8a7a6a;
+            text-transform: uppercase;
         }
 
         .screen {
             display: none;
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn 0.4s ease-in;
         }
 
         .screen.active {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+            display: block;
         }
 
         @keyframes fadeIn {
@@ -66,1032 +88,682 @@
             to { opacity: 1; }
         }
 
-        /* ===== ÉCRAN PRINCIPAL ===== */
-        .main-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(90deg, #6b7280 0%, #4b5563 100%);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: linear-gradient(90deg, #7c8590 0%, #5a6473 100%);
-        }
-
-        .btn-danger {
-            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
-        }
-
-        .btn-success {
-            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-            color: white;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
-        }
-
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 0.85rem;
-        }
-
-        /* ===== ÉCRAN CRÉATION DE PARTIE ===== */
-        .create-game {
-            gap: 25px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-        }
-
-        label {
-            font-weight: 600;
-            color: #cbd5e0;
-            font-size: 0.95rem;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select {
-            padding: 12px;
-            border: 2px solid #4b5563;
-            border-radius: 6px;
-            background: #0f3460;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-
-        .players-section {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid #3b82f6;
-        }
-
-        .players-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .player-item {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .player-item input {
-            flex: 1;
-        }
-
-        .btn-remove {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 12px;
+        /* ===== SETUP INITIAL ===== */
+        .setup-section {
+            background: rgba(90, 74, 66, 0.4);
+            border: 2px solid #8a6f5e;
+            padding: 30px;
+            margin-bottom: 30px;
             border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
         }
 
-        .team-config {
-            background: rgba(239, 68, 68, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid #ef4444;
-            margin: 15px 0;
-        }
-
-        .team-row {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin: 10px 0;
-            flex-wrap: wrap;
-        }
-
-        .team-row label {
-            margin: 0;
-            flex: 0 0 150px;
-        }
-
-        .team-row input {
-            flex: 1;
-            min-width: 100px;
-            max-width: 150px;
-        }
-
-        .randomize-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .randomize-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        /* ===== ÉCRAN RÉVÉLATION RÔLES ===== */
-        .reveal-screen {
-            gap: 30px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .reveal-card {
-            width: 280px;
-            height: 380px;
-            perspective: 1000px;
-            cursor: pointer;
-            margin: 0 auto;
-        }
-
-        .reveal-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .reveal-card.flipped .reveal-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            font-weight: bold;
-            padding: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 3px solid #fbbf24;
-            font-size: 2rem;
-            color: #fbbf24;
-        }
-
-        .card-back.blue {
-            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            transform: rotateY(180deg);
-        }
-
-        .card-back.red {
-            background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-            transform: rotateY(180deg);
-        }
-
-        .card-back {
+        .section-title {
+            font-family: 'Cinzel', serif;
             font-size: 1.5rem;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .card-role {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-player {
-            font-size: 1.3rem;
-            opacity: 0.9;
-        }
-
-        .card-team {
-            font-size: 1rem;
-            opacity: 0.8;
-            text-transform: uppercase;
+            color: #C50D19;
+            margin-bottom: 20px;
             letter-spacing: 2px;
         }
 
-        .reveal-counter {
-            text-align: center;
-            font-size: 0.95rem;
-            color: #cbd5e0;
+        .players-input {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        .nav-buttons {
+        .player-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .player-input-group label {
+            min-width: 80px;
+            font-weight: 600;
+            color: #a89a8a;
+        }
+
+        .player-input-group input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #8a6f5e;
+            background: rgba(26, 24, 21, 0.8);
+            color: #e8dcc8;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            border-radius: 2px;
+            transition: border-color 0.3s;
+        }
+
+        .player-input-group input:focus {
+            outline: none;
+            border-color: #C50D19;
+        }
+
+        .instructions-box {
+            background: rgba(197, 13, 25, 0.1);
+            border-left: 4px solid #C50D19;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 2px;
+        }
+
+        .instructions-box h3 {
+            color: #C50D19;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .instructions-box ol {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #d8ccbc;
+        }
+
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .instructions-box strong {
+            color: #C50D19;
+        }
+
+        button {
+            font-family: 'Cinzel', serif;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            border: 2px solid;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #C50D19 0%, #8a0a14 100%);
+            color: #fff;
+            border-color: #C50D19;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            padding: 16px;
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(135deg, #e51d2b 0%, #a51019 100%);
+            box-shadow: 0 4px 15px rgba(197, 13, 25, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ===== GAMEPLAY ===== */
+        .game-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .manche-counter {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #C50D19;
+            margin-bottom: 20px;
+        }
+
+        .manche-label {
+            font-size: 0.9rem;
+            color: #a89a8a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .turn-button {
+            background: linear-gradient(135deg, #8a6f5e 0%, #6a5a52 100%);
+            color: #e8dcc8;
+            border-color: #8a6f5e;
+            width: 100%;
+            padding: 40px 20px;
+            font-size: 1.3rem;
+            margin: 40px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .turn-button:hover {
+            background: linear-gradient(135deg, #9a7f6e 0%, #7a6a62 100%);
+            box-shadow: 0 4px 20px rgba(138, 111, 94, 0.4);
+            transform: scale(1.02);
+        }
+
+        .turn-button:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== FIN DE MANCHE ===== */
+        .end-manche-section {
+            background: rgba(90, 74, 66, 0.4);
+            border: 2px solid #8a6f5e;
+            padding: 30px;
+            border-radius: 4px;
+            margin: 30px 0;
+        }
+
+        .teams-assignment {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .team-selector {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(26, 24, 21, 0.6);
+            border-radius: 2px;
+            border: 1px solid #5a4a42;
+        }
+
+        .team-selector label {
+            min-width: 150px;
+            font-weight: 600;
+            color: #e8dcc8;
+        }
+
+        .team-toggle {
+            display: flex;
+            gap: 0;
+            background: #5a4a42;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .team-btn {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            flex: 1;
+            transition: all 0.3s;
+            color: #8a7a6a;
+        }
+
+        .team-btn.blue {
+            background: #0B787B;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .team-btn.red {
+            background: #C50D19;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .team-btn.neutral {
+            background: #5a4a42;
+            color: #8a7a6a;
+        }
+
+        .team-btn:hover:not(.neutral) {
+            opacity: 0.9;
+        }
+
+        .winner-section {
+            background: rgba(90, 74, 66, 0.4);
+            border: 2px solid #8a6f5e;
+            padding: 30px;
+            border-radius: 4px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .winner-section h3 {
+            color: #a89a8a;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .winner-buttons {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
 
-        /* ===== ÉCRAN RÉSULTAT ===== */
-        .result-screen {
-            gap: 20px;
+        .btn-winner {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: 2px solid;
+            cursor: pointer;
+            border-radius: 2px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
         }
 
-        .result-container {
-            background: rgba(59, 130, 246, 0.1);
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 15px 0;
+        .btn-winner.blue {
+            background: #0B787B;
+            border-color: #0B787B;
+            color: #fff;
         }
 
-        .result-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 15px 0;
+        .btn-winner.blue:hover {
+            background: #0d9298;
+            box-shadow: 0 4px 15px rgba(11, 120, 123, 0.4);
         }
 
-        .team-badge {
-            padding: 15px;
-            border-radius: 8px;
+        .btn-winner.red {
+            background: #C50D19;
+            border-color: #C50D19;
+            color: #fff;
+        }
+
+        .btn-winner.red:hover {
+            background: #e51d2b;
+            box-shadow: 0 4px 15px rgba(197, 13, 25, 0.4);
+        }
+
+        .result-announcement {
+            background: linear-gradient(135deg, rgba(197, 13, 25, 0.2) 0%, rgba(11, 120, 123, 0.2) 100%);
+            border: 3px solid #8a6f5e;
+            padding: 30px;
             text-align: center;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            margin: 30px 0;
+            border-radius: 2px;
         }
 
-        .team-badge.blue {
-            background: rgba(59, 130, 246, 0.2);
-            border: 2px solid #3b82f6;
-            color: #60a5fa;
-        }
-
-        .team-badge.red {
-            background: rgba(239, 68, 68, 0.2);
-            border: 2px solid #ef4444;
-            color: #f87171;
-        }
-
-        .team-badge h3 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
-
-        .team-members {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .winner-banner {
-            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .loser-banner {
-            background: linear-gradient(90deg, #6b7280 0%, #4b5563 100%);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        /* ===== ÉCRAN STATS ===== */
-        .stats-screen {
-            gap: 25px;
-        }
-
-        .stat-card {
-            background: rgba(59, 130, 246, 0.1);
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .stat-card h3 {
+        .result-announcement h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
             margin-bottom: 15px;
-            color: #60a5fa;
+            letter-spacing: 2px;
+        }
+
+        .result-announcement.blue-wins h2 {
+            color: #0B787B;
+        }
+
+        .result-announcement.red-wins h2 {
+            color: #C50D19;
+        }
+
+        .result-team-list {
             font-size: 1.1rem;
+            color: #d8ccbc;
+            margin: 15px 0;
+            line-height: 1.8;
         }
 
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            align-items: center;
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .stat-name {
-            flex: 1;
-        }
-
-        .stat-value {
-            font-weight: bold;
-            color: #fbbf24;
-            text-align: right;
-            min-width: 100px;
-        }
-
-        .stat-bars {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .stat-bar {
-            flex: 1;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .stat-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
-            width: 0;
-            transition: width 0.5s ease;
-        }
-
-        .no-games {
-            text-align: center;
-            padding: 40px;
-            color: #cbd5e0;
+        .next-manche-btn {
+            background: linear-gradient(135deg, #0B787B 0%, #085961 100%);
+            color: #fff;
+            border-color: #0B787B;
+            width: 100%;
+            margin-top: 20px;
             font-size: 1.1rem;
+            padding: 14px;
         }
 
-        .game-history {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 400px;
-            overflow-y: auto;
+        .next-manche-btn:hover {
+            background: linear-gradient(135deg, #0d9298 0%, #0a6d72 100%);
+            box-shadow: 0 4px 15px rgba(11, 120, 123, 0.4);
         }
 
-        .game-item {
-            background: rgba(59, 130, 246, 0.15);
-            padding: 12px;
-            border-radius: 6px;
-            border-left: 4px solid #3b82f6;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .end-game-btn {
+            background: linear-gradient(135deg, #8a6f5e 0%, #6a5a52 100%);
+            color: #e8dcc8;
+            border-color: #8a6f5e;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            padding: 14px;
         }
 
-        .game-item.blue-win {
-            border-left-color: #3b82f6;
-        }
-
-        .game-item.red-win {
-            border-left-color: #ef4444;
-        }
-
-        .game-number {
-            font-weight: bold;
-            color: #fbbf24;
-            margin-right: 10px;
-        }
-
-        .game-winner {
-            color: #10b981;
-            font-weight: bold;
+        .end-game-btn:hover {
+            background: linear-gradient(135deg, #9a7f6e 0%, #7a6a62 100%);
+            box-shadow: 0 4px 15px rgba(138, 111, 94, 0.4);
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
+            .border-frame {
+                border: 10px solid #5a4a42;
+                padding: 25px 15px;
+            }
+
             .logo {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
                 letter-spacing: 2px;
             }
 
-            .result-group {
-                grid-template-columns: 1fr;
-            }
-
-            .team-row {
+            .team-selector {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            .team-row label {
-                flex: 1 0 100%;
+            .team-selector label {
+                min-width: auto;
             }
 
-            .team-row input {
+            .team-toggle {
                 width: 100%;
             }
 
-            .nav-buttons {
+            .team-btn {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            .winner-buttons {
                 flex-direction: column;
             }
 
-            button {
+            .btn-winner {
                 width: 100%;
             }
 
-            .reveal-card {
-                width: 100%;
-                max-width: 250px;
-                height: 340px;
+            .setup-section,
+            .end-manche-section,
+            .winner-section {
+                padding: 20px;
             }
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(75, 85, 99, 0.8);
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .back-button:hover {
-            background: rgba(75, 85, 99, 1);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">⏰ TimeBomb</div>
-            <div class="subtitle">Gestionnaire de Parties</div>
-        </header>
+    <div class="border-frame">
+        <div class="container">
+            <header>
+                <div class="logo">⏰ TIMEBOMB</div>
+                <div class="subtitle">Assistant de Jeu</div>
+            </header>
 
-        <!-- ===== MENU PRINCIPAL ===== -->
-        <div id="mainMenu" class="screen active main-menu">
-            <div class="btn-group">
-                <button class="btn-primary" onclick="switchScreen('createGame')">
-                    🎮 Nouvelle Partie
-                </button>
-                <button class="btn-secondary" onclick="switchScreen('stats')">
-                    📊 Statistiques
-                </button>
-                <button class="btn-danger" onclick="clearAllData()" style="margin-top: 20px;">
-                    🗑️ Réinitialiser les Données
-                </button>
-            </div>
-        </div>
-
-        <!-- ===== CRÉATION DE PARTIE ===== -->
-        <div id="createGame" class="screen create-game">
-            <button class="back-button" onclick="switchScreen('mainMenu')">← Retour</button>
-            
-            <h2 style="text-align: center; margin: 20px 0;">Créer une Nouvelle Partie</h2>
-
-            <div class="players-section">
-                <h3 style="margin-bottom: 15px;">👥 Joueurs</h3>
-                <div id="playersList" class="players-list"></div>
-                <button class="btn-primary btn-small" onclick="addPlayerInput()" style="width: 100%; margin-top: 10px;">
-                    + Ajouter un Joueur
-                </button>
-            </div>
-
-            <div class="team-config">
-                <h3 style="margin-bottom: 15px;">🎯 Configuration des Équipes</h3>
-                <div class="team-row">
-                    <label>Bleus (Sherlock):</label>
-                    <input type="number" id="blueCount" min="0" max="8" value="3" onchange="updateRandomizeState()">
-                    <span style="color: #cbd5e0;">joueurs</span>
-                </div>
-                <div class="team-row">
-                    <label>Rouges (Moriarty):</label>
-                    <input type="number" id="redCount" min="0" max="8" value="2" onchange="updateRandomizeState()">
-                    <span style="color: #cbd5e0;">joueurs</span>
-                </div>
-
-                <div class="randomize-checkbox">
-                    <input type="checkbox" id="randomizeTeams" checked>
-                    <label for="randomizeTeams" style="margin: 0;">Attribuer aléatoirement les équipes</label>
-                </div>
-
-                <div id="manualTeamConfig" style="display: none;">
-                    <h4 style="color: #cbd5e0; margin: 15px 0 10px 0;">Attribution manuelle:</h4>
-                    <div id="manualTeamInputs"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <button class="btn-success" onclick="startGame()" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                    🚀 Démarrer la Partie
-                </button>
-            </div>
-        </div>
-
-        <!-- ===== RÉVÉLATION DES RÔLES ===== -->
-        <div id="revealScreen" class="screen reveal-screen">
-            <button class="back-button" onclick="switchScreen('mainMenu')">← Retour</button>
-
-            <div style="text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <h2 style="margin-bottom: 30px;">Cliquez sur la carte pour révéler le rôle</h2>
-
-                <div class="reveal-card" id="revealCard" onclick="revealRole()">
-                    <div class="reveal-card-inner">
-                        <div class="card-face card-front">
-                            🔒 Cliquez ici
-                        </div>
-                        <div class="card-face card-back" id="cardBack">
-                            <div class="card-role" id="cardRole">?</div>
-                            <div class="card-player" id="cardPlayer">Joueur</div>
-                            <div class="card-team" id="cardTeam">ÉQUIPE</div>
-                        </div>
+            <!-- SETUP SCREEN -->
+            <div id="setupScreen" class="screen active">
+                <div class="setup-section">
+                    <div class="section-title">👥 Joueurs</div>
+                    
+                    <div class="players-input" id="playersInput">
+                        <!-- Rempli par JS -->
                     </div>
                 </div>
 
-                <div class="reveal-counter" style="margin-top: 30px;">
-                    Joueur <span id="currentPlayer">1</span> sur <span id="totalPlayers">5</span>
+                <div class="setup-section">
+                    <div class="section-title">📋 Mise en Place</div>
+                    
+                    <div class="instructions-box">
+                        <h3>Pour cette manche:</h3>
+                        <ol id="setupInstructions">
+                            <!-- Rempli par JS selon le nombre de joueurs -->
+                        </ol>
+                    </div>
+
+                    <div style="background: rgba(11, 120, 123, 0.1); border-left: 4px solid #0B787B; padding: 20px; margin: 25px 0; border-radius: 2px;">
+                        <h3 style="color: #0B787B; font-family: 'Cinzel', serif; margin-bottom: 12px; font-size: 1.1rem;">📖 Rappel des Règles</h3>
+                        <p style="line-height: 1.8; color: #d8ccbc; margin-bottom: 12px;">
+                            L'équipe <strong style="color: #0B787B;">Sherlock (bleu)</strong> gagne si tous les câbles de <strong>désamorçage</strong> sont coupés.
+                        </p>
+                        <p style="line-height: 1.8; color: #d8ccbc;">
+                            L'équipe <strong style="color: #C50D19;">Moriarty (rouge)</strong> gagne si la <strong>Bombe</strong> est coupée ou si 4 manches se terminent sans victoire Sherlock.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="nav-buttons">
-                    <button class="btn-secondary" onclick="previousRole()">← Précédent</button>
-                    <button class="btn-secondary" onclick="nextRole()">Suivant →</button>
-                    <button class="btn-success" onclick="startResult()">✓ Terminer les Rôles</button>
+                <button class="btn-start" onclick="startGame()">Démarrer le Jeu</button>
+            </div>
+
+            <!-- GAMEPLAY SCREEN -->
+            <div id="gameScreen" class="screen">
+                <div class="game-header">
+                    <div class="manche-label">Manche Actuelle</div>
+                    <div class="manche-counter" id="mancheDisplay">Manche 1</div>
+                </div>
+
+                <button class="turn-button" onclick="endTurn()">
+                    Cliquer ici pour fin de manche
+                </button>
+            </div>
+
+            <!-- END TURN SCREEN -->
+            <div id="endTurnScreen" class="screen">
+                <div class="game-header">
+                    <div class="manche-counter" id="mancheEndDisplay">Manche 1</div>
+                </div>
+
+                <div class="end-manche-section">
+                    <h2 style="font-family: 'Cinzel', serif; color: #a89a8a; margin-bottom: 20px; text-align: center; letter-spacing: 2px;">Attribution des Équipes</h2>
+                    <div class="teams-assignment" id="teamAssignment">
+                        <!-- Rempli par JS -->
+                    </div>
+                </div>
+
+                <div class="winner-section">
+                    <h3>🎭 Qui a Gagné Cette Manche?</h3>
+                    <div class="winner-buttons">
+                        <button class="btn-winner blue" onclick="setWinner('blue')">
+                            🔵 Sherlock (Bleu)
+                        </button>
+                        <button class="btn-winner red" onclick="setWinner('red')">
+                            🔴 Moriarty (Rouge)
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ===== ÉCRAN RÉSULTAT ===== -->
-        <div id="resultScreen" class="screen result-screen">
-            <button class="back-button" onclick="switchScreen('mainMenu')">← Retour</button>
+            <!-- RESULT SCREEN -->
+            <div id="resultScreen" class="screen">
+                <div id="resultAnnouncement"></div>
 
-            <h2 style="text-align: center; margin: 20px 0;">Résultat de la Partie</h2>
-
-            <div class="result-container">
-                <h3 style="margin-bottom: 20px;">Qui a gagné?</h3>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn-success" onclick="setWinner('blue')" style="flex: 1; min-width: 200px;">
-                        🔵 Équipe Sherlock (BLEUS)
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="next-manche-btn" onclick="nextManche()">
+                        ➜ Manche Suivante
                     </button>
-                    <button class="btn-danger" onclick="setWinner('red')" style="flex: 1; min-width: 200px;">
-                        🔴 Équipe Moriarty (ROUGES)
+                    <button class="end-game-btn" onclick="endGame()">
+                        Terminer le Jeu
                     </button>
                 </div>
             </div>
-
-            <div id="teamRevealResult" style="display: none;">
-                <div class="result-group" id="resultTeams"></div>
-
-                <div id="winnerBanner"></div>
-
-                <div class="nav-buttons" style="justify-content: center;">
-                    <button class="btn-success" onclick="finishGame()">✓ Valider & Retour</button>
-                    <button class="btn-secondary" onclick="switchScreen('mainMenu')">← Menu Principal</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== ÉCRAN STATISTIQUES ===== -->
-        <div id="stats" class="screen stats-screen">
-            <button class="back-button" onclick="switchScreen('mainMenu')">← Retour</button>
-
-            <h2 style="text-align: center; margin: 20px 0;">📊 Statistiques des Joueurs</h2>
-
-            <div id="statsContent"></div>
         </div>
     </div>
 
     <script>
-        // ===== DONNÉES =====
-        let gameData = {
+        // ===== DATA =====
+        const DEFAULT_PLAYERS = ['Alice', 'Bob', 'Carol', 'David', 'Emma'];
+        let gameState = {
             players: [],
-            games: []
+            currentManche: 1,
+            teamAssignment: {},
+            winner: null
         };
 
-        let currentGame = {
-            players: [],
-            teams: {
-                blue: [],
-                red: []
-            },
-            result: null,
-            winner: null,
-            gameNumber: 0
-        };
-
-        // ===== LOCALSTORAGE =====
-        function saveData() {
-            localStorage.setItem('timebombData', JSON.stringify(gameData));
-        }
-
-        function loadData() {
-            const saved = localStorage.getItem('timebombData');
-            if (saved) {
-                gameData = JSON.parse(saved);
-            }
-        }
-
-        function clearAllData() {
-            if (confirm('⚠️ Êtes-vous sûr de vouloir réinitialiser TOUTES les données?\nCette action est irréversible.')) {
-                gameData = { players: [], games: [] };
-                saveData();
-                switchScreen('mainMenu');
-            }
-        }
-
-        // ===== NAVIGATION =====
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-
-            if (screenId === 'stats') {
-                renderStats();
-            }
-        }
-
-        // ===== CRÉATION DE PARTIE =====
-        function addPlayerInput() {
-            const list = document.getElementById('playersList');
-            const div = document.createElement('div');
-            div.className = 'player-item';
-            div.innerHTML = `
-                <input type="text" placeholder="Nom du joueur" class="player-input">
-                <button class="btn-remove" onclick="this.parentElement.remove()">✕</button>
-            `;
-            list.appendChild(div);
-            list.lastChild.querySelector('input').focus();
-        }
-
-        function initializePlayers() {
-            const inputs = document.querySelectorAll('.player-input');
-            const list = document.getElementById('playersList');
-            
-            if (list.children.length === 0) {
-                // Initialisation avec joueurs vides
-                for (let i = 0; i < 5; i++) {
-                    addPlayerInput();
-                }
-            }
-        }
-
-        function updateRandomizeState() {
-            const randomize = document.getElementById('randomizeTeams').checked;
-            const manualConfig = document.getElementById('manualTeamConfig');
-            manualConfig.style.display = randomize ? 'none' : 'block';
-
-            if (!randomize) {
-                renderManualTeamConfig();
-            }
-        }
-
-        function renderManualTeamConfig() {
-            const blueCount = parseInt(document.getElementById('blueCount').value) || 0;
-            const redCount = parseInt(document.getElementById('redCount').value) || 0;
-            const total = blueCount + redCount;
-
-            const inputs = Array.from(document.querySelectorAll('.player-input'))
-                .map(i => i.value.trim())
-                .filter(n => n);
-
-            const container = document.getElementById('manualTeamInputs');
+        // ===== SETUP =====
+        function initPlayers() {
+            const container = document.getElementById('playersInput');
             container.innerHTML = '';
-
-            inputs.forEach((player, idx) => {
+            
+            DEFAULT_PLAYERS.forEach((name, idx) => {
                 const div = document.createElement('div');
-                div.className = 'team-row';
-                const isBlue = idx < blueCount;
+                div.className = 'player-input-group';
                 div.innerHTML = `
-                    <label>${player}:</label>
-                    <select class="player-team-select" data-player="${player}">
-                        <option value="">-- Sélectionnez --</option>
-                        <option value="blue" ${isBlue ? 'selected' : ''}>🔵 Bleu (Sherlock)</option>
-                        <option value="red" ${!isBlue && idx < total ? 'selected' : ''}>🔴 Rouge (Moriarty)</option>
-                    </select>
+                    <label>Joueur ${idx + 1}:</label>
+                    <input type="text" id="player${idx}" value="${name}" placeholder="Nom du joueur">
                 `;
                 container.appendChild(div);
             });
         }
 
-        function startGame() {
-            const inputs = Array.from(document.querySelectorAll('.player-input'))
-                .map(i => i.value.trim())
-                .filter(n => n);
+        function generateInstructions(playerCount) {
+            const container = document.getElementById('setupInstructions');
+            container.innerHTML = '';
 
-            if (inputs.length < 3) {
+            const instructions = [
+                `<strong>${playerCount} Joueurs</strong>`,
+                `<strong>${playerCount} Câbles de Désamorçage</strong> (bleus)`,
+                `<strong>1 Câble Bombe</strong> (rouge)`,
+                `Préparez <strong>${playerCount * 5} cartes</strong> au total pour la manche:`,
+                `&nbsp;&nbsp;&nbsp;&nbsp;→ ${playerCount} x Désamorçage<br>&nbsp;&nbsp;&nbsp;&nbsp;→ 1 x Bombe<br>&nbsp;&nbsp;&nbsp;&nbsp;→ ${playerCount * 5 - playerCount - 1} x Néant`,
+                `Distribuez <strong>5 cartes face cachée</strong> à chaque joueur`,
+                `Les joueurs ne connaissent pas l'ordre de leurs cartes`
+            ];
+
+            instructions.forEach(instr => {
+                const li = document.createElement('li');
+                li.innerHTML = instr;
+                container.appendChild(li);
+            });
+        }
+
+        function startGame() {
+            const inputs = document.querySelectorAll('.player-input-group input');
+            gameState.players = Array.from(inputs)
+                .map(input => input.value.trim())
+                .filter(name => name.length > 0);
+
+            if (gameState.players.length < 3) {
                 alert('⚠️ Minimum 3 joueurs requis!');
                 return;
             }
 
-            const blueCount = parseInt(document.getElementById('blueCount').value) || 0;
-            const redCount = parseInt(document.getElementById('redCount').value) || 0;
-            const randomize = document.getElementById('randomizeTeams').checked;
+            // Initialiser l'assignation des équipes
+            gameState.teamAssignment = {};
+            gameState.players.forEach(player => {
+                gameState.teamAssignment[player] = null;
+            });
 
-            if (blueCount + redCount !== inputs.length) {
-                alert(`⚠️ Le nombre de bleus (${blueCount}) + rouges (${redCount}) doit égaler ${inputs.length} joueurs!`);
+            generateInstructions(gameState.players.length);
+            switchScreen('gameScreen');
+        }
+
+        // ===== GAMEPLAY =====
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function endTurn() {
+            document.getElementById('mancheEndDisplay').textContent = `Manche ${gameState.currentManche}`;
+            renderTeamAssignment();
+            switchScreen('endTurnScreen');
+        }
+
+        function renderTeamAssignment() {
+            const container = document.getElementById('teamAssignment');
+            container.innerHTML = '';
+
+            gameState.players.forEach(player => {
+                const selected = gameState.teamAssignment[player] || 'neutral';
+                const div = document.createElement('div');
+                div.className = 'team-selector';
+                div.innerHTML = `
+                    <label>${player}</label>
+                    <div class="team-toggle">
+                        <button class="team-btn blue ${selected === 'blue' ? 'blue' : 'neutral'}" onclick="assignTeam('${player}', 'blue')">
+                            🔵 Sherlock
+                        </button>
+                        <button class="team-btn red ${selected === 'red' ? 'red' : 'neutral'}" onclick="assignTeam('${player}', 'red')">
+                            🔴 Moriarty
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function assignTeam(player, team) {
+            gameState.teamAssignment[player] = team;
+            renderTeamAssignment();
+        }
+
+        function setWinner(team) {
+            const blueTeam = gameState.players.filter(p => gameState.teamAssignment[p] === 'blue');
+            const redTeam = gameState.players.filter(p => gameState.teamAssignment[p] === 'red');
+
+            // Vérifier que tous les joueurs ont une équipe
+            if (blueTeam.length + redTeam.length !== gameState.players.length) {
+                alert('⚠️ Tous les joueurs doivent être assignés à une équipe!');
                 return;
             }
 
-            currentGame = {
-                players: inputs,
-                teams: { blue: [], red: [] },
-                result: null,
-                winner: null,
-                gameNumber: gameData.games.length + 1
-            };
-
-            if (randomize) {
-                // Attribution aléatoire
-                const shuffled = [...inputs].sort(() => Math.random() - 0.5);
-                currentGame.teams.blue = shuffled.slice(0, blueCount);
-                currentGame.teams.red = shuffled.slice(blueCount);
+            gameState.winner = team;
+            
+            let html = '';
+            if (team === 'blue') {
+                html = `
+                    <div class="result-announcement blue-wins">
+                        <h2>🔵 Sherlock Gagne!</h2>
+                        <div class="result-team-list">
+                            <strong>Équipe Victorieuse:</strong><br>
+                            ${blueTeam.join(', ')}
+                        </div>
+                        <div class="result-team-list">
+                            <strong>Équipe Vaincue:</strong><br>
+                            ${redTeam.join(', ')}
+                        </div>
+                    </div>
+                `;
             } else {
-                // Attribution manuelle
-                const selects = document.querySelectorAll('.player-team-select');
-                selects.forEach(select => {
-                    const player = select.dataset.player;
-                    const team = select.value;
-                    if (team === 'blue') {
-                        currentGame.teams.blue.push(player);
-                    } else if (team === 'red') {
-                        currentGame.teams.red.push(player);
-                    }
-                });
+                html = `
+                    <div class="result-announcement red-wins">
+                        <h2>🔴 Moriarty Gagne!</h2>
+                        <div class="result-team-list">
+                            <strong>Équipe Victorieuse:</strong><br>
+                            ${redTeam.join(', ')}
+                        </div>
+                        <div class="result-team-list">
+                            <strong>Équipe Vaincue:</strong><br>
+                            ${blueTeam.join(', ')}
+                        </div>
+                    </div>
+                `;
             }
 
-            currentRevealIndex = 0;
-            document.getElementById('totalPlayers').textContent = inputs.length;
-            switchScreen('revealScreen');
-            updateRevealCard();
-        }
-
-        // ===== RÉVÉLATION DES RÔLES =====
-        let currentRevealIndex = 0;
-
-        function updateRevealCard() {
-            const player = currentGame.players[currentRevealIndex];
-            const isBlue = currentGame.teams.blue.includes(player);
-            const team = isBlue ? 'Sherlock' : 'Moriarty';
-            const teamEmoji = isBlue ? '🔵' : '🔴';
-
-            document.getElementById('cardPlayer').textContent = player;
-            document.getElementById('cardRole').textContent = teamEmoji;
-            document.getElementById('cardTeam').textContent = team;
-            document.getElementById('currentPlayer').textContent = currentRevealIndex + 1;
-
-            const cardBack = document.getElementById('cardBack');
-            cardBack.className = 'card-face card-back ' + (isBlue ? 'blue' : 'red');
-
-            const card = document.getElementById('revealCard');
-            card.classList.remove('flipped');
-        }
-
-        function revealRole() {
-            const card = document.getElementById('revealCard');
-            card.classList.toggle('flipped');
-        }
-
-        function nextRole() {
-            if (currentRevealIndex < currentGame.players.length - 1) {
-                currentRevealIndex++;
-                updateRevealCard();
-            }
-        }
-
-        function previousRole() {
-            if (currentRevealIndex > 0) {
-                currentRevealIndex--;
-                updateRevealCard();
-            }
-        }
-
-        function startResult() {
+            document.getElementById('resultAnnouncement').innerHTML = html;
             switchScreen('resultScreen');
         }
 
-        // ===== RÉSULTAT =====
-        function setWinner(winner) {
-            currentGame.winner = winner;
-            renderResultTeams();
-            document.getElementById('teamRevealResult').style.display = 'block';
-        }
-
-        function renderResultTeams() {
-            const container = document.getElementById('resultTeams');
-            container.innerHTML = `
-                <div class="team-badge blue">
-                    <h3>🔵 Équipe Sherlock</h3>
-                    <div class="team-members">${currentGame.teams.blue.join(', ')}</div>
-                </div>
-                <div class="team-badge red">
-                    <h3>🔴 Équipe Moriarty</h3>
-                    <div class="team-members">${currentGame.teams.red.join(', ')}</div>
-                </div>
-            `;
-
-            const winnerBanner = document.getElementById('winnerBanner');
-            if (currentGame.winner === 'blue') {
-                winnerBanner.className = 'winner-banner';
-                winnerBanner.innerHTML = '🎉 Victoire de Sherlock (BLEUS)!';
-            } else {
-                winnerBanner.className = 'loser-banner';
-                winnerBanner.innerHTML = '💣 Victoire de Moriarty (ROUGES)!';
-            }
-        }
-
-        function finishGame() {
-            const gameRecord = {
-                number: currentGame.gameNumber,
-                date: new Date().toLocaleString('fr-FR'),
-                players: currentGame.players,
-                blueTeam: currentGame.teams.blue,
-                redTeam: currentGame.teams.red,
-                winner: currentGame.winner
-            };
-
-            gameData.games.push(gameRecord);
+        function nextManche() {
+            gameState.currentManche++;
             
-            // Mettre à jour les stats des joueurs
-            currentGame.players.forEach(player => {
-                const existing = gameData.players.find(p => p.name === player);
-                if (existing) {
-                    existing.totalGames++;
-                    const isBlue = currentGame.teams.blue.includes(player);
-                    if (currentGame.winner === 'blue' && isBlue) {
-                        existing.wins++;
-                    } else if (currentGame.winner === 'red' && !isBlue) {
-                        existing.wins++;
-                    }
-                } else {
-                    const isBlue = currentGame.teams.blue.includes(player);
-                    const isWinner = (currentGame.winner === 'blue' && isBlue) || (currentGame.winner === 'red' && !isBlue);
-                    gameData.players.push({
-                        name: player,
-                        totalGames: 1,
-                        wins: isWinner ? 1 : 0
-                    });
-                }
-            });
-
-            saveData();
-            switchScreen('mainMenu');
-        }
-
-        // ===== STATISTIQUES =====
-        function renderStats() {
-            const container = document.getElementById('statsContent');
-
-            if (gameData.games.length === 0) {
-                container.innerHTML = '<div class="no-games">📭 Aucune partie jouée pour le moment.</div>';
+            if (gameState.currentManche > 4) {
+                alert('⚠️ Maximum 4 manches! La partie est terminée.');
+                endGame();
                 return;
             }
 
-            // Classement des joueurs
-            const sorted = [...gameData.players].sort((a, b) => {
-                const winRateA = a.wins / a.totalGames;
-                const winRateB = b.wins / b.totalGames;
-                return winRateB - winRateA;
+            // Réinitialiser pour la nouvelle manche
+            gameState.teamAssignment = {};
+            gameState.players.forEach(player => {
+                gameState.teamAssignment[player] = null;
             });
+            gameState.winner = null;
 
-            let html = '<div class="stat-card"><h3>🏆 Classement des Joueurs</h3>';
-
-            sorted.forEach((player, idx) => {
-                const winRate = Math.round((player.wins / player.totalGames) * 100);
-                const percentage = (player.wins / player.totalGames) * 100;
-                html += `
-                    <div class="stat-row">
-                        <div class="stat-name">${idx + 1}. ${player.name}</div>
-                        <div class="stat-value">${player.wins}/${player.totalGames}</div>
-                        <div class="stat-bars">
-                            <div class="stat-bar">
-                                <div class="stat-bar-fill" style="width: ${percentage}%"></div>
-                            </div>
-                            <span style="min-width: 40px; text-align: right;">${winRate}%</span>
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-
-            // Statistiques générales
-            const totalGames = gameData.games.length;
-            const blueWins = gameData.games.filter(g => g.winner === 'blue').length;
-            const redWins = gameData.games.filter(g => g.winner === 'red').length;
-
-            html += `<div class="stat-card"><h3>📈 Statistiques Globales</h3>
-                <div class="stat-row">
-                    <div class="stat-name">Parties jouées</div>
-                    <div class="stat-value">${totalGames}</div>
-                </div>
-                <div class="stat-row">
-                    <div class="stat-name">🔵 Victoires Sherlock</div>
-                    <div class="stat-value">${blueWins} (${Math.round(blueWins/totalGames*100)}%)</div>
-                </div>
-                <div class="stat-row">
-                    <div class="stat-name">🔴 Victoires Moriarty</div>
-                    <div class="stat-value">${redWins} (${Math.round(redWins/totalGames*100)}%)</div>
-                </div>
-            </div>`;
-
-            // Historique des parties
-            html += '<div class="stat-card"><h3>📋 Historique des Parties</h3><div class="game-history">';
-            gameData.games.slice().reverse().forEach(game => {
-                const winnerTeam = game.winner === 'blue' ? 'Sherlock' : 'Moriarty';
-                const winnerClass = game.winner === 'blue' ? 'blue-win' : 'red-win';
-                const emoji = game.winner === 'blue' ? '🔵' : '🔴';
-                html += `
-                    <div class="game-item ${winnerClass}">
-                        <div>
-                            <span class="game-number">Jeu #${game.number}</span>
-                            <span>${game.date}</span>
-                        </div>
-                        <div class="game-winner">${emoji} ${winnerTeam}</div>
-                    </div>
-                `;
-            });
-            html += '</div></div>';
-
-            container.innerHTML = html;
+            document.getElementById('mancheDisplay').textContent = `Manche ${gameState.currentManche}`;
+            switchScreen('gameScreen');
         }
 
-        // ===== INITIALISATION =====
-        window.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            initializePlayers();
-            document.getElementById('randomizeTeams').addEventListener('change', updateRandomizeState);
-        });
+        function endGame() {
+            alert(`Jeu Terminé! Total: ${gameState.currentManche} manches jouées.`);
+            gameState = {
+                players: [],
+                currentManche: 1,
+                teamAssignment: {},
+                winner: null
+            };
+            location.reload();
+        }
+
+        // ===== INIT =====
+        window.addEventListener('DOMContentLoaded', initPlayers);
     </script>
 </body>
 </html>
