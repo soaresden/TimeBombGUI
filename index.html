@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeBomb - Assistant de Jeu</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital@0;1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital@0;1&display=swap');
 
         * {
             margin: 0;
@@ -65,7 +65,7 @@
         }
 
         .logo {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2.5rem, 10vw, 4.5rem);
             font-weight: 900;
             letter-spacing: 4px;
@@ -135,7 +135,7 @@
         }
 
         .subtitle {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: clamp(0.75rem, 3vw, 1rem);
             letter-spacing: 4px;
             color: #8a7a6a;
@@ -214,7 +214,7 @@
         }
 
         .section-title {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 1.3rem;
             color: #C50D19;
             margin-bottom: 15px;
@@ -302,7 +302,7 @@
             border: 2px solid #0B787B;
             padding: 10px 15px;
             cursor: pointer;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             border-radius: 2px;
             transition: all 0.3s;
             margin-top: 10px;
@@ -351,10 +351,16 @@
         }
 
         .setup-table th {
-            background: rgba(90, 74, 66, 0.6);
-            font-weight: 600;
-            color: #C50D19;
-            font-family: 'Cinzel', serif;
+            background: linear-gradient(135deg, #2a1f1a 0%, #1a1515 100%);
+            font-weight: 700;
+            color: #ff6666;
+            font-family: 'Playfair Display', serif;
+            border: 2px solid #C50D19;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 16px 12px;
+            font-size: 0.95rem;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(197, 13, 25, 0.3);
         }
 
         .setup-table td {
@@ -527,7 +533,7 @@
 
         /* ===== BUTTONS ===== */
         button {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             border: 2px solid;
             cursor: pointer;
             letter-spacing: 1px;
@@ -602,7 +608,7 @@
         }
 
         .manche-counter {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 12vw, 4rem);
             color: #C50D19;
             margin: 20px 0;
@@ -788,7 +794,7 @@
 
         .winner-section h3 {
             color: #a89a8a;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             margin-bottom: 15px;
             font-size: 1rem;
             letter-spacing: 2px;
@@ -812,7 +818,7 @@
             font-weight: 600;
             transition: all 0.3s;
             text-transform: uppercase;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             letter-spacing: 1px;
             flex: 1;
             min-width: 150px;
@@ -898,7 +904,7 @@
         }
 
         .result-announcement h2 {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             margin-bottom: 15px;
             letter-spacing: 2px;
@@ -1084,7 +1090,7 @@
                                 <th>Joueurs</th>
                                 <th><span style="animation: float 2s ease-in-out infinite;">🎴</span> Cartes</th>
                                 <th><span style="animation: float 2s ease-in-out infinite;">⚡</span> Désarm.</th>
-                                <th class="card-cell"><div class="card card-bombe"></div></th>
+                                <th><span style="animation: bombFlash 1.5s ease-in-out infinite;">💣</span></th>
                             </tr>
                         </thead>
                         <tbody id="setupTableBody">
@@ -1092,38 +1098,38 @@
                                 <td><strong>4</strong></td>
                                 <td>15</td>
                                 <td>4</td>
-                                <td class="card-cell"><div class="card card-bombe"></div></td>
+                                <td>1</td>
                             </tr>
                             <tr>
                                 <td><strong>5</strong></td>
                                 <td>19</td>
                                 <td>5</td>
-                                <td class="card-cell"><div class="card card-bombe"></div></td>
+                                <td>1</td>
                             </tr>
                             <tr>
                                 <td><strong>6</strong></td>
                                 <td>23</td>
                                 <td>6</td>
-                                <td class="card-cell"><div class="card card-bombe"></div></td>
+                                <td>1</td>
                             </tr>
                             <tr>
                                 <td><strong>7</strong></td>
                                 <td>27</td>
                                 <td>7</td>
-                                <td class="card-cell"><div class="card card-bombe"></div></td>
+                                <td>1</td>
                             </tr>
                             <tr>
                                 <td><strong>8</strong></td>
                                 <td>31</td>
                                 <td>8</td>
-                                <td class="card-cell"><div class="card card-bombe"></div></td>
+                                <td>1</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div style="background: rgba(11, 120, 123, 0.1); border-left: 4px solid #0B787B; padding: 15px; margin: 15px 0; border-radius: 2px;">
-                    <h3 style="color: #0B787B; font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 0.95rem; letter-spacing: 1px;">📖 RÈGLES</h3>
+                    <h3 style="color: #0B787B; font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 0.95rem; letter-spacing: 1px;">📖 RÈGLES</h3>
                     <p style="line-height: 1.6; color: #d8ccbc; margin-bottom: 8px; font-size: 0.9rem;">
                         🔵 <strong style="color: #0B787B;">Sherlock</strong> gagne si tous les câbles de désamorçage sont coupés.
                     </p>
@@ -1155,7 +1161,7 @@
                 </div>
 
                 <div class="end-manche-section">
-                    <h2 style="font-family: 'Cinzel', serif; color: #a89a8a; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 1.1rem; animation: titleGlow 2s ease-in-out infinite;">Qui était dans quelle équipe?</h2>
+                    <h2 style="font-family: 'Playfair Display', serif; color: #a89a8a; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 1.1rem; animation: titleGlow 2s ease-in-out infinite;">Qui était dans quelle équipe?</h2>
                     <div class="teams-assignment" id="teamAssignment"></div>
                 </div>
 
