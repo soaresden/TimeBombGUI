@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeBomb - Assistant de Jeu</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital@0;1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@600&display=swap');
 
         * {
             margin: 0;
@@ -14,199 +14,652 @@
         }
 
         body {
-            font-family: 'Crimson Text', serif;
-            background: linear-gradient(135deg, #2a2420 0%, #1a1815 50%, #2a2420 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a2d3a 50%, #0a0a1a 100%);
             min-height: 100vh;
-            color: #e8dcc8;
-            padding: 10px;
+            color: #D4AF37;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fond avec PAILLETTES LONDONIENNES */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 5% 10%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 15% 25%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 25% 5%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 35% 45%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 45% 15%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 55% 60%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 65% 30%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 75% 70%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 85% 40%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 95% 80%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 10% 55%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 20% 75%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 30% 65%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 40% 85%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 50% 35%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 60% 95%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 70% 20%, #D4AF37, rgba(0,36,125,0)),
+                radial-gradient(2px 2px at 80% 50%, #D4AF37, rgba(212,175,55,0)),
+                radial-gradient(1px 1px at 90% 10%, #D4AF37, rgba(196,30,58,0)),
+                radial-gradient(1px 1px at 12% 90%, #D4AF37, rgba(0,36,125,0));
+            background-repeat: repeat;
+            background-size: 100% 100%;
+            pointer-events: none;
+            animation: sparkleRain 15s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes sparkleRain {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 300px; }
         }
 
         .border-frame {
-            border: 12px solid #5a4a42;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.9);
-            background: linear-gradient(135deg, #1a1815 0%, #232220 100%);
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(42, 90, 90, 0.08) 0%, rgba(42, 90, 90, 0.08) 50%, rgba(42, 90, 90, 0.05) 100%);
+            backdrop-filter: blur(15px);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 0 120px rgba(212, 175, 55, 0.5),
+                0 0 120px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 40px rgba(42, 90, 90, 0.15);
             min-height: 100vh;
-            padding: 20px;
             position: relative;
-            overflow-y: auto;
+            z-index: 2;
+            background-clip: padding-box;
+            animation: sparkleFrame 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        /* Pluie de paillettes supplémentaire */
+        .border-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 30% 40%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 50% 10%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 70% 60%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 90% 30%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 20% 70%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 40% 50%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 60% 80%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 80% 90%, #D4AF37, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            pointer-events: none;
+            animation: innerSparkle 8s linear infinite;
+            opacity: 0.8;
+            border-radius: 20px;
+        }
+
+        @keyframes innerSparkle {
+            0% { opacity: 0.5; background-position: 0 0; }
+            50% { opacity: 0.9; background-position: 100px 100px; }
+            100% { opacity: 0.5; background-position: 200px 200px; }
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            position: relative;
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
             font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(90deg, #C50D19 0%, #ff4444 50%, #C50D19 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 5s ease infinite;
-            filter: drop-shadow(0 0 15px rgba(197, 13, 25, 0.6));
+            letter-spacing: 2px;
+            color: #D4AF37; font-weight: 500;
             text-transform: uppercase;
             display: inline-block;
+            position: relative;
+            animation: logoBounceSparkle 2s ease-in-out infinite;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(42, 90, 90, 0.5),
+                0 0 30px rgba(255, 255, 255, 0.4);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(212, 175, 55, 0.5));
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% center; }
-            50% { background-position: 100% center; }
-            100% { background-position: 0% center; }
+        .logo::before,
+        .logo::after {
+            content: '✨';
+            position: absolute;
+            top: -20px;
+            animation: sparkleRotate 2s ease-in-out infinite;
+            font-size: 1.5rem;
+        }
+
+        .logo::before {
+            left: -30px;
+            animation-delay: 0s;
+            animation: sparkleLeft 2s ease-in-out infinite;
+        }
+
+        .logo::after {
+            right: -30px;
+            animation-delay: 0.3s;
+            animation: sparkleRight 2s ease-in-out infinite;
+        }
+
+        @keyframes logoBounceSparkle {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        @keyframes sparkleLeft {
+            0%, 100% { opacity: 0; transform: translate(-50px, -50px) scale(0); }
+            50% { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes sparkleRight {
+            0%, 100% { opacity: 0; transform: translate(50px, -50px) scale(0); }
+            50% { opacity: 1; transform: translate(0, 0) scale(1); }
         }
 
         .screen { display: none; }
         .screen.active { display: block; }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: #C50D19;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
+        
+        #deleteConfirmModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #deleteConfirmModal.modal-visible {
+            display: flex !important;
         }
 
-        .setup-section {
-            background: rgba(90, 74, 66, 0.3);
-            border: 2px solid #8a6f5e;
-            padding: 20px;
+        #themeSelector {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        #themeSelector:hover {
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6) !important;
+            transform: scale(1.05);
+        }
+
+        body.theme-retrowave #themeSelector {
+            border-color: #FF10F0 !important;
+            color: #FF10F0 !important;
+            box-shadow: 0 0 20px rgba(255, 16, 240, 0.3) !important;
+        }
+
+        body.theme-business #themeSelector {
+            border-color: #C0C0C0 !important;
+            color: #1a1410 !important;
+            background: rgba(192, 192, 192, 0.9) !important;
+        }
+
+        body.theme-cyberpunk #themeSelector {
+            border-color: #FF006E !important;
+            color: #FF006E !important;
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.3) !important;
+        }
+
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #D4AF37; font-weight: 500;
             margin-bottom: 20px;
-            border-radius: 3px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            animation: titleSparkle 1.5s ease-in-out infinite;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(42, 90, 90, 0.5),
+                0 0 30px rgba(255, 255, 255, 0.4),
+                0 0 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '✨';
+            position: absolute;
+            animation: sparkleRotate 2s ease-in-out infinite;
+            font-size: 1.2rem;
+        }
+
+        .section-title::before {
+            left: -40px;
+            animation: sparkleRotate 2s ease-in-out infinite 0s;
+        }
+
+        .section-title::after {
+            right: -40px;
+            animation: sparkleRotate 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes sparkleRotate {
+            0%, 100% { opacity: 0; transform: rotate(0deg) scale(0); }
+            50% { opacity: 1; transform: rotate(180deg) scale(1); }
+        }
+
+        @keyframes titleSparkle {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 20px rgba(42, 90, 90, 0.5),
+                    0 0 30px rgba(255, 255, 255, 0.4),
+                    0 0 40px rgba(212, 175, 55, 0.3);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 1),
+                    0 0 40px rgba(42, 90, 90, 0.8),
+                    0 0 60px rgba(255, 255, 255, 0.6),
+                    0 0 80px rgba(212, 175, 55, 0.5);
+            }
+        }
+            50% { text-shadow: 0 0 30px rgba(42, 90, 90, 0.9), 0 0 30px rgba(42, 90, 90, 0.6); }
+        .setup-section {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(42, 90, 90, 0.05) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            animation: sectionPulseSparkle 2.5s ease-in-out infinite;
+            box-shadow: 
+                0 0 120px rgba(212, 175, 55, 0.2),
+                0 0 120px rgba(212, 175, 55, 0.15),
+                inset 0 0 20px rgba(42, 90, 90, 0.08);
+        }
+
+        .setup-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 30% 30%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 70% 70%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 80% 20%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 20% 80%, #D4AF37, transparent);
+            background-repeat: repeat;
+            background-size: 100% 100%;
+            pointer-events: none;
+            border-radius: 12px;
+            animation: particleFlow 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes sectionPulseSparkle {
+            0%, 100% { 
+                box-shadow: 0 0 120px rgba(212, 175, 55, 0.2), 0 0 120px rgba(212, 175, 55, 0.15);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(42, 90, 90, 0.5), 0 0 120px rgba(212, 175, 55, 0.3), 0 0 140px rgba(212, 175, 55, 0.2);
+            }
+        }
+
+        @keyframes particleFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
         }
 
         .player-input-group {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .player-input-group::after {
+            content: '💫';
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkleWiggle 1s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleWiggle {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.3); }
         }
 
         .player-input-group input {
             flex: 1;
-            padding: 10px;
-            border: 2px solid #8a6f5e;
-            background: rgba(26, 24, 21, 0.8);
-            color: #e8dcc8;
-            font-family: 'Crimson Text', serif;
+            padding: 12px 16px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            background: rgba(20, 20, 40, 0.6);
+            color: #D4AF37; font-weight: 500;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15), inset 0 0 10px rgba(42, 90, 90, 0.05);
         }
 
         .player-input-group input:focus {
             outline: none;
-            border-color: #C50D19;
-            box-shadow: 0 0 15px rgba(197, 13, 25, 0.5);
+            border-color: #D4AF37;
+            box-shadow: 
+                0 0 30px rgba(42, 90, 90, 0.8),
+                0 0 60px rgba(42, 90, 90, 0.5),
+                inset 0 0 10px rgba(212, 175, 55, 0.2);
+            background: rgba(20, 20, 40, 0.9);
         }
 
         .btn-remove {
-            background: #C50D19;
+            background: #D4AF37;
             color: #fff;
             border: none;
-            padding: 8px 12px;
+            padding: 10px 14px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 800;
+            border-radius: 6px;
+            transition: all 0.3s;
+            animation: buttonSparkle 1.5s ease-in-out infinite;
         }
 
         .btn-remove:hover {
-            background: #e51d2b;
+            background: #D4AF37;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(42, 90, 90, 0.8);
+        }
+
+        @keyframes buttonSparkle {
+            0%, 100% { box-shadow: 0 0 10px rgba(42, 90, 90, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(42, 90, 90, 1), 0 0 40px rgba(42, 90, 90, 0.6); }
         }
 
         button {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
-            border-radius: 2px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-weight: 700;
             transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
         }
 
         .btn-add-player {
-            background: #0B787B;
+            background: rgba(58, 134, 255, 0.9);
             color: #fff;
-            border: 2px solid #0B787B;
-            padding: 10px 15px;
+            border: 2px solid #D4AF37;
+            padding: 12px 20px;
             margin-top: 10px;
+            box-shadow: 0 0 20px rgba(58, 134, 255, 0.6), 0 0 40px rgba(212, 175, 55, 0.3);
+            animation: btnGlow 2s ease-in-out infinite;
         }
 
         .btn-add-player:hover {
-            background: #0d9298;
-            transform: translateY(-2px);
+            background: #D4AF37;
+            box-shadow: 0 0 50px rgba(58, 134, 255, 1), 0 0 80px rgba(42, 90, 90, 0.7);
+            transform: translateY(-3px);
         }
 
         .btn-start {
-            background: #C50D19;
+            background: linear-gradient(135deg, #D4AF37 0%, #D4AF37 50%, #D4AF37 100%);
             color: #fff;
-            border: 2px solid #C50D19;
+            border: none;
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             font-size: 1.1rem;
             margin-top: 20px;
             display: none;
+            box-shadow: 0 0 60px rgba(42, 90, 90, 0.7), 0 0 60px rgba(42, 90, 90, 0.5);
+            animation: startButtonRainbow 2s ease-in-out infinite;
+            background-size: 200% 200%;
         }
 
         .btn-start.visible { display: block; }
-        .btn-start:hover { background: #e51d2b; }
 
-        .setup-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: rgba(26, 24, 21, 0.5);
-            table-layout: fixed;
-        }
-
-        .setup-table th, .setup-table td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #5a4a42;
-        }
-
-        .setup-table th {
-            background: #2a1f1a;
-            color: #ff6666;
-            font-weight: 700;
-            border: 2px solid #C50D19;
-        }
-
-        .setup-table tr.highlight {
-            background: rgba(197, 13, 25, 0.25);
-            box-shadow: 0 0 20px rgba(197, 13, 25, 0.5);
-        }
-
-        .game-header {
-            text-align: center;
-            margin-bottom: 40px;
+        @keyframes startButtonRainbow {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(42, 90, 90, 0.7), 0 0 60px rgba(42, 90, 90, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(42, 90, 90, 1), 0 0 150px rgba(42, 90, 90, 0.8), 0 0 200px rgba(42, 90, 90, 0.6);
+                transform: scale(1.02);
+            }
         }
 
         .manche-counter {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: #C50D19;
+            font-family: 'Georgia', serif;
+            font-size: 5rem;
+            font-weight: bold;
+            color: #D4AF37;
             margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            animation: counterSparkle 1s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 1),
+                0 0 40px rgba(42, 90, 90, 0.8),
+                0 0 60px rgba(255, 255, 255, 0.6),
+                0 0 120px rgba(212, 175, 55, 0.5);
+            position: relative;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(42, 90, 90, 0.5));
+        }
+
+        .manche-counter::before,
+        .manche-counter::after {
+            content: '✨';
+            position: absolute;
+            animation: sparkleOrbit 2s linear infinite;
+            font-size: 2rem;
+        }
+
+        .manche-counter::before {
+            left: -120px;
+            top: 50%;
+            animation: sparkleOrbit 2s linear infinite;
+        }
+
+        .manche-counter::after {
+            right: -120px;
+            top: 50%;
+            animation: sparkleOrbit 2s linear infinite 1s;
+        }
+
+        @keyframes counterSparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        @keyframes sparkleOrbit {
+            0% { opacity: 0; transform: translate(0, -30px) scale(0); }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; transform: translate(0, 30px) scale(0); }
+        }
+
+        @keyframes podiumBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        @keyframes platformGlow {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(42, 90, 90, 0.8), 0 0 120px rgba(212, 175, 55, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(42, 90, 90, 1), 0 0 60px rgba(42, 90, 90, 0.6), inset 0 0 30px rgba(255, 255, 255, 0.5);
+            }
         }
 
         .turn-button {
-            background: #8a6f5e;
-            color: #e8dcc8;
-            border: 2px solid #8a6f5e;
+            background: linear-gradient(135deg, rgba(42, 90, 90, 0.95) 0%, rgba(42, 90, 90, 0.9) 100%);
+            color: #fff;
+            border: none;
             width: 100%;
-            padding: 30px 20px;
-            font-size: 1.15rem;
+            padding: 40px 20px;
+            font-size: 1.3rem;
             margin: 40px 0;
             text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(42, 90, 90, 0.7), 0 0 60px rgba(42, 90, 90, 0.5);
+            animation: turnButtonPulse 2s ease-in-out infinite;
         }
 
+        .turn-button::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            border-radius: 12px;
+            animation: sparkleStream 1s linear infinite;
+        }
+
+        @keyframes turnButtonPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(42, 90, 90, 0.7), 0 0 60px rgba(42, 90, 90, 0.5); }
+            50% { box-shadow: 0 0 80px rgba(42, 90, 90, 1), 0 0 150px rgba(42, 90, 90, 0.8), 0 0 200px rgba(42, 90, 90, 0.6); }
+        }
+
+        @keyframes sparkleStream {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, rgba(42, 90, 90, 0.12) 0%, rgba(42, 90, 90, 0.08) 100%);
+            border: 2px solid rgba(42, 90, 90, 0.5);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            animation: sectionPulseSparkle 2.5s ease-in-out infinite;
+            box-shadow: 
+                0 0 120px rgba(212, 175, 55, 0.5),
+                0 0 120px rgba(212, 175, 55, 0.3),
+                inset 0 0 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 20% 40%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 80% 60%, #D4AF37, transparent),
+                radial-gradient(1px 1px at 50% 80%, #D4AF37, transparent);
+            background-repeat: repeat;
+            background-size: 80px 80px;
+            pointer-events: none;
+            border-radius: 12px;
+            animation: particleFlow 4s linear infinite;
+            opacity: 0.7;
+        }
+
+        .player-input-group {
+            position: relative;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: rgba(58, 134, 255, 0.85);
+            color: #fff;
+            border: 2px solid #D4AF37;
+            padding: 12px 20px;
+            flex: 1;
+            min-width: 150px;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(58, 134, 255, 0.6);
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(58, 134, 255, 0.5), 0 0 40px rgba(212, 175, 55, 0.2); }
+            25% { box-shadow: 0 0 40px rgba(58, 134, 255, 0.8), 0 0 80px rgba(42, 90, 90, 0.5), 0 0 120px rgba(212, 175, 55, 0.2); }
+            50% { box-shadow: 0 0 60px rgba(58, 134, 255, 1), 0 0 120px rgba(42, 90, 90, 0.7), 0 0 180px rgba(212, 175, 55, 0.5); }
+            75% { box-shadow: 0 0 40px rgba(58, 134, 255, 0.8), 0 0 80px rgba(42, 90, 90, 0.5), 0 0 120px rgba(212, 175, 55, 0.2); }
+        }
+
+        @keyframes sparkleFlash {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Éléments qui clignotent partout */
+        .player-input-group::before {
+            content: '✨';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkleFlash 0.8s ease-in-out infinite;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+
+        .player-input-group::after {
+            animation: sparkleWiggle 1s ease-in-out infinite, sparkleFlash 0.6s ease-in-out infinite;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(58, 134, 255, 1), 0 0 60px rgba(42, 90, 90, 0.8);
+        }
+
+        /* Styles restants */
         .end-manche-section {
-            background: rgba(90, 74, 66, 0.3);
-            border: 2px solid #8a6f5e;
-            padding: 20px;
+            background: rgba(42, 90, 90, 0.08);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            padding: 25px;
             margin: 20px 0;
-            border-radius: 3px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
         }
 
         .team-selector {
@@ -214,87 +667,113 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background: rgba(26, 24, 21, 0.5);
+            background: rgba(20, 20, 40, 0.6);
             margin-bottom: 10px;
+            border-radius: 8px;
         }
 
         .team-selector label {
             flex: 0 0 120px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .team-toggle {
             display: flex;
-            background: #5a4a42;
+            background: rgba(20, 20, 40, 0.4);
             flex: 1;
-            border-radius: 2px;
+            border-radius: 6px;
         }
 
         .team-btn {
-            padding: 8px 15px;
+            padding: 10px 15px;
             border: none;
             cursor: pointer;
             flex: 1;
-            color: #8a7a6a;
-            background: #5a4a42;
-            font-family: 'Crimson Text', serif;
+            color: #D4AF37;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s;
         }
 
         .team-btn.active {
-            font-weight: 600;
+            font-weight: 800;
             color: #fff;
         }
 
-        .team-btn.blue.active { background: #0B787B; }
-        .team-btn.red.active { background: #C50D19; }
+        .team-btn.blue.active { background: rgba(58, 134, 255, 0.8); }
+        .team-btn.red.active { background: rgba(42, 90, 90, 0.8); }
 
         .winner-section {
-            background: rgba(90, 74, 66, 0.3);
-            border: 2px solid #8a6f5e;
-            padding: 20px;
+            background: rgba(42, 90, 90, 0.08);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            padding: 25px;
             margin: 20px 0;
             text-align: center;
+            border-radius: 12px;
         }
 
         .winner-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
         .btn-winner {
-            padding: 12px 20px;
+            padding: 14px 20px;
             border: 2px solid;
-            font-weight: 600;
+            font-weight: 700;
             flex: 1;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn-winner.blue {
-            background: #0B787B;
-            border-color: #0B787B;
+            background: rgba(58, 134, 255, 0.8);
+            border-color: #D4AF37;
             color: #fff;
         }
 
         .btn-winner.red {
-            background: #C50D19;
-            border-color: #C50D19;
+            background: rgba(220, 20, 60, 0.8);
+            border-color: #D4AF37;
             color: #fff;
         }
 
-        /* STATS */
-        .stats-section {
-            background: rgba(90, 74, 66, 0.3);
-            border: 2px solid #8a6f5e;
-            padding: 25px;
-            margin-bottom: 20px;
+        .btn-winner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
         }
 
-        .stats-section h2 {
-            color: #C50D19;
-            margin-bottom: 25px;
-            font-size: 1.4rem;
+        /* Tables et autres */
+        .setup-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        /* HISTOGRAMME */
+        .setup-table th, .setup-table td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .setup-table th {
+            background: rgba(42, 90, 90, 0.15);
+            color: #D4AF37;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .setup-table tr.highlight {
+            background: rgba(212, 175, 55, 0.2);
+            border-left: 4px solid #D4AF37;
+        }
+
         .histogram-container {
             display: flex;
             align-items: flex-end;
@@ -303,8 +782,8 @@
             margin-bottom: 40px;
             min-height: 350px;
             padding: 30px;
-            background: rgba(26, 24, 21, 0.3);
-            border-radius: 3px;
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 12px;
             overflow-x: auto;
         }
 
@@ -320,9 +799,9 @@
             height: 300px;
             display: flex;
             flex-direction: column-reverse;
-            border: 2px solid #8a6f5e;
-            border-radius: 4px;
-            background: rgba(26, 24, 21, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            background: rgba(20, 20, 40, 0.5);
             overflow: hidden;
         }
 
@@ -332,54 +811,42 @@
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 800;
             color: #fff;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
             min-height: 25px;
             border-top: 1px solid rgba(0, 0, 0, 0.3);
         }
 
-        .segment-blue-win {
-            background: linear-gradient(180deg, #0d9298 0%, #0fb5ba 100%);
-        }
-
-        .segment-blue-lost {
-            background: linear-gradient(180deg, #064a4e 0%, #085961 100%);
-        }
-
-        .segment-red-win {
-            background: linear-gradient(180deg, #ff4444 0%, #ff6666 100%);
-        }
-
-        .segment-red-lost {
-            background: linear-gradient(180deg, #6a0a12 0%, #8a0a14 100%);
-        }
+        .segment-blue-win { background: linear-gradient(180deg, rgba(58, 134, 255, 0.95) 0%, rgba(58, 134, 255, 0.85) 100%); color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .segment-blue-lost { background: linear-gradient(180deg, rgba(58, 134, 255, 0.5) 0%, rgba(58, 134, 255, 0.35) 100%); color: rgba(255, 255, 255, 0.8); font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .segment-red-win { background: linear-gradient(180deg, rgba(220, 20, 60, 0.95) 0%, rgba(220, 20, 60, 0.85) 100%); color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .segment-red-lost { background: linear-gradient(180deg, rgba(220, 20, 60, 0.5) 0%, rgba(220, 20, 60, 0.35) 100%); color: rgba(255, 255, 255, 0.8); font-weight: bold; display: flex; align-items: center; justify-content: center; }
 
         .player-name-bar {
             text-align: center;
-            color: #e8dcc8;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
+            color: #D4AF37; font-weight: 500;
+            font-weight: 700;
             font-size: 0.95rem;
         }
 
         .player-score {
             font-size: 0.85rem;
-            color: #a89a8a;
+            color: #D4AF37;
+            margin-top: 4px;
         }
 
-        /* PROGRESSION */
         .progression-player {
             margin-bottom: 20px;
             padding: 15px;
-            background: rgba(26, 24, 21, 0.3);
-            border-left: 4px solid #C50D19;
+            background: rgba(20, 20, 40, 0.4);
+            border-left: 4px solid #D4AF37;
+            border-radius: 8px;
         }
 
         .progression-name {
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            color: #e8dcc8;
+            font-weight: 800;
+            color: #D4AF37; font-weight: 500;
             margin-bottom: 8px;
         }
 
@@ -406,17 +873,36 @@
             border: 2px solid;
             font-size: 1.2rem;
             position: relative;
+            animation: iconSparkle 1.5s ease-in-out infinite;
         }
 
-        /* Animations continues */
-        @keyframes emojiFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+        @keyframes iconSparkle {
+            0%, 100% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(42, 90, 90, 0.9), 0 0 40px rgba(42, 90, 90, 0.6); }
         }
 
-        @keyframes emojiSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .manche-icon.blue-win {
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.9) 0%, rgba(58, 134, 255, 0.7) 100%);
+            border-color: rgba(58, 134, 255, 0.9);
+            animation: emojiBounce 0.6s ease-in-out infinite, iconSparkle 1.5s ease-in-out infinite;
+        }
+
+        .manche-icon.blue-lost {
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.5) 0%, rgba(58, 134, 255, 0.3) 100%);
+            border-color: rgba(58, 134, 255, 0.6);
+            animation: emojiShake 0.5s ease-in-out infinite;
+        }
+
+        .manche-icon.red-win {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.9) 0%, rgba(220, 20, 60, 0.7) 100%);
+            border-color: rgba(220, 20, 60, 0.9);
+            animation: emojiBounce 0.6s ease-in-out infinite, iconSparkle 1.5s ease-in-out infinite;
+        }
+
+        .manche-icon.red-lost {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.5) 0%, rgba(220, 20, 60, 0.3) 100%);
+            border-color: rgba(220, 20, 60, 0.6);
+            animation: emojiShake 0.5s ease-in-out infinite;
         }
 
         @keyframes emojiBounce {
@@ -431,90 +917,340 @@
             50% { transform: translateX(0px) scale(1.1); }
         }
 
-        .manche-icon.blue-win {
-            background: linear-gradient(135deg, #0d9298 0%, #0fb5ba 100%);
-            border-color: #0B787B;
-            box-shadow: 0 0 15px rgba(15, 181, 186, 0.8);
-            animation: emojiBounce 0.6s ease-in-out infinite;
-        }
-
-        .manche-icon.blue-lost {
-            background: linear-gradient(135deg, #d97a6a 0%, #e5937f 100%);
-            border-color: #8a4a3a;
-            animation: emojiShake 0.5s ease-in-out infinite;
-        }
-
-        .manche-icon.red-win {
-            background: linear-gradient(135deg, #ff4444 0%, #ff6666 100%);
-            border-color: #C50D19;
-            box-shadow: 0 0 15px rgba(255, 100, 0, 0.8);
-            animation: emojiBounce 0.6s ease-in-out infinite;
-        }
-
-        .manche-icon.red-lost {
-            background: linear-gradient(135deg, #d97a6a 0%, #e5937f 100%);
-            border-color: #8a4a3a;
-            animation: emojiShake 0.5s ease-in-out infinite;
-        }
-
         .manche-number {
             font-size: 0.7rem;
-            color: #a89a8a;
+            color: #D4AF37;
         }
 
-        /* TABLEAU RESUMES */
         .summary-table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(26, 24, 21, 0.5);
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .summary-table th {
-            background: #2a1f1a;
-            color: #ff6666;
+            background: rgba(42, 90, 90, 0.15);
+            color: #D4AF37;
             padding: 12px;
             text-align: left;
-            border: 2px solid #C50D19;
-            font-weight: 700;
+            border: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
         }
 
         .summary-table td {
             padding: 12px;
-            border: 1px solid #5a4a42;
-            color: #d8ccbc;
+            border: none;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            color: #D4AF37;
         }
 
         .summary-table tr:hover {
-            background: rgba(197, 13, 25, 0.1);
-        }
-
-        .control-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn-action {
-            background: #0B787B;
-            color: #fff;
-            border: 2px solid #0B787B;
-            padding: 12px 20px;
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .btn-action:hover {
-            transform: translateY(-3px);
+            background: rgba(212, 175, 55, 0.15);
         }
 
         .btn-end {
-            background: #8a6f5e;
-            border-color: #8a6f5e;
-            color: #e8dcc8;
+            background: transparent;
+            border-color: rgba(42, 90, 90, 0.5);
+            color: #D4AF37;
+        }
+
+        .btn-end:hover {
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        /* ===== THÈMES DE COULEURS ===== */
+        
+        /* THÈME 1: GOLD BOMB (Big Ben Dramatique) */
+        body.theme-goldBomb {
+            --primary-color: #D4AF37;
+            --secondary-color: #FFD700;
+            --accent-color: #FF4444;
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #1a2d3a;
+            --team-blue: rgba(58, 134, 255, 0.9);
+            --team-blue-dark: rgba(58, 134, 255, 0.5);
+            --team-red: rgba(220, 20, 60, 0.9);
+            --team-red-dark: rgba(220, 20, 60, 0.5);
+        }
+
+        /* THÈME 2: RETROWAVE (Bleu/Rose Glam) */
+        body.theme-retrowave {
+            --primary-color: #FF10F0;
+            --secondary-color: #00F0FF;
+            --accent-color: #FFFF00;
+            --bg-primary: #0a0510;
+            --bg-secondary: #1a0530;
+            --team-blue: rgba(0, 240, 255, 0.9);
+            --team-blue-dark: rgba(0, 240, 255, 0.5);
+            --team-red: rgba(255, 16, 240, 0.9);
+            --team-red-dark: rgba(255, 16, 240, 0.5);
+        }
+
+        /* THÈME 3: BUSINESS (Marron/Argent) */
+        body.theme-business {
+            --primary-color: #C0C0C0;
+            --secondary-color: #E8E8E8;
+            --accent-color: #8B6F47;
+            --bg-primary: #1a1410;
+            --bg-secondary: #2d2520;
+            --team-blue: rgba(70, 130, 180, 0.9);
+            --team-blue-dark: rgba(70, 130, 180, 0.5);
+            --team-red: rgba(139, 69, 19, 0.9);
+            --team-red-dark: rgba(139, 69, 19, 0.5);
+        }
+
+        /* THÈME 4: CYBERPUNK (Néon Futuriste) */
+        body.theme-cyberpunk {
+            --primary-color: #FF006E;
+            --secondary-color: #00D9FF;
+            --accent-color: #B300FF;
+            --bg-primary: #0a0010;
+            --bg-secondary: #1a0030;
+            --team-blue: rgba(0, 217, 255, 0.9);
+            --team-blue-dark: rgba(0, 217, 255, 0.5);
+            --team-red: rgba(255, 0, 110, 0.9);
+            --team-red-dark: rgba(255, 0, 110, 0.5);
+        }
+
+        /* Appliquer les variables à tous les thèmes */
+        body {
+            background: linear-gradient(135deg, var(--bg-primary, #0a0a1a) 0%, var(--bg-secondary, #1a2d3a) 50%, var(--bg-primary, #0a0a1a) 100%);
+        }
+
+        body .section-title,
+        body .logo,
+        body .manche-counter {
+            color: var(--primary-color, #D4AF37);
+        }
+
+        body .btn-action, body .btn-add-player, body .turn-button {
+            background: linear-gradient(135deg, var(--primary-color, #D4AF37) 0%, var(--secondary-color, #FFD700) 100%);
+        }
+
+        /* ===== STYLES SPÉCIFIQUES PAR THÈME ===== */
+        
+        /* RETROWAVE - Paillettes partout */
+        body.theme-retrowave {
+            background-image: 
+                radial-gradient(1px 1px at 5% 10%, #FF10F0, rgba(255,16,240,0)),
+                radial-gradient(1px 1px at 15% 25%, #00F0FF, rgba(0,240,255,0)),
+                radial-gradient(2px 2px at 25% 5%, #FFFF00, rgba(255,255,0,0)),
+                radial-gradient(1px 1px at 35% 45%, #FF10F0, rgba(255,16,240,0)),
+                radial-gradient(1px 1px at 45% 15%, #00F0FF, rgba(0,240,255,0)),
+                radial-gradient(2px 2px at 55% 60%, #FFFF00, rgba(255,255,0,0)),
+                radial-gradient(1px 1px at 65% 30%, #FF10F0, rgba(255,16,240,0)),
+                radial-gradient(1px 1px at 75% 70%, #00F0FF, rgba(0,240,255,0)),
+                radial-gradient(2px 2px at 85% 40%, #FFFF00, rgba(255,255,0,0)),
+                radial-gradient(1px 1px at 95% 80%, #FF10F0, rgba(255,16,240,0));
+            animation: sparkleRain 10s linear infinite;
+        }
+
+        /* BUSINESS - Sobre et élégant */
+        body.theme-business {
+            background: linear-gradient(135deg, #1a1410 0%, #2d2520 50%, #1a1410 100%);
+        }
+
+        /* CYBERPUNK - Paillettes néon */
+        body.theme-cyberpunk {
+            background-image: 
+                radial-gradient(1px 1px at 5% 10%, #FF006E, rgba(255,0,110,0)),
+                radial-gradient(1px 1px at 15% 25%, #00D9FF, rgba(0,217,255,0)),
+                radial-gradient(2px 2px at 25% 5%, #B300FF, rgba(179,0,255,0)),
+                radial-gradient(1px 1px at 35% 45%, #FF006E, rgba(255,0,110,0)),
+                radial-gradient(1px 1px at 45% 15%, #00D9FF, rgba(0,217,255,0)),
+                radial-gradient(2px 2px at 55% 60%, #B300FF, rgba(179,0,255,0)),
+                radial-gradient(1px 1px at 65% 30%, #FF006E, rgba(255,0,110,0)),
+                radial-gradient(1px 1px at 75% 70%, #00D9FF, rgba(0,217,255,0)),
+                radial-gradient(2px 2px at 85% 40%, #B300FF, rgba(179,0,255,0)),
+                radial-gradient(1px 1px at 95% 80%, #FF006E, rgba(255,0,110,0));
+            animation: sparkleRain 8s linear infinite;
+        }
+
+        /* Glow des titres par thème */
+        body.theme-goldBomb .section-title { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(255, 68, 68, 0.4); }
+        body.theme-retrowave .section-title { text-shadow: 0 0 20px rgba(255, 16, 240, 0.8), 0 0 40px rgba(0, 240, 255, 0.4); }
+        body.theme-business .section-title { text-shadow: 0 0 15px rgba(192, 192, 192, 0.5); }
+        body.theme-cyberpunk .section-title { text-shadow: 0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(0, 217, 255, 0.4); }
+
+        /* Bordures par thème */
+        body.theme-goldBomb .border-frame { border-color: rgba(212, 175, 55, 0.3); }
+        body.theme-retrowave .border-frame { border-color: rgba(255, 16, 240, 0.3); }
+        body.theme-business .border-frame { border-color: rgba(192, 192, 192, 0.3); }
+        body.theme-cyberpunk .border-frame { border-color: rgba(255, 0, 110, 0.3); }
+
+        /* Boutons par thème */
+        body.theme-retrowave .btn-action, 
+        body.theme-retrowave .btn-add-player, 
+        body.theme-retrowave .turn-button { 
+            background: linear-gradient(135deg, #FF10F0 0%, #00F0FF 100%);
+        }
+
+        body.theme-business .btn-action, 
+        body.theme-business .btn-add-player, 
+        body.theme-business .turn-button { 
+            background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%);
+            color: #1a1410;
+        }
+
+        body.theme-cyberpunk .btn-action, 
+        body.theme-cyberpunk .btn-add-player, 
+        body.theme-cyberpunk .turn-button { 
+            background: linear-gradient(135deg, #FF006E 0%, #00D9FF 100%);
+        }
+
+        /* MODE PAILLETTES (défaut) */
+        body.sparkle-mode::before {
+            animation: sparkleRain 15s linear infinite;
+            opacity: 1;
+        }
+
+        body.sparkle-mode .section-title,
+        body.sparkle-mode .logo,
+        body.sparkle-mode .manche-counter {
+            animation: titleSparkle 1.5s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        body.sparkle-mode .section-title::before,
+        body.sparkle-mode .section-title::after {
+            opacity: 1;
+            animation: sparkleRotate 2s ease-in-out infinite;
+        }
+
+        body.sparkle-mode .btn-action,
+        body.sparkle-mode .btn-add-player,
+        body.sparkle-mode .turn-button,
+        body.sparkle-mode .btn-start {
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+
+        /* MODE SOBRE (épuré) */
+        body.sober-mode::before {
+            animation: none !important;
+            opacity: 0 !important;
+        }
+
+        body.sober-mode .section-title,
+        body.sober-mode .logo,
+        body.sober-mode .manche-counter {
+            animation: none !important;
+            text-shadow: none !important;
+        }
+
+        body.sober-mode .section-title::before,
+        body.sober-mode .section-title::after {
+            opacity: 0 !important;
+        }
+
+        body.sober-mode .section-title::before,
+        body.sober-mode .section-title::after,
+        body.sober-mode .logo::before,
+        body.sober-mode .logo::after {
+            display: none !important;
+        }
+
+        body.sober-mode .btn-action,
+        body.sober-mode .btn-add-player,
+        body.sober-mode .turn-button,
+        body.sober-mode .btn-start {
+            animation: none !important;
+        }
+
+        body.sober-mode .manche-counter::before,
+        body.sober-mode .manche-counter::after {
+            display: none !important;
+        }
+
+        /* Paillettes et animations réduites en mode sobre */
+        body.sober-mode .border-frame::after {
+            animation: none !important;
+            opacity: 0 !important;
+        }
+
+        /* ===== THÈME ÉPIQUE BIG BEN + BOMBES ===== */
+        
+        @keyframes dangerPulse {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(255, 68, 68, 1), 0 0 40px rgba(255, 68, 68, 0.6), 0 0 80px rgba(212, 175, 55, 0.3);
+            }
+        }
+
+        @keyframes goldGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6)) drop-shadow(0 0 20px rgba(212, 175, 55, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.9)) drop-shadow(0 0 40px rgba(212, 175, 55, 0.6)) drop-shadow(0 0 60px rgba(255, 68, 68, 0.3)); }
+        }
+
+        @keyframes emergencyAlert {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0.7; }
+        }
+
+        body.sparkle-mode .manche-counter {
+            animation: dangerPulse 1.5s ease-in-out infinite !important;
+            color: #D4AF37 !important;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8), 0 0 60px rgba(212, 175, 55, 0.4) !important;
+        }
+
+        body.sparkle-mode .logo {
+            animation: goldGlow 2s ease-in-out infinite !important;
+            color: #D4AF37 !important;
+        }
+
+        body.sparkle-mode .section-title {
+            color: #D4AF37 !important;
+            animation: dangerPulse 2s ease-in-out infinite !important;
+        }
+
+        .border-frame {
+            border-color: rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 
+                0 0 60px rgba(212, 175, 55, 0.5),
+                0 0 120px rgba(212, 175, 55, 0.3),
+                inset 0 0 40px rgba(212, 175, 55, 0.1) !important;
+        }
+
+        .setup-section {
+            border-left-color: #D4AF37 !important;
+        }
+
+        .btn-action, .btn-add-player, .turn-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%) !important;
+            color: #0a0a1a !important;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 80px rgba(212, 175, 55, 0.3) !important;
+            font-weight: 900 !important;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%) !important;
+            box-shadow: 0 0 80px rgba(212, 175, 55, 0.8), 0 0 160px rgba(212, 175, 55, 0.5) !important;
+        }
+
+        #savedGameAlert {
+            border-color: rgba(212, 175, 55, 0.5) !important;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4), 0 0 100px rgba(212, 175, 55, 0.2) !important;
         }
     </style>
 </head>
-<body>
+<body id="bodyContent">
+    <!-- BOUTON TOGGLE MODE -->
+    <!-- SÉLECTEUR DE THÈME -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+        <select id="themeSelector" style="padding: 12px 18px; border: 2px solid #D4AF37; background: rgba(10, 10, 26, 0.95); color: #D4AF37; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; font-size: 0.9rem; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);" onchange="changeTheme(this.value)">
+            <option value="goldBomb">🔔💣 Gold Bomb (Big Ben)</option>
+            <option value="retrowave">🌊 Retrowave (Glam 80s)</option>
+            <option value="business">💼 Business (Marron/Argent)</option>
+            <option value="cyberpunk">🤖 Cyberpunk (Futuriste)</option>
+            <option value="random">🎲 Aléatoire</option>
+        </select>
+    </div>
+    
     <div class="border-frame">
         <div class="container">
             <header>
@@ -523,19 +1259,40 @@
 
             <!-- SETUP -->
             <div id="setupScreen" class="screen active">
-                <div id="savedGameAlert" style="background: rgba(11, 120, 123, 0.2); border-left: 4px solid #0B787B; padding: 15px; margin-bottom: 20px; border-radius: 3px; display: none;">
-                    <div style="color: #0B787B; font-family: 'Playfair Display', serif; font-weight: bold; margin-bottom: 12px; font-size: 1.1rem;">💾 Partie en Cours Trouvée!</div>
-                    
-                    <div style="background: rgba(11, 120, 123, 0.1); padding: 12px; border-radius: 3px; margin-bottom: 12px;">
-                        <div style="color: #d8ccbc; font-size: 0.9rem; margin-bottom: 8px;"><strong>📊 Détails:</strong></div>
-                        <div id="savedGameDetails" style="color: #d8ccbc; font-size: 0.9rem; line-height: 1.6;"></div>
+                <div id="savedGameAlert" style="background: linear-gradient(135deg, rgba(42, 90, 90, 0.15) 0%, rgba(212, 175, 55, 0.15) 100%); border: 2px solid #D4AF37; padding: 25px; margin-bottom: 25px; border-radius: 12px; box-shadow: 0 0 120px rgba(212, 175, 55, 0.3), 0 0 120px rgba(212, 175, 55, 0.2); backdrop-filter: blur(10px); position: relative; transition: all 0.3s;" class="saved-game-disabled">
+                    <div style="color: #D4AF37; font-weight: 500; font-weight: 900; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; font-family: 'Inter', sans-serif; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(42, 90, 90, 0.5); animation: titleSparkle 1.5s ease-in-out infinite;">
+                        ⚡ REPRENDRE LA PARTIE ⚡
                     </div>
                     
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button onclick="continueSavedGame()" style="background: #0B787B; color: #fff; border: 2px solid #0B787B; padding: 10px 15px; cursor: pointer; border-radius: 2px; font-weight: 600; flex: 1;">↻ Continuer</button>
-                        <button onclick="clearSavedGame()" style="background: #C50D19; color: #fff; border: 2px solid #C50D19; padding: 10px 15px; cursor: pointer; border-radius: 2px; font-weight: 600; flex: 1;">🔄 Repartir de Zéro</button>
+                    <div style="background: rgba(20, 20, 40, 0.4); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #D4AF37; position: relative;">
+                        <div id="savedGameDetails" style="color: #D4AF37; font-weight: 500; font-size: 0.95rem; line-height: 2.2; font-weight: 500;">Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                        <button onclick="continueSavedGame()" style="background: linear-gradient(135deg, #D4AF37 0%, #D4AF37 100%); color: #fff; border: none; padding: 12px 20px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; box-shadow: 0 0 40px rgba(42, 90, 90, 0.6), 0 0 80px rgba(212, 175, 55, 0.5); text-transform: uppercase; font-size: 0.85rem; animation: btnGlow 2s ease-in-out infinite;" onmouseover="this.style.boxShadow='0 0 60px rgba(42, 90, 90, 0.9), 0 0 120px rgba(42, 90, 90, 0.7)'; this.style.transform='translateY(-3px)';" onmouseout="this.style.boxShadow='0 0 40px rgba(42, 90, 90, 0.6), 0 0 80px rgba(212, 175, 55, 0.5)'; this.style.transform='translateY(0)';">↻ CONTINUER</button>
+                        <button onclick="goToStats()" style="background: linear-gradient(135deg, #D4AF37 0%, #D4AF37 100%); color: #fff; border: none; padding: 12px 20px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; box-shadow: 0 0 40px rgba(42, 90, 90, 0.6); text-transform: uppercase; font-size: 0.85rem;" onmouseover="this.style.boxShadow='0 0 60px rgba(42, 90, 90, 0.9)'; this.style.transform='translateY(-3px)';" onmouseout="this.style.boxShadow='0 0 40px rgba(42, 90, 90, 0.6)'; this.style.transform='translateY(0)';">📊 STATS</button>
+                        <button onclick="clearSavedGame()" style="background: transparent; color: #D4AF37; border: 2px solid #D4AF37; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; text-transform: uppercase; font-size: 0.85rem;" onmouseover="this.style.background='rgba(212, 175, 55, 0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 30px rgba(42, 90, 90, 0.6)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">🗑️ SUPPRIMER</button>
                     </div>
                 </div>
+
+                <style>
+                    .saved-game-disabled {
+                        opacity: 0.4;
+                        pointer-events: none;
+                    }
+                    .saved-game-disabled button {
+                        cursor: not-allowed;
+                        opacity: 0.5;
+                    }
+                    .saved-game-enabled {
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+                    .saved-game-enabled button {
+                        cursor: pointer;
+                        opacity: 1;
+                    }
+                </style>
 
                 <div class="setup-section">
                     <div class="section-title">👥 Ajoute les Joueurs</div>
@@ -563,7 +1320,7 @@
             <!-- GAME -->
             <div id="gameScreen" class="screen">
                 <div class="game-header">
-                    <div style="color: #a89a8a; font-size: 0.85rem;">Manche</div>
+                    <div style="color: #D4AF37; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Manche</div>
                     <div class="manche-counter" id="mancheDisplay">1</div>
                 </div>
                 <button class="turn-button" onclick="endTurn()">⏱️ Fin de Manche</button>
@@ -572,7 +1329,7 @@
             <!-- END TURN -->
             <div id="endTurnScreen" class="screen">
                 <div class="game-header">
-                    <div style="color: #a89a8a; font-size: 0.85rem;">Équipes</div>
+                    <div style="color: #D4AF37; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Équipes</div>
                     <div class="manche-counter" id="mancheEndDisplay">1</div>
                 </div>
 
@@ -581,7 +1338,7 @@
                 </div>
 
                 <div class="winner-section">
-                    <h3 style="color: #a89a8a; margin-bottom: 15px;">🎭 Gagnant?</h3>
+                    <h3 style="color: #D4AF37; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">🎭 Gagnant?</h3>
                     <div class="winner-buttons">
                         <button class="btn-winner blue" onclick="setWinner('blue')">🔵 Sherlock</button>
                         <button class="btn-winner red" onclick="setWinner('red')">🔴 Moriarty</button>
@@ -592,19 +1349,76 @@
             <!-- STATS -->
             <div id="statsScreen" class="screen">
                 <div class="stats-section">
-                    <h2>📊 Histogramme</h2>
+                    <h2 style="margin-bottom: 25px; font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #D4AF37; font-weight: 500; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(42, 90, 90, 0.5), 0 0 45px rgba(255, 255, 255, 0.3);">📊 Histogramme</h2>
                     <div class="histogram-container" id="histogram"></div>
 
-                    <h2 style="margin-top: 40px;">📈 Progression</h2>
+                    <h2 style="margin-top: 40px; margin-bottom: 25px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px;">📈 Progression</h2>
                     <div id="progressionChart"></div>
 
-                    <h2 style="margin-top: 40px;">📋 Résumé des Manches</h2>
+                    <h2 style="margin-top: 40px; margin-bottom: 25px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px;">📋 Résumé des Manches</h2>
                     <div id="manchesSummary"></div>
                 </div>
 
                 <div class="control-buttons">
                     <button class="btn-action" id="continueBtn" onclick="nextManche()">➜ Manche Suivante</button>
                     <button class="btn-action btn-end" id="endBtn" onclick="endGame()">Fin du Jeu</button>
+                </div>
+            </div>
+
+            <!-- MODAL SUPPRESSION MANCHE -->
+            <div id="deleteConfirmModal">
+                <div style="background: linear-gradient(135deg, #0a0a1a 0%, #1a2d3a 100%); border: 3px solid #D4AF37; border-radius: 12px; padding: 40px; max-width: 500px; text-align: center; box-shadow: 0 0 100px rgba(212, 175, 55, 0.5);">
+                    <h2 style="color: #D4AF37; margin-bottom: 20px; font-size: 1.8rem; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);">⚠️ Supprimer la Manche?</h2>
+                    <p style="color: #f5f5f0; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">Cette action est <strong>DÉFINITIVE</strong> et ne peut pas être annulée.</p>
+                    
+                    <div style="display: flex; gap: 20px; justify-content: center;">
+                        <button onclick="confirmDeleteManche()" style="background: linear-gradient(135deg, #FF4444 0%, #CC0000 100%); color: #fff; border: none; padding: 15px 40px; cursor: pointer; border-radius: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; font-size: 1rem; box-shadow: 0 0 40px rgba(255, 68, 68, 0.6);">🗑️ OUI, SUPPRIMER</button>
+                        <button onclick="cancelDeleteManche()" style="background: transparent; color: #D4AF37; border: 2px solid #D4AF37; padding: 13px 40px; cursor: pointer; border-radius: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; font-size: 1rem;">❌ ANNULER</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉCRAN DE MODIFICATION MANCHE -->
+            <div id="editMancheScreen" class="screen">
+                <div style="position: relative; background: rgba(10, 10, 26, 0.9); border: 2px solid #D4AF37; padding: 30px; border-radius: 12px; box-shadow: 0 0 60px rgba(212, 175, 55, 0.5); max-width: 800px; margin: 50px auto;">
+                    <h2 id="editMancheTitle" style="color: #D4AF37; text-align: center; margin-bottom: 30px; font-size: 1.5rem; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);">Modifier Manche</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                        <!-- ÉQUIPE BLEU -->
+                        <div style="background: rgba(58, 134, 255, 0.1); border: 2px solid rgba(58, 134, 255, 0.5); border-radius: 8px; padding: 20px;">
+                            <h3 style="color: rgba(58, 134, 255, 0.9); margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: 1px; font-weight: 900;">🔵 Sherlock</h3>
+                            <div id="editBlueTeam" style="min-height: 200px; display: flex; flex-direction: column; gap: 10px; background: rgba(20, 20, 40, 0.5); padding: 10px; border-radius: 4px;">
+                                <p style="color: rgba(58, 134, 255, 0.5); font-style: italic; text-align: center;">Aucun joueur...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- ÉQUIPE ROUGE -->
+                        <div style="background: rgba(220, 20, 60, 0.1); border: 2px solid rgba(220, 20, 60, 0.5); border-radius: 8px; padding: 20px;">
+                            <h3 style="color: rgba(220, 20, 60, 0.9); margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: 1px; font-weight: 900;">🔴 Moriarty</h3>
+                            <div id="editRedTeam" style="min-height: 200px; display: flex; flex-direction: column; gap: 10px; background: rgba(20, 20, 40, 0.5); padding: 10px; border-radius: 4px;">
+                                <p style="color: rgba(220, 20, 60, 0.5); font-style: italic; text-align: center;">Aucun joueur...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="saveEditManche()" style="background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%); color: #0a0a1a; border: none; padding: 12px 30px; cursor: pointer; border-radius: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);">✅ Sauvegarder</button>
+                        <button onclick="cancelEditManche()" style="background: transparent; color: #D4AF37; border: 2px solid #D4AF37; padding: 10px 30px; cursor: pointer; border-radius: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">❌ Annuler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PODIUM -->
+            <div id="podiumScreen" class="screen">
+                <div style="text-align: center; margin-bottom: 50px;">
+                    <h1 style="font-size: 2.8rem; font-weight: 900; color: #D4AF37; font-weight: 500; text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 60px rgba(42, 90, 90, 0.6), 0 0 90px rgba(255, 255, 255, 0.4); animation: titleSparkle 1.5s ease-in-out infinite; margin-bottom: 10px; letter-spacing: 2px;">🏆 PODIUM FINAL 🏆</h1>
+                    <p style="color: #D4AF37; font-size: 1.1rem; animation: titleSparkle 1.5s ease-in-out infinite;">Partie Terminée!</p>
+                </div>
+
+                <div id="podium" style="display: flex; align-items: flex-end; justify-content: center; gap: 40px; margin: 60px 0; perspective: 1000px;"></div>
+
+                <div style="text-align: center; margin-top: 50px;">
+                    <button class="btn-action" onclick="resetGame()" style="width: auto; padding: 15px 40px; font-size: 1rem;">🔄 NOUVELLE PARTIE</button>
                 </div>
             </div>
         </div>
@@ -806,7 +1620,6 @@
             gameState.players.forEach(player => {
                 const stats = playerStats[player];
                 
-                // Calculer le rang actuel
                 let totalWins = 0;
                 stats.forEach(s => {
                     if (s.won) totalWins++;
@@ -823,18 +1636,16 @@
                 const rankLabel = ranks[rank - 1] || rank + 'ème';
 
                 let html = `<div class="progression-player">
-                    <div class="progression-name">${player} <span style="color: #a89a8a; font-size: 0.9rem;">- ${rankLabel}</span></div>
+                    <div class="progression-name">${player} <span style="color: #D4AF37; font-size: 0.9rem;">- ${rankLabel}</span></div>
                     <div class="progression-line">`;
 
                 stats.forEach((s) => {
-                    // Trouver le gagnant de la manche
                     const roundWinner = gameState.mancheHistory.find(r => r.manche === s.manche).winner;
                     const playerWon = roundWinner === s.team;
                     
-                    let emoji, type, bgColor;
+                    let emoji, type;
                     
                     if (playerWon) {
-                        // Gagnant: affiche son emoji
                         if (s.team === 'blue') {
                             emoji = '✂️';
                             type = 'blue-win';
@@ -843,13 +1654,9 @@
                             type = 'red-win';
                         }
                     } else {
-                        // Perdant: 😭
                         emoji = '😭';
                         type = s.team === 'blue' ? 'blue-lost' : 'red-lost';
                     }
-                    
-                    // Couleur de fond selon le gagnant de la manche
-                    bgColor = roundWinner === 'blue' ? '#0B787B' : '#C50D19';
 
                     html += `<div class="progression-manche">
                         <div class="manche-icon ${type}">${emoji}</div>
@@ -864,19 +1671,172 @@
 
         function renderManchesSummary() {
             const summary = document.getElementById('manchesSummary');
-            let html = '<table class="summary-table"><thead><tr><th>Manche</th><th>🔵</th><th>🔴</th><th>Gagnant</th></tr></thead><tbody>';
+            let html = '<table class="summary-table"><thead><tr><th>Manche</th><th>🔵</th><th>🔴</th><th>Gagnant</th><th>Actions</th></tr></thead><tbody>';
 
-            gameState.mancheHistory.forEach(round => {
+            gameState.mancheHistory.forEach((round, idx) => {
                 const blue = gameState.players.filter(p => round.assignments[p] === 'blue').join(', ');
                 const red = gameState.players.filter(p => round.assignments[p] === 'red').join(', ');
                 const winner = round.winner === 'blue' ? '🔵' : '🔴';
-                const bgColor = round.winner === 'blue' ? 'rgba(11, 120, 123, 0.15)' : 'rgba(197, 13, 25, 0.15)';
+                const bgColor = round.winner === 'blue' ? 'rgba(58, 134, 255, 0.15)' : 'rgba(220, 20, 60, 0.15)';
 
-                html += `<tr style="background: ${bgColor};"><td>M${round.manche}</td><td>${blue}</td><td>${red}</td><td>${winner}</td></tr>`;
+                html += `<tr style="background: ${bgColor};">
+                    <td>M${round.manche}</td>
+                    <td>${blue}</td>
+                    <td>${red}</td>
+                    <td>${winner}</td>
+                    <td>
+                        <button class="btn-edit-manche" data-idx="${idx}" style="background: rgba(212, 175, 55, 0.7); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-right: 5px;">✏️ Modifier</button>
+                        <button class="btn-delete-manche" data-idx="${idx}" style="background: rgba(220, 20, 60, 0.7); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;">🗑️ Supprimer</button>
+                    </td>
+                </tr>`;
             });
 
             html += '</tbody></table>';
             summary.innerHTML = html;
+            
+            // Ajouter les event listeners après avoir généré le HTML
+            document.querySelectorAll('.btn-edit-manche').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = parseInt(e.currentTarget.dataset.idx);
+                    console.log('Edit button clicked, idx:', idx, 'dataset:', e.currentTarget.dataset);
+                    editManche(idx);
+                });
+            });
+            
+            document.querySelectorAll('.btn-delete-manche').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    console.log('Delete button clicked, e.currentTarget:', e.currentTarget);
+                    console.log('Delete button dataset:', e.currentTarget.dataset);
+                    const idx = parseInt(e.currentTarget.dataset.idx);
+                    console.log('Parsed idx:', idx, 'type:', typeof idx);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteManche(idx);
+                });
+            });
+        }
+
+        function editManche(idx) {
+            console.log('Editing manche', idx);
+            const round = gameState.mancheHistory[idx];
+            console.log('Round:', round);
+            console.log('Players:', gameState.players);
+            
+            window.currentEditIdx = idx;
+            window.currentEditAssignments = {...round.assignments};
+            
+            document.getElementById('editMancheTitle').textContent = `Modifier Manche ${round.manche}`;
+            updateEditDisplay();
+            switchScreen('editMancheScreen');
+        }
+
+        function updateEditDisplay() {
+            console.log('Updating display with assignments:', window.currentEditAssignments);
+            const blueTeam = document.getElementById('editBlueTeam');
+            const redTeam = document.getElementById('editRedTeam');
+            
+            if (!blueTeam || !redTeam) {
+                console.error('Elements not found!');
+                return;
+            }
+            
+            blueTeam.innerHTML = '';
+            redTeam.innerHTML = '';
+            
+            if (!gameState.players || gameState.players.length === 0) {
+                console.error('No players found');
+                return;
+            }
+            
+            gameState.players.forEach(player => {
+                const team = window.currentEditAssignments[player];
+                console.log(`Player ${player} in team ${team}`);
+                
+                const btn = document.createElement('button');
+                btn.style.cssText = `
+                    padding: 12px;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    transition: all 0.3s;
+                    background: ${team === 'blue' ? 'rgba(58, 134, 255, 0.8)' : 'rgba(220, 20, 60, 0.8)'};
+                    color: #fff;
+                `;
+                
+                btn.textContent = player;
+                
+                if (team === 'blue') {
+                    btn.onclick = () => { 
+                        console.log('Moving', player, 'to red');
+                        movePlayer(player, 'red'); 
+                    };
+                    blueTeam.appendChild(btn);
+                } else {
+                    btn.onclick = () => { 
+                        console.log('Moving', player, 'to blue');
+                        movePlayer(player, 'blue'); 
+                    };
+                    redTeam.appendChild(btn);
+                }
+            });
+        }
+
+        function movePlayer(player, newTeam) {
+            window.currentEditAssignments[player] = newTeam;
+            updateEditDisplay();
+        }
+
+        function saveEditManche() {
+            const idx = window.currentEditIdx;
+            gameState.mancheHistory[idx].assignments = window.currentEditAssignments;
+            renderStats();
+            saveGameData();
+            switchScreen('statsScreen');
+        }
+
+        function cancelEditManche() {
+            switchScreen('statsScreen');
+        }
+
+        function deleteManche(idx) {
+            console.log('deleteManche called with idx:', idx);
+            
+            if (idx < 0 || idx >= gameState.mancheHistory.length) {
+                console.error('Invalid index:', idx);
+                return;
+            }
+            
+            // Stocker l'index globalement
+            window.pendingDeleteIdx = idx;
+            console.log('Showing delete confirmation modal for idx:', idx);
+            
+            // Afficher le modal
+            const modal = document.getElementById('deleteConfirmModal');
+            modal.classList.add('modal-visible');
+        }
+
+        function confirmDeleteManche() {
+            console.log('User confirmed deletion of idx:', window.pendingDeleteIdx);
+            const idx = window.pendingDeleteIdx;
+            
+            gameState.mancheHistory.splice(idx, 1);
+            console.log('✅ Manche deleted! New length:', gameState.mancheHistory.length);
+            
+            renderStats();
+            saveGameData();
+            console.log('✅ Stats rendered and data saved');
+            
+            // Fermer le modal
+            document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
+        }
+
+        function cancelDeleteManche() {
+            console.log('User cancelled deletion');
+            // Fermer le modal
+            document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
         }
 
         function nextManche() {
@@ -891,8 +1851,100 @@
         }
 
         function endGame() {
-            alert('Partie Terminée!');
-            resetGame();
+            renderPodium();
+            switchScreen('podiumScreen');
+            saveGameData();
+        }
+
+        function renderPodium() {
+            const playerStats = {};
+            gameState.players.forEach(p => {
+                playerStats[p] = [];
+            });
+
+            gameState.mancheHistory.forEach(round => {
+                gameState.players.forEach(p => {
+                    const team = round.assignments[p];
+                    const won = round.winner === team;
+                    playerStats[p].push({team, won, manche: round.manche});
+                });
+            });
+
+            // Calculer les classements
+            const rankings = gameState.players.map(p => {
+                let wins = 0;
+                playerStats[p].forEach(s => { if (s.won) wins++; });
+                return {name: p, wins};
+            }).sort((a, b) => b.wins - a.wins);
+
+            const podium = document.getElementById('podium');
+            podium.innerHTML = '';
+
+            const medals = ['🥇', '🥈', '🥉'];
+            const positions = [
+                {rank: 1, height: 220, offsetY: 0},
+                {rank: 2, height: 160, offsetY: 60},
+                {rank: 3, height: 100, offsetY: 120}
+            ];
+
+            positions.forEach((pos, idx) => {
+                if (rankings[idx]) {
+                    const player = rankings[idx];
+                    const medal = medals[idx] || '🎖️';
+                    
+                    const podiumDiv = document.createElement('div');
+                    podiumDiv.style.cssText = `
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 20px;
+                        animation: podiumBounce 2s ease-in-out infinite;
+                        animation-delay: ${idx * 0.2}s;
+                    `;
+                    
+                    const platform = document.createElement('div');
+                    platform.style.cssText = `
+                        background: linear-gradient(135deg, #D4AF37 0%, #D4AF37 100%);
+                        width: 120px;
+                        height: ${pos.height}px;
+                        border-radius: 8px 8px 0 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 
+                            0 0 30px rgba(42, 90, 90, 0.8),
+                            0 0 120px rgba(212, 175, 55, 0.5),
+                            inset 0 0 20px rgba(255, 255, 255, 0.3);
+                        font-size: 2.5rem;
+                        font-weight: 900;
+                        color: #fff;
+                        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                        animation: platformGlow 2s ease-in-out infinite;
+                        animation-delay: ${idx * 0.2}s;
+                    `;
+                    platform.textContent = pos.rank;
+                    
+                    const info = document.createElement('div');
+                    info.style.cssText = `
+                        text-align: center;
+                        color: #D4AF37; font-weight: 500;
+                    `;
+                    info.innerHTML = `
+                        <div style="font-size: 2rem; margin-bottom: 8px;">${medal}</div>
+                        <div style="font-size: 1.2rem; font-weight: 900; color: #D4AF37; text-shadow: 0 0 10px rgba(42, 90, 90, 0.8);">${player.name}</div>
+                        <div style="font-size: 1rem; color: #D4AF37; margin-top: 5px;">${player.wins} victoire${player.wins > 1 ? 's' : ''}</div>
+                    `;
+                    
+                    podiumDiv.appendChild(platform);
+                    podiumDiv.appendChild(info);
+                    podium.appendChild(podiumDiv);
+                }
+            });
+        }
+
+        function goToStats() {
+            renderStats();
+            switchScreen('statsScreen');
         }
 
         function resetGame() {
@@ -901,11 +1953,17 @@
             location.reload();
         }
 
+        function continueSavedGame() {
+            location.reload();
+        }
+
         function clearSavedGame() {
             if (confirm('Êtes-vous sûr? Cela supprimera la partie sauvegardée.')) {
                 localStorage.removeItem('timebombGameState');
-                document.getElementById('savedGameAlert').style.display = 'none';
-                document.getElementById('savedGameDetails').innerHTML = '';
+                const alert = document.getElementById('savedGameAlert');
+                alert.classList.add('saved-game-disabled');
+                alert.classList.remove('saved-game-enabled');
+                document.getElementById('savedGameDetails').innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
                 gameState = {players: [], currentManche: 1, teamAssignment: {}, mancheHistory: []};
                 document.getElementById('playersInput').innerHTML = '';
                 updateButtonVisibility();
@@ -914,54 +1972,97 @@
 
         function checkSavedGame() {
             const saved = localStorage.getItem('timebombGameState');
+            const alert = document.getElementById('savedGameAlert');
+            
             if (saved) {
                 const data = JSON.parse(saved);
                 if (data.players && data.players.length > 0) {
-                    document.getElementById('savedGameAlert').style.display = 'block';
+                    // Partie sauvegardée trouvée
+                    alert.classList.remove('saved-game-disabled');
+                    alert.classList.add('saved-game-enabled');
                     
-                    // Afficher les détails
                     let details = `
-                        👥 <strong>${data.players.length} joueurs:</strong> ${data.players.join(', ')}<br>
-                        📍 <strong>Manche:</strong> ${data.currentManche}/4<br>
-                        🎮 <strong>Manches jouées:</strong> ${data.mancheHistory.length}
+                        <div style="margin-bottom: 10px;">👥 <strong style="color: #D4AF37;">${data.players.length} JOUEURS:</strong> ${data.players.join(' • ')}</div>
+                        <div style="margin-bottom: 10px;">📍 <strong style="color: #D4AF37;">PROGRESSION:</strong> Manche ${data.currentManche}/4</div>
+                        <div style="margin-bottom: 10px;">🎮 <strong style="color: #D4AF37;">MANCHES JOUÉES:</strong> ${data.mancheHistory.length}</div>
                     `;
                     
                     if (data.mancheHistory.length > 0) {
                         const blueWins = data.mancheHistory.filter(m => m.winner === 'blue').length;
                         const redWins = data.mancheHistory.filter(m => m.winner === 'red').length;
-                        details += `<br>🔵 Sherlock: ${blueWins}v | 🔴 Moriarty: ${redWins}v`;
+                        details += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #D4AF37; display: flex; justify-content: space-around; gap: 20px;">
+                            <div><span style="color: #D4AF37; font-weight: 900; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); font-size: 1.1rem;">🔵 SHERLOCK:</span> <strong style="color: #D4AF37; font-size: 1.1rem;">${blueWins}V</strong></div>
+                            <div><span style="color: #D4AF37; font-weight: 900; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); font-size: 1.1rem;">🔴 MORIARTY:</span> <strong style="color: #D4AF37; font-size: 1.1rem;">${redWins}V</strong></div>
+                        </div>`;
                     }
                     
                     document.getElementById('savedGameDetails').innerHTML = details;
+                    return;
                 }
             }
+            
+            // Aucune partie sauvegardée
+            alert.classList.add('saved-game-disabled');
+            alert.classList.remove('saved-game-enabled');
+            document.getElementById('savedGameDetails').innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
         }
 
-        function continueSavedGame() {
-            // Recharger et restaurer automatiquement
-            location.reload();
+        // ===== GESTION DES THÈMES =====
+        
+        const themes = {
+            goldBomb: { name: '🔔💣 Gold Bomb (Big Ben)', label: 'goldBomb' },
+            retrowave: { name: '🌊 Retrowave (Glam 80s)', label: 'retrowave' },
+            business: { name: '💼 Business (Marron/Argent)', label: 'business' },
+            cyberpunk: { name: '🤖 Cyberpunk (Futuriste)', label: 'cyberpunk' },
+            random: { name: '🎲 Aléatoire', label: 'random' }
+        };
+
+        function changeTheme(themeName) {
+            console.log('Changing theme to:', themeName);
+            
+            // Si aléatoire, choisir un thème au hasard
+            if (themeName === 'random') {
+                const themeKeys = Object.keys(themes).filter(k => k !== 'random');
+                themeName = themeKeys[Math.floor(Math.random() * themeKeys.length)];
+                console.log('Random theme selected:', themeName);
+                document.getElementById('themeSelector').value = themeName;
+            }
+            
+            // Enlever tous les thèmes
+            document.body.classList.remove('theme-goldBomb', 'theme-retrowave', 'theme-business', 'theme-cyberpunk');
+            
+            // Ajouter le nouveau thème
+            document.body.classList.add('theme-' + themeName);
+            
+            // Sauvegarder
+            localStorage.setItem('selectedTheme', themeName);
+            console.log('✅ Theme changed to:', themeName);
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'goldBomb';
+            console.log('Initializing theme:', savedTheme);
+            
+            document.getElementById('themeSelector').value = savedTheme;
+            changeTheme(savedTheme);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             loadGameData();
             updateButtonVisibility();
             checkSavedGame();
             
-            // Restaurer la bonne page après reload
             if (gameState.players.length > 0) {
-                // Vérifier si tous les joueurs ont une équipe assignée
                 const allAssigned = gameState.players.every(p => gameState.teamAssignment[p] !== null);
                 
                 if (allAssigned && gameState.mancheHistory.length > 0) {
-                    // Les équipes sont assignées ET des manches sont terminées = Stats screen
                     renderStats();
                     switchScreen('statsScreen');
                 } else if (!allAssigned && gameState.mancheHistory.length > 0) {
-                    // Des manches sont terminées mais équipes non assignées = Game screen (nouvelle manche)
                     switchScreen('gameScreen');
                     document.getElementById('mancheDisplay').textContent = gameState.currentManche;
                 } else {
-                    // Pas de manches terminées = Game screen (première manche)
                     switchScreen('gameScreen');
                     document.getElementById('mancheDisplay').textContent = gameState.currentManche;
                 }
