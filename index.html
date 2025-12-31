@@ -1406,8 +1406,55 @@ body.theme-random .section-title {
             opacity: 1;
         }
 
+        /* RESPECTER LES PRÉFÉRENCES DE RÉDUCTION DE MOUVEMENT */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            
+            body::before {
+                animation: none !important;
+            }
+            
+            .border-frame {
+                animation: none !important;
+                backdrop-filter: none !important;
+            }
+        }
+
         /* ===== RESPONSIVE DESIGN MOBILE ===== */
         @media (max-width: 768px) {
+            /* DÉSACTIVER ANIMATIONS SUR MOBILE POUR PERFORMANCE */
+            * {
+                animation: none !important;
+            }
+
+            body::before {
+                animation: none !important;
+            }
+
+            .border-frame {
+                animation: none !important;
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.3) !important;
+                backdrop-filter: none !important;
+            }
+
+            .logo {
+                animation: none !important;
+                filter: none !important;
+            }
+
+            .section-title {
+                animation: none !important;
+                filter: none !important;
+            }
+
+            /* Réduire blur */
+            .border-frame {
+                backdrop-filter: blur(5px) !important;
+            }
+
             header {
                 margin-bottom: 20px;
             }
@@ -1452,6 +1499,29 @@ body.theme-random .section-title {
         }
 
         @media (max-width: 480px) {
+            /* DÉSACTIVER ANIMATIONS SUR TRÈS PETIT ÉCRAN */
+            * {
+                animation: none !important;
+            }
+
+            body::before {
+                animation: none !important;
+            }
+
+            .border-frame {
+                animation: none !important;
+                box-shadow: 0 0 10px rgba(212, 175, 55, 0.2) !important;
+                backdrop-filter: none !important;
+            }
+
+            .logo {
+                filter: none !important;
+            }
+
+            .section-title {
+                filter: none !important;
+            }
+
             body {
                 padding: 10px !important;
             }
