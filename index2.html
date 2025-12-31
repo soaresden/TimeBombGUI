@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeBomb - Assistant de Jeu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a15 0%, #1a0f2a 50%, #0a0a15 100%);
+            min-height: 100vh;
+            color: #f0f0ff;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fond avec BEAUCOUP PLUS de PAILLETTES ANIMÉES */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 5% 10%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 15% 25%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 25% 5%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 35% 45%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 45% 15%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 55% 60%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 65% 30%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 75% 70%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 85% 40%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 95% 80%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 10% 55%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 20% 75%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 30% 65%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 40% 85%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 50% 35%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 60% 95%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 70% 20%, #ff1493, rgba(255,20,147,0)),
+                radial-gradient(2px 2px at 80% 50%, #00ffc8, rgba(0,255,200,0)),
+                radial-gradient(1px 1px at 90% 10%, #ffd700, rgba(255,215,0,0)),
+                radial-gradient(1px 1px at 12% 90%, #ff1493, rgba(255,20,147,0));
+            background-repeat: repeat;
+            background-size: 100% 100%;
+            pointer-events: none;
+            animation: sparkleRain 15s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes sparkleRain {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 300px; }
+        }
+
+        .border-frame {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.08) 0%, rgba(0, 255, 200, 0.08) 50%, rgba(255, 215, 0, 0.05) 100%);
+            backdrop-filter: blur(15px);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 0 60px rgba(255, 20, 147, 0.4),
+                0 0 100px rgba(0, 255, 200, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 40px rgba(255, 20, 147, 0.15);
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            background-clip: padding-box;
+            animation: sparkleFrame 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        /* Pluie de paillettes supplémentaire */
+        .border-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, #ffd700, transparent),
+                radial-gradient(1px 1px at 30% 40%, #ff1493, transparent),
+                radial-gradient(1px 1px at 50% 10%, #00ffc8, transparent),
+                radial-gradient(1px 1px at 70% 60%, #ffd700, transparent),
+                radial-gradient(1px 1px at 90% 30%, #ff1493, transparent),
+                radial-gradient(1px 1px at 20% 70%, #00ffc8, transparent),
+                radial-gradient(1px 1px at 40% 50%, #ffd700, transparent),
+                radial-gradient(1px 1px at 60% 80%, #ff1493, transparent),
+                radial-gradient(1px 1px at 80% 90%, #00ffc8, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            pointer-events: none;
+            animation: innerSparkle 8s linear infinite;
+            opacity: 0.8;
+            border-radius: 20px;
+        }
+
+        @keyframes innerSparkle {
+            0% { opacity: 0.5; background-position: 0 0; }
+            50% { opacity: 0.9; background-position: 100px 100px; }
+            100% { opacity: 0.5; background-position: 200px 200px; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            animation: logoBounceSparkle 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6)) drop-shadow(0 0 40px rgba(0, 255, 200, 0.4));
+        }
+
+        .logo::before,
+        .logo::after {
+            content: '✨';
+            position: absolute;
+            top: -20px;
+            animation: sparkleRotate 2s ease-in-out infinite;
+            font-size: 1.5rem;
+        }
+
+        .logo::before {
+            left: -30px;
+            animation-delay: 0s;
+            animation: sparkleLeft 2s ease-in-out infinite;
+        }
+
+        .logo::after {
+            right: -30px;
+            animation-delay: 0.3s;
+            animation: sparkleRight 2s ease-in-out infinite;
+        }
+
+        @keyframes logoBounceSparkle {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        @keyframes sparkleLeft {
+            0%, 100% { opacity: 0; transform: translate(-50px, -50px) scale(0); }
+            50% { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes sparkleRight {
+            0%, 100% { opacity: 0; transform: translate(50px, -50px) scale(0); }
+            50% { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ff1493;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            animation: titleSparkle 1.5s ease-in-out infinite;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '⭐';
+            position: absolute;
+            animation: sparkleRotate 2s ease-in-out infinite;
+            font-size: 0.9rem;
+        }
+
+        .section-title::before {
+            left: -30px;
+            animation: sparkleRotate 2s ease-in-out infinite 0s;
+        }
+
+        .section-title::after {
+            right: -30px;
+            animation: sparkleRotate 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes sparkleRotate {
+            0%, 100% { opacity: 0; transform: rotate(0deg) scale(0); }
+            50% { opacity: 1; transform: rotate(180deg) scale(1); }
+        }
+
+        @keyframes titleSparkle {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 20, 147, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 0 0 50px rgba(0, 255, 200, 0.6); }
+        }
+
+        .setup-section {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(0, 255, 200, 0.05) 100%);
+            border: 2px solid rgba(255, 20, 147, 0.4);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            animation: sectionPulseSparkle 2.5s ease-in-out infinite;
+            box-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.2),
+                0 0 50px rgba(0, 255, 200, 0.1),
+                inset 0 0 20px rgba(255, 215, 0, 0.08);
+        }
+
+        .setup-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 30% 30%, #ffd700, transparent),
+                radial-gradient(1px 1px at 70% 70%, #ff1493, transparent),
+                radial-gradient(1px 1px at 80% 20%, #00ffc8, transparent),
+                radial-gradient(1px 1px at 20% 80%, #ff1493, transparent);
+            background-repeat: repeat;
+            background-size: 100% 100%;
+            pointer-events: none;
+            border-radius: 12px;
+            animation: particleFlow 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes sectionPulseSparkle {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 20, 147, 0.2), 0 0 50px rgba(0, 255, 200, 0.1);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(255, 20, 147, 0.5), 0 0 100px rgba(0, 255, 200, 0.3), 0 0 140px rgba(255, 215, 0, 0.2);
+            }
+        }
+
+        @keyframes particleFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .player-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .player-input-group::after {
+            content: '💫';
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkleWiggle 1s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleWiggle {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.3); }
+        }
+
+        .player-input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            background: rgba(20, 20, 40, 0.6);
+            color: #e8e8f0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.1), inset 0 0 10px rgba(255, 215, 0, 0.05);
+        }
+
+        .player-input-group input:focus {
+            outline: none;
+            border-color: #ff1493;
+            box-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.8),
+                0 0 60px rgba(0, 255, 200, 0.5),
+                inset 0 0 10px rgba(255, 215, 0, 0.2);
+            background: rgba(20, 20, 40, 0.9);
+        }
+
+        .btn-remove {
+            background: #ff1493;
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 800;
+            border-radius: 6px;
+            transition: all 0.3s;
+            animation: buttonSparkle 1.5s ease-in-out infinite;
+        }
+
+        .btn-remove:hover {
+            background: #e60a84;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+        }
+
+        @keyframes buttonSparkle {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 20, 147, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(255, 20, 147, 1), 0 0 40px rgba(0, 255, 200, 0.6); }
+        }
+
+        button {
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .btn-add-player {
+            background: rgba(58, 134, 255, 0.9);
+            color: #fff;
+            border: 2px solid #3a86ff;
+            padding: 12px 20px;
+            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(58, 134, 255, 0.6), 0 0 40px rgba(0, 255, 200, 0.3);
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+
+        .btn-add-player:hover {
+            background: #3a86ff;
+            box-shadow: 0 0 50px rgba(58, 134, 255, 1), 0 0 80px rgba(0, 255, 200, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #ff1493 0%, #00ffc8 50%, #ffd700 100%);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 0 60px rgba(255, 20, 147, 0.7), 0 0 100px rgba(0, 255, 200, 0.5);
+            animation: startButtonRainbow 2s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        .btn-start.visible { display: block; }
+
+        @keyframes startButtonRainbow {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(255, 20, 147, 0.7), 0 0 100px rgba(0, 255, 200, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 100px rgba(255, 20, 147, 1), 0 0 150px rgba(0, 255, 200, 0.8), 0 0 200px rgba(255, 215, 0, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        .manche-counter {
+            font-family: 'Georgia', serif;
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            animation: counterSparkle 1s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px rgba(255, 215, 0, 1),
+                0 0 40px rgba(255, 20, 147, 0.8),
+                0 0 60px rgba(0, 255, 200, 0.6),
+                0 0 100px rgba(255, 215, 0, 0.4);
+            position: relative;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        }
+
+        .manche-counter::before,
+        .manche-counter::after {
+            content: '✨';
+            position: absolute;
+            animation: sparkleOrbit 2s linear infinite;
+            font-size: 2rem;
+        }
+
+        .manche-counter::before {
+            left: -120px;
+            top: 50%;
+            animation: sparkleOrbit 2s linear infinite;
+        }
+
+        .manche-counter::after {
+            right: -120px;
+            top: 50%;
+            animation: sparkleOrbit 2s linear infinite 1s;
+        }
+
+        @keyframes counterSparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        @keyframes sparkleOrbit {
+            0% { opacity: 0; transform: translate(0, -30px) scale(0); }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; transform: translate(0, 30px) scale(0); }
+        }
+
+        .turn-button {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.95) 0%, rgba(0, 255, 200, 0.9) 100%);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 40px 20px;
+            font-size: 1.3rem;
+            margin: 40px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.7), 0 0 100px rgba(0, 255, 200, 0.5);
+            animation: turnButtonPulse 2s ease-in-out infinite;
+        }
+
+        .turn-button::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            border-radius: 12px;
+            animation: sparkleStream 1s linear infinite;
+        }
+
+        @keyframes turnButtonPulse {
+            0%, 100% { box-shadow: 0 0 50px rgba(255, 20, 147, 0.7), 0 0 100px rgba(0, 255, 200, 0.5); }
+            50% { box-shadow: 0 0 80px rgba(255, 20, 147, 1), 0 0 150px rgba(0, 255, 200, 0.8), 0 0 200px rgba(255, 215, 0, 0.6); }
+        }
+
+        @keyframes sparkleStream {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.12) 0%, rgba(0, 255, 200, 0.08) 100%);
+            border: 2px solid rgba(255, 20, 147, 0.5);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            animation: sectionPulseSparkle 2.5s ease-in-out infinite;
+            box-shadow: 
+                0 0 60px rgba(255, 20, 147, 0.4),
+                0 0 100px rgba(0, 255, 200, 0.3),
+                inset 0 0 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 20% 40%, #ffd700, transparent),
+                radial-gradient(1px 1px at 80% 60%, #ff1493, transparent),
+                radial-gradient(1px 1px at 50% 80%, #00ffc8, transparent);
+            background-repeat: repeat;
+            background-size: 80px 80px;
+            pointer-events: none;
+            border-radius: 12px;
+            animation: particleFlow 4s linear infinite;
+            opacity: 0.7;
+        }
+
+        .player-input-group {
+            position: relative;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: rgba(58, 134, 255, 0.85);
+            color: #fff;
+            border: 2px solid #3a86ff;
+            padding: 12px 20px;
+            flex: 1;
+            min-width: 150px;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(58, 134, 255, 0.6);
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(58, 134, 255, 0.5), 0 0 40px rgba(0, 255, 200, 0.2); }
+            25% { box-shadow: 0 0 40px rgba(58, 134, 255, 0.8), 0 0 80px rgba(0, 255, 200, 0.5), 0 0 120px rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 60px rgba(58, 134, 255, 1), 0 0 120px rgba(0, 255, 200, 0.7), 0 0 180px rgba(255, 215, 0, 0.4); }
+            75% { box-shadow: 0 0 40px rgba(58, 134, 255, 0.8), 0 0 80px rgba(0, 255, 200, 0.5), 0 0 120px rgba(255, 215, 0, 0.2); }
+        }
+
+        @keyframes sparkleFlash {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Éléments qui clignotent partout */
+        .player-input-group::before {
+            content: '✨';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkleFlash 0.8s ease-in-out infinite;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+
+        .player-input-group::after {
+            animation: sparkleWiggle 1s ease-in-out infinite, sparkleFlash 0.6s ease-in-out infinite;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(58, 134, 255, 1), 0 0 100px rgba(0, 255, 200, 0.8);
+        }
+
+        /* Styles restants */
+        .end-manche-section {
+            background: rgba(255, 20, 147, 0.08);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .team-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(20, 20, 40, 0.6);
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .team-selector label {
+            flex: 0 0 120px;
+            font-weight: 700;
+        }
+
+        .team-toggle {
+            display: flex;
+            background: rgba(20, 20, 40, 0.4);
+            flex: 1;
+            border-radius: 6px;
+        }
+
+        .team-btn {
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            color: #888;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .team-btn.active {
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .team-btn.blue.active { background: rgba(58, 134, 255, 0.8); }
+        .team-btn.red.active { background: rgba(255, 20, 147, 0.8); }
+
+        .winner-section {
+            background: rgba(255, 20, 147, 0.08);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .winner-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-winner {
+            padding: 14px 20px;
+            border: 2px solid;
+            font-weight: 700;
+            flex: 1;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-winner.blue {
+            background: rgba(58, 134, 255, 0.8);
+            border-color: #3a86ff;
+            color: #fff;
+        }
+
+        .btn-winner.red {
+            background: rgba(255, 20, 147, 0.8);
+            border-color: #ff1493;
+            color: #fff;
+        }
+
+        .btn-winner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Tables et autres */
+        .setup-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .setup-table th, .setup-table td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+        }
+
+        .setup-table th {
+            background: rgba(255, 20, 147, 0.15);
+            color: #ff1493;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .setup-table tr.highlight {
+            background: rgba(255, 20, 147, 0.2);
+            border-left: 4px solid #ff1493;
+        }
+
+        .histogram-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            min-height: 350px;
+            padding: 30px;
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .histogram-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bar-vertical {
+            width: 80px;
+            height: 300px;
+            display: flex;
+            flex-direction: column-reverse;
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            border-radius: 8px;
+            background: rgba(20, 20, 40, 0.5);
+            overflow: hidden;
+        }
+
+        .bar-segment {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            min-height: 25px;
+            border-top: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .segment-blue-win { background: linear-gradient(180deg, #3a86ff 0%, #5a9dff 100%); }
+        .segment-blue-lost { background: linear-gradient(180deg, #1a4a7f 0%, #2a5a9f 100%); }
+        .segment-red-win { background: linear-gradient(180deg, #ff1493 0%, #ff5cb3 100%); }
+        .segment-red-lost { background: linear-gradient(180deg, #8a0a4a 0%, #aa1a6a 100%); }
+
+        .player-name-bar {
+            text-align: center;
+            color: #e8e8f0;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .player-score {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .progression-player {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(20, 20, 40, 0.4);
+            border-left: 4px solid #ff1493;
+            border-radius: 8px;
+        }
+
+        .progression-name {
+            font-weight: 800;
+            color: #e8e8f0;
+            margin-bottom: 8px;
+        }
+
+        .progression-line {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .progression-manche {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .manche-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid;
+            font-size: 1.2rem;
+            position: relative;
+            animation: iconSparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes iconSparkle {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 20, 147, 0.6); }
+        }
+
+        .manche-icon.blue-win {
+            background: linear-gradient(135deg, #3a86ff 0%, #5a9dff 100%);
+            border-color: #3a86ff;
+            animation: emojiBounce 0.6s ease-in-out infinite, iconSparkle 1.5s ease-in-out infinite;
+        }
+
+        .manche-icon.blue-lost {
+            background: linear-gradient(135deg, #d97a6a 0%, #e5937f 100%);
+            border-color: #8a4a3a;
+            animation: emojiShake 0.5s ease-in-out infinite;
+        }
+
+        .manche-icon.red-win {
+            background: linear-gradient(135deg, #ff1493 0%, #ff5cb3 100%);
+            border-color: #ff1493;
+            animation: emojiBounce 0.6s ease-in-out infinite, iconSparkle 1.5s ease-in-out infinite;
+        }
+
+        .manche-icon.red-lost {
+            background: linear-gradient(135deg, #d97a6a 0%, #e5937f 100%);
+            border-color: #8a4a3a;
+            animation: emojiShake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes emojiBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes emojiShake {
+            0%, 100% { transform: translateX(0px) scale(1); }
+            25% { transform: translateX(-3px) scale(1); }
+            75% { transform: translateX(3px) scale(1); }
+            50% { transform: translateX(0px) scale(1.1); }
+        }
+
+        .manche-number {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 20, 40, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .summary-table th {
+            background: rgba(255, 20, 147, 0.15);
+            color: #ff1493;
+            padding: 12px;
+            text-align: left;
+            border: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .summary-table td {
+            padding: 12px;
+            border: none;
+            border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+            color: #d8ccbc;
+        }
+
+        .summary-table tr:hover {
+            background: rgba(255, 20, 147, 0.1);
+        }
+
+        .btn-end {
+            background: transparent;
+            border-color: rgba(255, 20, 147, 0.5);
+            color: #ff1493;
+        }
+
+        .btn-end:hover {
+            background: rgba(255, 20, 147, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="border-frame">
+        <div class="container">
+            <header>
+                <div class="logo">⏰ TimeBomb 💣</div>
+            </header>
+
+            <!-- SETUP -->
+            <div id="setupScreen" class="screen active">
+                <div id="savedGameAlert" style="background: linear-gradient(135deg, rgba(255, 20, 147, 0.15) 0%, rgba(0, 255, 200, 0.1) 100%); border: 2px solid #ff1493; padding: 25px; margin-bottom: 25px; border-radius: 12px; display: none; box-shadow: 0 0 50px rgba(255, 20, 147, 0.3), 0 0 100px rgba(0, 255, 200, 0.2); backdrop-filter: blur(10px); position: relative;">
+                    <div style="color: #ff1493; font-weight: 900; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; font-family: 'Inter', sans-serif; animation: titleSparkle 1.5s ease-in-out infinite;">
+                        ⚡ REPRENDRE LA PARTIE ⚡
+                    </div>
+                    
+                    <div style="background: rgba(20, 20, 40, 0.4); padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff1493; position: relative;">
+                        <div id="savedGameDetails" style="color: #e8e8f0; font-size: 0.95rem; line-height: 2; font-weight: 500;"></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <button onclick="continueSavedGame()" style="background: linear-gradient(135deg, #ff1493 0%, #00ffc8 100%); color: #fff; border: none; padding: 12px 20px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; box-shadow: 0 0 40px rgba(255, 20, 147, 0.6), 0 0 80px rgba(0, 255, 200, 0.4); text-transform: uppercase; font-size: 0.9rem; animation: btnGlow 2s ease-in-out infinite;" onmouseover="this.style.boxShadow='0 0 60px rgba(255, 20, 147, 0.9), 0 0 120px rgba(0, 255, 200, 0.7)'; this.style.transform='translateY(-3px)';" onmouseout="this.style.boxShadow='0 0 40px rgba(255, 20, 147, 0.6), 0 0 80px rgba(0, 255, 200, 0.4)'; this.style.transform='translateY(0)';">↻ CONTINUER</button>
+                        <button onclick="clearSavedGame()" style="background: transparent; color: #ff1493; border: 2px solid #ff1493; padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; text-transform: uppercase; font-size: 0.9rem;" onmouseover="this.style.background='rgba(255, 20, 147, 0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 30px rgba(255, 20, 147, 0.6)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">NOUVEAU</button>
+                    </div>
+                </div>
+
+                <div class="setup-section">
+                    <div class="section-title">👥 Ajoute les Joueurs</div>
+                    <div id="playersInput"></div>
+                    <button class="btn-add-player" onclick="addPlayer()">+ Ajouter un Joueur</button>
+                </div>
+
+                <div class="setup-section">
+                    <div class="section-title">📋 Tableau de Mise en Place</div>
+                    <table class="setup-table">
+                        <thead><tr><th>Joueurs</th><th>🎴</th><th>⚡</th><th>💣</th></tr></thead>
+                        <tbody id="setupTableBody">
+                            <tr><td>4</td><td>15</td><td>4</td><td>1</td></tr>
+                            <tr><td>5</td><td>19</td><td>5</td><td>1</td></tr>
+                            <tr><td>6</td><td>23</td><td>6</td><td>1</td></tr>
+                            <tr><td>7</td><td>27</td><td>7</td><td>1</td></tr>
+                            <tr><td>8</td><td>31</td><td>8</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="btnStart" class="btn-start" onclick="startGame()">🚀 Démarrer</button>
+            </div>
+
+            <!-- GAME -->
+            <div id="gameScreen" class="screen">
+                <div class="game-header">
+                    <div style="color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Manche</div>
+                    <div class="manche-counter" id="mancheDisplay">1</div>
+                </div>
+                <button class="turn-button" onclick="endTurn()">⏱️ Fin de Manche</button>
+            </div>
+
+            <!-- END TURN -->
+            <div id="endTurnScreen" class="screen">
+                <div class="game-header">
+                    <div style="color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Équipes</div>
+                    <div class="manche-counter" id="mancheEndDisplay">1</div>
+                </div>
+
+                <div class="end-manche-section">
+                    <div id="teamAssignment"></div>
+                </div>
+
+                <div class="winner-section">
+                    <h3 style="color: #888; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">🎭 Gagnant?</h3>
+                    <div class="winner-buttons">
+                        <button class="btn-winner blue" onclick="setWinner('blue')">🔵 Sherlock</button>
+                        <button class="btn-winner red" onclick="setWinner('red')">🔴 Moriarty</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div id="statsScreen" class="screen">
+                <div class="stats-section">
+                    <h2 style="margin-bottom: 25px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px;">📊 Histogramme</h2>
+                    <div class="histogram-container" id="histogram"></div>
+
+                    <h2 style="margin-top: 40px; margin-bottom: 25px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px;">📈 Progression</h2>
+                    <div id="progressionChart"></div>
+
+                    <h2 style="margin-top: 40px; margin-bottom: 25px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px;">📋 Résumé des Manches</h2>
+                    <div id="manchesSummary"></div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="btn-action" id="continueBtn" onclick="nextManche()">➜ Manche Suivante</button>
+                    <button class="btn-action btn-end" id="endBtn" onclick="endGame()">Fin du Jeu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            players: [],
+            currentManche: 1,
+            teamAssignment: {},
+            mancheHistory: []
+        };
+
+        function saveGameData() {
+            localStorage.setItem('timebombGameState', JSON.stringify(gameState));
+        }
+
+        function loadGameData() {
+            const saved = localStorage.getItem('timebombGameState');
+            if (saved) gameState = JSON.parse(saved);
+        }
+
+        function addPlayer() {
+            const container = document.getElementById('playersInput');
+            const div = document.createElement('div');
+            div.className = 'player-input-group';
+            div.innerHTML = `
+                <input type="text" placeholder="Nom du joueur" class="player-input">
+                <button class="btn-remove" onclick="removePlayer(this)">✕</button>
+            `;
+            container.appendChild(div);
+            div.querySelector('input').focus();
+            updateTableHighlight();
+            updateButtonVisibility();
+        }
+
+        function removePlayer(btn) {
+            btn.parentElement.remove();
+            updateTableHighlight();
+            updateButtonVisibility();
+        }
+
+        function updateTableHighlight() {
+            const playerCount = document.querySelectorAll('.player-input').length;
+            document.querySelectorAll('#setupTableBody tr').forEach(row => {
+                row.classList.remove('highlight');
+                if (parseInt(row.cells[0].textContent) === playerCount) {
+                    row.classList.add('highlight');
+                }
+            });
+        }
+
+        function updateButtonVisibility() {
+            const playerCount = document.querySelectorAll('.player-input').length;
+            document.getElementById('btnStart').classList.toggle('visible', playerCount >= 4 && playerCount <= 8);
+        }
+
+        function startGame() {
+            const inputs = document.querySelectorAll('.player-input');
+            gameState.players = Array.from(inputs)
+                .map(i => i.value.trim())
+                .filter(n => n.length > 0);
+
+            if (gameState.players.length < 4) {
+                alert('Minimum 4 joueurs!');
+                return;
+            }
+
+            gameState.currentManche = 1;
+            gameState.mancheHistory = [];
+            gameState.teamAssignment = {};
+            gameState.players.forEach(p => {
+                gameState.teamAssignment[p] = null;
+            });
+
+            document.getElementById('mancheDisplay').textContent = gameState.currentManche;
+            switchScreen('gameScreen');
+            saveGameData();
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function endTurn() {
+            document.getElementById('mancheEndDisplay').textContent = gameState.currentManche;
+            renderTeamAssignment();
+            switchScreen('endTurnScreen');
+        }
+
+        function renderTeamAssignment() {
+            const container = document.getElementById('teamAssignment');
+            container.innerHTML = '';
+            gameState.players.forEach(player => {
+                const selected = gameState.teamAssignment[player];
+                const div = document.createElement('div');
+                div.className = 'team-selector';
+                div.innerHTML = `
+                    <label>${player}</label>
+                    <div class="team-toggle">
+                        <button class="team-btn blue ${selected === 'blue' ? 'active' : ''}" onclick="assignTeam('${player}', 'blue')">🔵</button>
+                        <button class="team-btn red ${selected === 'red' ? 'active' : ''}" onclick="assignTeam('${player}', 'red')">🔴</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function assignTeam(player, team) {
+            gameState.teamAssignment[player] = team;
+            renderTeamAssignment();
+        }
+
+        function setWinner(team) {
+            const allAssigned = gameState.players.every(p => gameState.teamAssignment[p]);
+            if (!allAssigned) {
+                alert('Tous les joueurs doivent avoir une équipe!');
+                return;
+            }
+
+            gameState.mancheHistory.push({
+                manche: gameState.currentManche,
+                assignments: {...gameState.teamAssignment},
+                winner: team
+            });
+
+            renderStats();
+            switchScreen('statsScreen');
+            saveGameData();
+
+            if (gameState.currentManche >= 4) {
+                document.getElementById('continueBtn').style.display = 'none';
+            }
+        }
+
+        function renderStats() {
+            const playerStats = {};
+            gameState.players.forEach(p => {
+                playerStats[p] = [];
+            });
+
+            gameState.mancheHistory.forEach(round => {
+                gameState.players.forEach(p => {
+                    const team = round.assignments[p];
+                    const won = round.winner === team;
+                    playerStats[p].push({team, won, manche: round.manche});
+                });
+            });
+
+            renderHistogram(playerStats);
+            renderProgression(playerStats);
+            renderManchesSummary();
+        }
+
+        function renderHistogram(playerStats) {
+            const histogram = document.getElementById('histogram');
+            histogram.innerHTML = '';
+
+            gameState.players.forEach(player => {
+                const stats = playerStats[player];
+                let blueWin = 0, blueLost = 0, redWin = 0, redLost = 0, totalWins = 0;
+
+                stats.forEach(s => {
+                    if (s.team === 'blue') {
+                        if (s.won) { blueWin++; totalWins++; }
+                        else blueLost++;
+                    } else if (s.team === 'red') {
+                        if (s.won) { redWin++; totalWins++; }
+                        else redLost++;
+                    }
+                });
+
+                const total = blueWin + blueLost + redWin + redLost;
+
+                let bar = '<div class="bar-vertical">';
+                if (blueWin > 0) bar += `<div class="bar-segment segment-blue-win" style="flex: ${blueWin};">${blueWin}</div>`;
+                if (blueLost > 0) bar += `<div class="bar-segment segment-blue-lost" style="flex: ${blueLost};">${blueLost}</div>`;
+                if (redWin > 0) bar += `<div class="bar-segment segment-red-win" style="flex: ${redWin};">${redWin}</div>`;
+                if (redLost > 0) bar += `<div class="bar-segment segment-red-lost" style="flex: ${redLost};">${redLost}</div>`;
+                bar += '</div>';
+
+                histogram.innerHTML += `
+                    <div class="histogram-bar">
+                        ${bar}
+                        <div class="player-name-bar">
+                            <div>${player}</div>
+                            <div class="player-score">${totalWins}/${total}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderProgression(playerStats) {
+            const progression = document.getElementById('progressionChart');
+            progression.innerHTML = '';
+
+            gameState.players.forEach(player => {
+                const stats = playerStats[player];
+                
+                let totalWins = 0;
+                stats.forEach(s => {
+                    if (s.won) totalWins++;
+                });
+                
+                const rankAbove = gameState.players.filter(p => {
+                    let wins = 0;
+                    playerStats[p].forEach(s => { if (s.won) wins++; });
+                    return wins > totalWins;
+                }).length;
+                const rank = rankAbove + 1;
+                
+                const ranks = ['🥇 1er', '🥈 2ème', '🥉 3ème', '4ème', '5ème', '6ème', '7ème', '8ème'];
+                const rankLabel = ranks[rank - 1] || rank + 'ème';
+
+                let html = `<div class="progression-player">
+                    <div class="progression-name">${player} <span style="color: #888; font-size: 0.9rem;">- ${rankLabel}</span></div>
+                    <div class="progression-line">`;
+
+                stats.forEach((s) => {
+                    const roundWinner = gameState.mancheHistory.find(r => r.manche === s.manche).winner;
+                    const playerWon = roundWinner === s.team;
+                    
+                    let emoji, type;
+                    
+                    if (playerWon) {
+                        if (s.team === 'blue') {
+                            emoji = '✂️';
+                            type = 'blue-win';
+                        } else {
+                            emoji = '💣';
+                            type = 'red-win';
+                        }
+                    } else {
+                        emoji = '😭';
+                        type = s.team === 'blue' ? 'blue-lost' : 'red-lost';
+                    }
+
+                    html += `<div class="progression-manche">
+                        <div class="manche-icon ${type}">${emoji}</div>
+                        <div class="manche-number">M${s.manche}</div>
+                    </div>`;
+                });
+
+                html += '</div></div>';
+                progression.innerHTML += html;
+            });
+        }
+
+        function renderManchesSummary() {
+            const summary = document.getElementById('manchesSummary');
+            let html = '<table class="summary-table"><thead><tr><th>Manche</th><th>🔵</th><th>🔴</th><th>Gagnant</th></tr></thead><tbody>';
+
+            gameState.mancheHistory.forEach(round => {
+                const blue = gameState.players.filter(p => round.assignments[p] === 'blue').join(', ');
+                const red = gameState.players.filter(p => round.assignments[p] === 'red').join(', ');
+                const winner = round.winner === 'blue' ? '🔵' : '🔴';
+                const bgColor = round.winner === 'blue' ? 'rgba(58, 134, 255, 0.15)' : 'rgba(255, 20, 147, 0.15)';
+
+                html += `<tr style="background: ${bgColor};"><td>M${round.manche}</td><td>${blue}</td><td>${red}</td><td>${winner}</td></tr>`;
+            });
+
+            html += '</tbody></table>';
+            summary.innerHTML = html;
+        }
+
+        function nextManche() {
+            gameState.currentManche++;
+            gameState.teamAssignment = {};
+            gameState.players.forEach(p => {
+                gameState.teamAssignment[p] = null;
+            });
+            document.getElementById('mancheDisplay').textContent = gameState.currentManche;
+            switchScreen('gameScreen');
+            saveGameData();
+        }
+
+        function endGame() {
+            alert('Partie Terminée!');
+            resetGame();
+        }
+
+        function resetGame() {
+            gameState = {players: [], currentManche: 1, teamAssignment: {}, mancheHistory: []};
+            localStorage.removeItem('timebombGameState');
+            location.reload();
+        }
+
+        function continueSavedGame() {
+            location.reload();
+        }
+
+        function clearSavedGame() {
+            if (confirm('Êtes-vous sûr? Cela supprimera la partie sauvegardée.')) {
+                localStorage.removeItem('timebombGameState');
+                document.getElementById('savedGameAlert').style.display = 'none';
+                document.getElementById('savedGameDetails').innerHTML = '';
+                gameState = {players: [], currentManche: 1, teamAssignment: {}, mancheHistory: []};
+                document.getElementById('playersInput').innerHTML = '';
+                updateButtonVisibility();
+            }
+        }
+
+        function checkSavedGame() {
+            const saved = localStorage.getItem('timebombGameState');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.players && data.players.length > 0) {
+                    document.getElementById('savedGameAlert').style.display = 'block';
+                    
+                    let details = `
+                        <div style="margin-bottom: 10px;">👥 <strong style="color: #ff1493;">${data.players.length} JOUEURS:</strong> ${data.players.join(' • ')}</div>
+                        <div style="margin-bottom: 10px;">📍 <strong style="color: #ff1493;">PROGRESSION:</strong> Manche ${data.currentManche}/4</div>
+                        <div style="margin-bottom: 10px;">🎮 <strong style="color: #ff1493;">MANCHES JOUÉES:</strong> ${data.mancheHistory.length}</div>
+                    `;
+                    
+                    if (data.mancheHistory.length > 0) {
+                        const blueWins = data.mancheHistory.filter(m => m.winner === 'blue').length;
+                        const redWins = data.mancheHistory.filter(m => m.winner === 'red').length;
+                        details += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #ff1493; display: flex; justify-content: space-around; gap: 20px;">
+                            <div><span style="color: #ff1493; font-weight: bold;">🔵 SHERLOCK:</span> <strong style="color: #3a86ff; font-size: 1.1rem;">${blueWins}V</strong></div>
+                            <div><span style="color: #ff1493; font-weight: bold;">🔴 MORIARTY:</span> <strong style="color: #ff1493; font-size: 1.1rem;">${redWins}V</strong></div>
+                        </div>`;
+                    }
+                    
+                    document.getElementById('savedGameDetails').innerHTML = details;
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadGameData();
+            updateButtonVisibility();
+            checkSavedGame();
+            
+            if (gameState.players.length > 0) {
+                const allAssigned = gameState.players.every(p => gameState.teamAssignment[p] !== null);
+                
+                if (allAssigned && gameState.mancheHistory.length > 0) {
+                    renderStats();
+                    switchScreen('statsScreen');
+                } else if (!allAssigned && gameState.mancheHistory.length > 0) {
+                    switchScreen('gameScreen');
+                    document.getElementById('mancheDisplay').textContent = gameState.currentManche;
+                } else {
+                    switchScreen('gameScreen');
+                    document.getElementById('mancheDisplay').textContent = gameState.currentManche;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
