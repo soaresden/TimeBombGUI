@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeBomb - Assistant de Jeu</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@600&family=Orbitron:wght@400;700;900&family=Audiowide&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&family=Fredoka:wght@600;700&display=swap');
 
         * {
             margin: 0;
@@ -15,9 +15,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a2d3a 50%, #0a0a1a 100%);
+            background: linear-gradient(135deg, var(--bg-primary, #0a0a1a) 0%, var(--bg-secondary, #1a2d3a) 50%, var(--bg-primary, #0a0a1a) 100%);
             min-height: 100vh;
-            color: #D4AF37;
+            color: #f5f5f0;
             padding: 20px;
             overflow-x: hidden;
             position: relative;
@@ -57,6 +57,25 @@
             pointer-events: none;
             animation: sparkleRain 15s linear infinite;
             z-index: 0;
+        }
+
+        /* Cacher les paillettes or en retrowave et les remplacer */
+        body.theme-retrowave::before {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            z-index: -999 !important;
+        }
+
+        /* Cacher les paillettes or pour les autres thèmes aussi */
+        body.theme-goldBomb::before,
+        body.theme-business::before,
+        body.theme-cyberpunk::before,
+        body.theme-random::before {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            z-index: -999 !important;
         }
 
         @keyframes sparkleRain {
@@ -129,11 +148,11 @@
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #D4AF37; font-weight: 500;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #D4AF37;
             text-transform: uppercase;
             display: inline-block;
             position: relative;
@@ -143,6 +162,41 @@
                 0 0 20px rgba(42, 90, 90, 0.5),
                 0 0 30px rgba(255, 255, 255, 0.4);
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(212, 175, 55, 0.5));
+        }
+
+        /* Polices par thème */
+        body.theme-goldBomb .logo {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        body.theme-retrowave .logo {
+            font-family: 'Audiowide', cursive;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        body.theme-business .logo {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        body.theme-cyberpunk .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        body.theme-random .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .logo::before,
@@ -233,7 +287,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 1.5rem;
             font-weight: 900;
-            color: #D4AF37; font-weight: 500;
+            color: #f5f5f0;
             margin-bottom: 20px;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -242,9 +296,7 @@
             animation: titleSparkle 1.5s ease-in-out infinite;
             text-shadow: 
                 0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(42, 90, 90, 0.5),
-                0 0 30px rgba(255, 255, 255, 0.4),
-                0 0 40px rgba(212, 175, 55, 0.3);
+                0 0 20px rgba(212, 175, 55, 0.5);
         }
 
         .section-title::before,
@@ -975,15 +1027,21 @@
             --team-blue-dark: rgba(58, 134, 255, 0.5);
             --team-red: rgba(220, 20, 60, 0.9);
             --team-red-dark: rgba(220, 20, 60, 0.5);
+            animation: goldenPulse 4s infinite;
+        }
+
+        @keyframes goldenPulse {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+            50% { filter: brightness(1.1) drop-shadow(0 0 30px rgba(212, 175, 55, 0.8)); }
         }
 
         /* THÈME 2: RETROWAVE (Bleu/Rose Glam) */
         body.theme-retrowave {
             --primary-color: #FF10F0;
             --secondary-color: #00F0FF;
-            --accent-color: #FFFF00;
-            --bg-primary: #0a0510;
-            --bg-secondary: #1a0530;
+            --accent-color: #B200FF;
+            --bg-primary: #050415;
+            --bg-secondary: #0a0a2a;
             --team-blue: rgba(0, 240, 255, 0.9);
             --team-blue-dark: rgba(0, 240, 255, 0.5);
             --team-red: rgba(255, 16, 240, 0.9);
@@ -1001,6 +1059,12 @@
             --team-blue-dark: rgba(70, 130, 180, 0.5);
             --team-red: rgba(139, 69, 19, 0.9);
             --team-red-dark: rgba(139, 69, 19, 0.5);
+            animation: subtleGlow 6s infinite ease-in-out;
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(1.05) saturate(1.1); }
         }
 
         /* THÈME 4: CYBERPUNK (Néon Futuriste) */
@@ -1008,18 +1072,36 @@
             --primary-color: #FF006E;
             --secondary-color: #00D9FF;
             --accent-color: #B300FF;
-            --bg-primary: #0a0010;
-            --bg-secondary: #1a0030;
+            --bg-primary: #050008;
+            --bg-secondary: #0a0015;
             --team-blue: rgba(0, 217, 255, 0.9);
             --team-blue-dark: rgba(0, 217, 255, 0.5);
             --team-red: rgba(255, 0, 110, 0.9);
             --team-red-dark: rgba(255, 0, 110, 0.5);
         }
 
-        /* Appliquer les variables à tous les thèmes */
-        body {
-            background: linear-gradient(135deg, var(--bg-primary, #0a0a1a) 0%, var(--bg-secondary, #1a2d3a) 50%, var(--bg-primary, #0a0a1a) 100%);
+        /* THÈME 5: ALÉATOIRE (Couleurs générées au hasard) */
+        body.theme-random {
+            --primary-color: var(--random-color1, #FF10F0);
+            --secondary-color: var(--random-color2, #00F0FF);
+            --accent-color: var(--random-color3, #FFFF00);
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --team-blue: rgba(0, 200, 255, 0.9);
+            --team-blue-dark: rgba(0, 200, 255, 0.5);
+            --team-red: rgba(255, 50, 150, 0.9);
+            --team-red-dark: rgba(255, 50, 150, 0.5);
+            animation: chromaShift 5s infinite;
         }
+
+        @keyframes chromaShift {
+            0%, 100% { filter: hue-rotate(0deg) contrast(1); }
+            25% { filter: hue-rotate(30deg) contrast(1.1); }
+            50% { filter: hue-rotate(-30deg) contrast(0.95); }
+            75% { filter: hue-rotate(15deg) contrast(1.05); }
+        }
+
+        /* Appliquer les variables à tous les thèmes */
 
         body .section-title,
         body .logo,
@@ -1035,59 +1117,68 @@
         
         /* RETROWAVE - Paillettes partout */
         body.theme-retrowave {
-            background-image: 
+            background: 
+                linear-gradient(135deg, #050415 0%, #0a0a2a 50%, #050415 100%),
                 radial-gradient(1px 1px at 5% 10%, #FF10F0, rgba(255,16,240,0)),
                 radial-gradient(1px 1px at 15% 25%, #00F0FF, rgba(0,240,255,0)),
-                radial-gradient(2px 2px at 25% 5%, #FFFF00, rgba(255,255,0,0)),
+                radial-gradient(2px 2px at 25% 5%, #B200FF, rgba(178,0,255,0)),
                 radial-gradient(1px 1px at 35% 45%, #FF10F0, rgba(255,16,240,0)),
                 radial-gradient(1px 1px at 45% 15%, #00F0FF, rgba(0,240,255,0)),
-                radial-gradient(2px 2px at 55% 60%, #FFFF00, rgba(255,255,0,0)),
+                radial-gradient(2px 2px at 55% 60%, #B200FF, rgba(178,0,255,0)),
                 radial-gradient(1px 1px at 65% 30%, #FF10F0, rgba(255,16,240,0)),
                 radial-gradient(1px 1px at 75% 70%, #00F0FF, rgba(0,240,255,0)),
-                radial-gradient(2px 2px at 85% 40%, #FFFF00, rgba(255,255,0,0)),
-                radial-gradient(1px 1px at 95% 80%, #FF10F0, rgba(255,16,240,0));
+                radial-gradient(2px 2px at 85% 40%, #B200FF, rgba(178,0,255,0)),
+                radial-gradient(1px 1px at 95% 80%, #FF10F0, rgba(255,16,240,0)) !important;
             animation: sparkleRain 10s linear infinite;
         }
 
-        /* BUSINESS - Sobre et élégant */
-        body.theme-business {
-            background: linear-gradient(135deg, #1a1410 0%, #2d2520 50%, #1a1410 100%);
+        /* CYBERPUNK - Effet néon stroboscopique */
+        body.theme-cyberpunk {
+            background: linear-gradient(135deg, #050008 0%, #0a0015 50%, #050008 100%) !important;
+            animation: neonFlicker 3s infinite;
         }
 
-        /* CYBERPUNK - Paillettes néon */
-        body.theme-cyberpunk {
-            background-image: 
-                radial-gradient(1px 1px at 5% 10%, #FF006E, rgba(255,0,110,0)),
-                radial-gradient(1px 1px at 15% 25%, #00D9FF, rgba(0,217,255,0)),
-                radial-gradient(2px 2px at 25% 5%, #B300FF, rgba(179,0,255,0)),
-                radial-gradient(1px 1px at 35% 45%, #FF006E, rgba(255,0,110,0)),
-                radial-gradient(1px 1px at 45% 15%, #00D9FF, rgba(0,217,255,0)),
-                radial-gradient(2px 2px at 55% 60%, #B300FF, rgba(179,0,255,0)),
-                radial-gradient(1px 1px at 65% 30%, #FF006E, rgba(255,0,110,0)),
-                radial-gradient(1px 1px at 75% 70%, #00D9FF, rgba(0,217,255,0)),
-                radial-gradient(2px 2px at 85% 40%, #B300FF, rgba(179,0,255,0)),
-                radial-gradient(1px 1px at 95% 80%, #FF006E, rgba(255,0,110,0));
-            animation: sparkleRain 8s linear infinite;
+        @keyframes neonFlicker {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            20% { filter: brightness(1.1) hue-rotate(10deg); }
+            40% { filter: brightness(0.95) hue-rotate(-5deg); }
+            60% { filter: brightness(1.05) hue-rotate(5deg); }
+            80% { filter: brightness(1.15) hue-rotate(15deg); }
         }
 
         /* Glow des titres par thème */
         body.theme-goldBomb .section-title { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(255, 68, 68, 0.4); }
-        body.theme-retrowave .section-title { text-shadow: 0 0 20px rgba(255, 16, 240, 0.8), 0 0 40px rgba(0, 240, 255, 0.4); }
-        body.theme-business .section-title { text-shadow: 0 0 15px rgba(192, 192, 192, 0.5); }
-        body.theme-cyberpunk .section-title { text-shadow: 0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(0, 217, 255, 0.4); }
+        body.theme-retrowave .section-title { text-shadow: 0 0 25px rgba(255, 16, 240, 0.9), 0 0 50px rgba(0, 240, 255, 0.6), 0 0 75px rgba(255, 255, 0, 0.3); }
+        body.theme-business .section-title { text-shadow: 0 0 20px rgba(192, 192, 192, 0.8); }
+        body.theme-cyberpunk .section-title { text-shadow: 0 0 25px rgba(255, 0, 110, 0.9), 0 0 50px rgba(0, 217, 255, 0.6), 0 0 75px rgba(179, 0, 255, 0.3); }
 
-        /* Bordures par thème */
-        body.theme-goldBomb .border-frame { border-color: rgba(212, 175, 55, 0.3); }
-        body.theme-retrowave .border-frame { border-color: rgba(255, 16, 240, 0.3); }
-        body.theme-business .border-frame { border-color: rgba(192, 192, 192, 0.3); }
-        body.theme-cyberpunk .border-frame { border-color: rgba(255, 0, 110, 0.3); }
+        /* Bordures par thème avec glow */
+        body.theme-goldBomb .border-frame { 
+            border-color: rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 0 0 120px rgba(212, 175, 55, 0.5), 0 0 120px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 40px rgba(212, 175, 55, 0.15) !important;
+        }
+        
+        body.theme-retrowave .border-frame { 
+            border-color: rgba(255, 16, 240, 0.5) !important;
+            box-shadow: none !important;
+        }
+        
+        body.theme-business .border-frame { 
+            border-color: rgba(192, 192, 192, 0.3) !important;
+            box-shadow: 0 0 120px rgba(192, 192, 192, 0.4), 0 0 120px rgba(192, 192, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 40px rgba(192, 192, 192, 0.1) !important;
+        }
+        
+        body.theme-cyberpunk .border-frame { 
+            border-color: rgba(255, 0, 110, 0.3) !important;
+            box-shadow: 0 0 120px rgba(255, 0, 110, 0.5), 0 0 120px rgba(0, 217, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 40px rgba(255, 0, 110, 0.15) !important;
+        }
+        
+        body.theme-random .border-frame { 
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 120px var(--random-color1), 0 0 120px var(--random-color2), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 40px var(--random-color1) !important;
+        }
 
         /* Boutons par thème */
-        body.theme-retrowave .btn-action, 
-        body.theme-retrowave .btn-add-player, 
-        body.theme-retrowave .turn-button { 
-            background: linear-gradient(135deg, #FF10F0 0%, #00F0FF 100%);
-        }
 
         body.theme-business .btn-action, 
         body.theme-business .btn-add-player, 
@@ -1100,6 +1191,17 @@
         body.theme-cyberpunk .btn-add-player, 
         body.theme-cyberpunk .turn-button { 
             background: linear-gradient(135deg, #FF006E 0%, #00D9FF 100%);
+        }
+
+        /* ALÉATOIRE - Couleurs générées */
+body.theme-random .section-title { 
+            text-shadow: 0 0 20px var(--random-color1), 0 0 40px var(--random-color2); 
+        }
+
+        body.theme-random .btn-action, 
+        body.theme-random .btn-add-player, 
+        body.theme-random .turn-button { 
+            background: linear-gradient(135deg, var(--random-color1) 0%, var(--random-color2) 100%);
         }
 
         /* MODE PAILLETTES (défaut) */
@@ -1208,38 +1310,187 @@
             animation: dangerPulse 2s ease-in-out infinite !important;
         }
 
-        .border-frame {
-            border-color: rgba(212, 175, 55, 0.3) !important;
-            box-shadow: 
-                0 0 60px rgba(212, 175, 55, 0.5),
-                0 0 120px rgba(212, 175, 55, 0.3),
-                inset 0 0 40px rgba(212, 175, 55, 0.1) !important;
-        }
 
         .setup-section {
             border-left-color: #D4AF37 !important;
         }
 
         .btn-action, .btn-add-player, .turn-button {
-            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%) !important;
-            color: #0a0a1a !important;
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 80px rgba(212, 175, 55, 0.3) !important;
+            color: #fff !important;
             font-weight: 900 !important;
         }
 
         .btn-start {
+            font-weight: 900 !important;
+        }
+
+        /* Boutons par thème */
+        body.theme-goldBomb .btn-action,
+        body.theme-goldBomb .btn-add-player,
+        body.theme-goldBomb .turn-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%) !important;
+            color: #0a0a1a !important;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6) !important;
+        }
+
+        body.theme-goldBomb .btn-start {
             background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%) !important;
+            color: #0a0a1a !important;
             box-shadow: 0 0 80px rgba(212, 175, 55, 0.8), 0 0 160px rgba(212, 175, 55, 0.5) !important;
         }
 
-        #savedGameAlert {
-            border-color: rgba(212, 175, 55, 0.5) !important;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4), 0 0 100px rgba(212, 175, 55, 0.2) !important;
+        body.theme-retrowave .btn-action,
+        body.theme-retrowave .btn-add-player,
+        body.theme-retrowave .turn-button {
+            background: linear-gradient(135deg, #FF10F0 0%, #00F0FF 100%) !important;
+            box-shadow: 0 0 40px rgba(255, 16, 240, 0.6), 0 0 80px rgba(0, 240, 255, 0.3) !important;
+        }
+
+        body.theme-retrowave .btn-start {
+            background: linear-gradient(135deg, #00F0FF 0%, #FF10F0 100%) !important;
+            box-shadow: 0 0 80px rgba(255, 16, 240, 0.8), 0 0 160px rgba(0, 240, 255, 0.5) !important;
+        }
+
+        body.theme-business .btn-action,
+        body.theme-business .btn-add-player,
+        body.theme-business .turn-button {
+            background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%) !important;
+            color: #1a1410 !important;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.4) !important;
+        }
+
+        body.theme-business .btn-start {
+            background: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%) !important;
+            color: #1a1410 !important;
+            box-shadow: 0 0 40px rgba(192, 192, 192, 0.6) !important;
+        }
+
+        body.theme-cyberpunk .btn-action,
+        body.theme-cyberpunk .btn-add-player,
+        body.theme-cyberpunk .turn-button {
+            background: linear-gradient(135deg, #FF006E 0%, #00D9FF 100%) !important;
+            box-shadow: 0 0 40px rgba(255, 0, 110, 0.6), 0 0 80px rgba(0, 217, 255, 0.3) !important;
+        }
+
+        body.theme-cyberpunk .btn-start {
+            background: linear-gradient(135deg, #00D9FF 0%, #FF006E 100%) !important;
+            box-shadow: 0 0 80px rgba(255, 0, 110, 0.8), 0 0 160px rgba(0, 217, 255, 0.5) !important;
+        }
+
+        body.theme-random .btn-action,
+        body.theme-random .btn-add-player,
+        body.theme-random .turn-button {
+            background: linear-gradient(135deg, var(--random-color1) 0%, var(--random-color2) 100%) !important;
+            box-shadow: 0 0 40px var(--random-color1), 0 0 80px var(--random-color2) !important;
+        }
+
+        body.theme-random .btn-start {
+            background: linear-gradient(135deg, var(--random-color2) 0%, var(--random-color1) 100%) !important;
+            box-shadow: 0 0 80px var(--random-color1), 0 0 160px var(--random-color2) !important;
+        }
+        /* SAVED GAME STYLES */
+        .saved-game-disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .saved-game-disabled button {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .saved-game-enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .saved-game-enabled button {
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE DESIGN MOBILE ===== */
+        @media (max-width: 768px) {
+            header {
+                margin-bottom: 20px;
+            }
+
+            .border-frame {
+                padding: 15px 20px;
+                border-radius: 12px;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            #themeSelector {
+                padding: 8px 12px !important;
+                font-size: 0.75rem !important;
+                right: 10px !important;
+                top: 10px !important;
+            }
+
+            .setup-section,
+            .player-list,
+            .stats-section {
+                padding: 15px;
+            }
+
+            .btn-action,
+            .btn-add-player,
+            .turn-button,
+            .btn-start {
+                padding: 10px 15px !important;
+                font-size: 0.9rem !important;
+            }
+
+            .manche-counter {
+                font-size: 2rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px !important;
+            }
+
+            header {
+                margin-bottom: 15px;
+            }
+
+            .border-frame {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
+                margin-bottom: 10px;
+            }
+
+            .section-title {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .btn-action,
+            .btn-add-player,
+            .turn-button,
+            .btn-start {
+                padding: 8px 12px !important;
+                font-size: 0.8rem !important;
+            }
+
+            input[type="text"] {
+                padding: 8px !important;
+                font-size: 0.9rem !important;
+            }
         }
     </style>
 </head>
 <body id="bodyContent">
-    <!-- BOUTON TOGGLE MODE -->
+
     <!-- SÉLECTEUR DE THÈME -->
     <div style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
         <select id="themeSelector" style="padding: 12px 18px; border: 2px solid #D4AF37; background: rgba(10, 10, 26, 0.95); color: #D4AF37; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; font-size: 0.9rem; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);" onchange="changeTheme(this.value)">
@@ -1254,7 +1505,7 @@
     <div class="border-frame">
         <div class="container">
             <header>
-                <div class="logo">⏰ TimeBomb 💣</div>
+                <div class="logo">⏰ TimeBomb Assistant 💣</div>
             </header>
 
             <!-- SETUP -->
@@ -1274,25 +1525,6 @@
                         <button onclick="clearSavedGame()" style="background: transparent; color: #D4AF37; border: 2px solid #D4AF37; padding: 10px 15px; cursor: pointer; border-radius: 8px; font-weight: 800; letter-spacing: 1px; transition: all 0.3s; text-transform: uppercase; font-size: 0.85rem;" onmouseover="this.style.background='rgba(212, 175, 55, 0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 30px rgba(42, 90, 90, 0.6)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">🗑️ SUPPRIMER</button>
                     </div>
                 </div>
-
-                <style>
-                    .saved-game-disabled {
-                        opacity: 0.4;
-                        pointer-events: none;
-                    }
-                    .saved-game-disabled button {
-                        cursor: not-allowed;
-                        opacity: 0.5;
-                    }
-                    .saved-game-enabled {
-                        opacity: 1;
-                        pointer-events: auto;
-                    }
-                    .saved-game-enabled button {
-                        cursor: pointer;
-                        opacity: 1;
-                    }
-                </style>
 
                 <div class="setup-section">
                     <div class="section-title">👥 Ajoute les Joueurs</div>
@@ -1425,7 +1657,113 @@
     </div>
 
     <script>
-        let gameState = {
+        // ===== GESTION DES THÈMES - DÉFINIR EN PREMIER =====
+        
+        function changeTheme(themeName) {
+            console.log('Changing theme to:', themeName);
+
+            // Vérifier que body existe
+            if (!document.body) {
+                console.warn('document.body not available, retrying in 50ms');
+                setTimeout(() => changeTheme(themeName), 50);
+                return;
+            }
+
+            // Si aléatoire, générer vraies couleurs aléatoires
+            if (themeName === 'random') {
+                generateRandomTheme();
+                return;
+            }
+
+            // Enlever tous les thèmes
+            document.body.classList.remove('theme-goldBomb', 'theme-retrowave', 'theme-business', 'theme-cyberpunk', 'theme-random');
+
+            // Ajouter le nouveau thème
+            document.body.classList.add('theme-' + themeName);
+
+            // Sauvegarder
+            localStorage.setItem('selectedTheme', themeName);
+            
+            // Mettre à jour le sélecteur si disponible
+            const themeSelector = document.getElementById('themeSelector');
+            if (themeSelector && themeSelector.value !== themeName) {
+                themeSelector.value = themeName;
+            }
+            
+            console.log('✅ Theme changed to:', themeName);
+        }
+
+        function generateRandomTheme() {
+            // Vérifier que body existe
+            if (!document.body) {
+                console.warn('document.body not available, retrying in 50ms');
+                setTimeout(generateRandomTheme, 50);
+                return;
+            }
+
+            // Générer 3 couleurs aléatoires VIVES
+            const hue1 = Math.floor(Math.random() * 360);
+            const hue2 = (hue1 + 120 + Math.random() * 60) % 360;
+            const hue3 = (hue1 + 240 + Math.random() * 60) % 360;
+
+            // Couleurs très saturées et brillantes
+            const color1 = `hsl(${hue1}, 100%, 55%)`;
+            const color2 = `hsl(${hue2}, 100%, 55%)`;
+            const color3 = `hsl(${hue3}, 100%, 55%)`;
+
+            console.log('Generated random colors:', color1, color2, color3);
+
+            // Appliquer le thème aléatoire
+            const root = document.documentElement;
+            root.style.setProperty('--random-color1', color1);
+            root.style.setProperty('--random-color2', color2);
+            root.style.setProperty('--random-color3', color3);
+
+            document.body.classList.remove('theme-goldBomb', 'theme-retrowave', 'theme-business', 'theme-cyberpunk');
+            document.body.classList.add('theme-random');
+
+            localStorage.setItem('selectedTheme', 'random');
+            console.log('✅ Random theme applied');
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'goldBomb';
+            console.log('Initializing theme:', savedTheme);
+
+            // Appliquer directement le thème sur le body
+            if (savedTheme === 'random') {
+                generateRandomTheme();
+            } else {
+                changeTheme(savedTheme);
+            }
+
+            // Attendre que themeSelector existe et le mettre à jour
+            const themeSelector = document.getElementById('themeSelector');
+            if (themeSelector) {
+                themeSelector.value = savedTheme === 'random' ? 'random' : savedTheme;
+                console.log('✅ themeSelector updated');
+            } else {
+                console.log('⚠️ themeSelector not available (will be set manually)');
+            }
+        }
+
+        // Helper function pour accès sécurisé à classList
+        function safeToggleClass(elementId, className, force) {
+            const el = document.getElementById(elementId);
+            if (el) el.classList.toggle(className, force);
+        }
+
+        function safeAddClass(elementId, className) {
+            const el = document.getElementById(elementId);
+            if (el) el.classList.add(className);
+        }
+
+        function safeRemoveClass(elementId, className) {
+            const el = document.getElementById(elementId);
+            if (el) el.classList.remove(className);
+        }
+
+        // ===== GAME STATE =====
             players: [],
             currentManche: 1,
             teamAssignment: {},
@@ -1473,7 +1811,7 @@
 
         function updateButtonVisibility() {
             const playerCount = document.querySelectorAll('.player-input').length;
-            document.getElementById('btnStart').classList.toggle('visible', playerCount >= 4 && playerCount <= 8);
+            safeToggleClass('btnStart', 'visible', playerCount >= 4 && playerCount <= 8);
         }
 
         function startGame() {
@@ -1501,7 +1839,8 @@
 
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
+            const screen = document.getElementById(screenId);
+            if (screen) screen.classList.add('active');
         }
 
         function endTurn() {
@@ -1815,7 +2154,7 @@
             
             // Afficher le modal
             const modal = document.getElementById('deleteConfirmModal');
-            modal.classList.add('modal-visible');
+            if (modal) modal.classList.add('modal-visible');
         }
 
         function confirmDeleteManche() {
@@ -1830,13 +2169,15 @@
             console.log('✅ Stats rendered and data saved');
             
             // Fermer le modal
-            document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
+            const modal = document.getElementById('deleteConfirmModal');
+            if (modal) modal.classList.remove('modal-visible');
         }
 
         function cancelDeleteManche() {
             console.log('User cancelled deletion');
             // Fermer le modal
-            document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
+            const modal = document.getElementById('deleteConfirmModal');
+            if (modal) modal.classList.remove('modal-visible');
         }
 
         function nextManche() {
@@ -1961,11 +2302,15 @@
             if (confirm('Êtes-vous sûr? Cela supprimera la partie sauvegardée.')) {
                 localStorage.removeItem('timebombGameState');
                 const alert = document.getElementById('savedGameAlert');
-                alert.classList.add('saved-game-disabled');
-                alert.classList.remove('saved-game-enabled');
-                document.getElementById('savedGameDetails').innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
+                if (alert) {
+                    alert.classList.add('saved-game-disabled');
+                    alert.classList.remove('saved-game-enabled');
+                }
+                const details = document.getElementById('savedGameDetails');
+                if (details) details.innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
                 gameState = {players: [], currentManche: 1, teamAssignment: {}, mancheHistory: []};
-                document.getElementById('playersInput').innerHTML = '';
+                const input = document.getElementById('playersInput');
+                if (input) input.innerHTML = '';
                 updateButtonVisibility();
             }
         }
@@ -1973,15 +2318,16 @@
         function checkSavedGame() {
             const saved = localStorage.getItem('timebombGameState');
             const alert = document.getElementById('savedGameAlert');
+            const details = document.getElementById('savedGameDetails');
             
-            if (saved) {
+            if (saved && alert && details) {
                 const data = JSON.parse(saved);
                 if (data.players && data.players.length > 0) {
                     // Partie sauvegardée trouvée
                     alert.classList.remove('saved-game-disabled');
                     alert.classList.add('saved-game-enabled');
                     
-                    let details = `
+                    let detailsHTML = `
                         <div style="margin-bottom: 10px;">👥 <strong style="color: #D4AF37;">${data.players.length} JOUEURS:</strong> ${data.players.join(' • ')}</div>
                         <div style="margin-bottom: 10px;">📍 <strong style="color: #D4AF37;">PROGRESSION:</strong> Manche ${data.currentManche}/4</div>
                         <div style="margin-bottom: 10px;">🎮 <strong style="color: #D4AF37;">MANCHES JOUÉES:</strong> ${data.mancheHistory.length}</div>
@@ -1990,21 +2336,23 @@
                     if (data.mancheHistory.length > 0) {
                         const blueWins = data.mancheHistory.filter(m => m.winner === 'blue').length;
                         const redWins = data.mancheHistory.filter(m => m.winner === 'red').length;
-                        details += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #D4AF37; display: flex; justify-content: space-around; gap: 20px;">
+                        detailsHTML += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #D4AF37; display: flex; justify-content: space-around; gap: 20px;">
                             <div><span style="color: #D4AF37; font-weight: 900; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); font-size: 1.1rem;">🔵 SHERLOCK:</span> <strong style="color: #D4AF37; font-size: 1.1rem;">${blueWins}V</strong></div>
                             <div><span style="color: #D4AF37; font-weight: 900; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); font-size: 1.1rem;">🔴 MORIARTY:</span> <strong style="color: #D4AF37; font-size: 1.1rem;">${redWins}V</strong></div>
                         </div>`;
                     }
                     
-                    document.getElementById('savedGameDetails').innerHTML = details;
+                    details.innerHTML = detailsHTML;
                     return;
                 }
             }
             
             // Aucune partie sauvegardée
-            alert.classList.add('saved-game-disabled');
-            alert.classList.remove('saved-game-enabled');
-            document.getElementById('savedGameDetails').innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
+            if (alert) {
+                alert.classList.add('saved-game-disabled');
+                alert.classList.remove('saved-game-enabled');
+            }
+            if (details) details.innerHTML = 'Aucune partie sauvegardée. Crée une nouvelle partie pour commencer!';
         }
 
         // ===== GESTION DES THÈMES =====
@@ -2016,36 +2364,6 @@
             cyberpunk: { name: '🤖 Cyberpunk (Futuriste)', label: 'cyberpunk' },
             random: { name: '🎲 Aléatoire', label: 'random' }
         };
-
-        function changeTheme(themeName) {
-            console.log('Changing theme to:', themeName);
-            
-            // Si aléatoire, choisir un thème au hasard
-            if (themeName === 'random') {
-                const themeKeys = Object.keys(themes).filter(k => k !== 'random');
-                themeName = themeKeys[Math.floor(Math.random() * themeKeys.length)];
-                console.log('Random theme selected:', themeName);
-                document.getElementById('themeSelector').value = themeName;
-            }
-            
-            // Enlever tous les thèmes
-            document.body.classList.remove('theme-goldBomb', 'theme-retrowave', 'theme-business', 'theme-cyberpunk');
-            
-            // Ajouter le nouveau thème
-            document.body.classList.add('theme-' + themeName);
-            
-            // Sauvegarder
-            localStorage.setItem('selectedTheme', themeName);
-            console.log('✅ Theme changed to:', themeName);
-        }
-
-        function initTheme() {
-            const savedTheme = localStorage.getItem('selectedTheme') || 'goldBomb';
-            console.log('Initializing theme:', savedTheme);
-            
-            document.getElementById('themeSelector').value = savedTheme;
-            changeTheme(savedTheme);
-        }
 
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
