@@ -1499,6 +1499,8 @@ body.theme-random .section-title {
             <option value="business">💼 Business (Marron/Argent)</option>
             <option value="cyberpunk">🤖 Cyberpunk (Futuriste)</option>
             <option value="random">🎲 Aléatoire</option>
+            <option value="">---</option>
+            <option value="clearCache">🗑️ Vider Cache</option>
         </select>
     </div>
     
@@ -1662,6 +1664,19 @@ body.theme-random .section-title {
         function changeTheme(themeName) {
             console.log('Changing theme to:', themeName);
 
+            // VIDER LE CACHE
+            if (themeName === 'clearCache') {
+                if (confirm('Vider TOUT le cache?\n\nTous les joueurs et parties seront supprimés!')) {
+                    localStorage.clear();
+                    location.reload();
+                } else {
+                    // Revenir au thème précédent
+                    const savedTheme = localStorage.getItem('selectedTheme') || 'goldBomb';
+                    document.getElementById('themeSelector').value = savedTheme;
+                }
+                return;
+            }
+
             // Vérifier que body existe
             if (!document.body) {
                 console.warn('document.body not available, retrying in 50ms');
@@ -1764,6 +1779,7 @@ body.theme-random .section-title {
         }
 
         // ===== GAME STATE =====
+        let gameState = {
             players: [],
             currentManche: 1,
             teamAssignment: {},
@@ -2384,6 +2400,9 @@ body.theme-random .section-title {
                     switchScreen('gameScreen');
                     document.getElementById('mancheDisplay').textContent = gameState.currentManche;
                 }
+            } else {
+                // Au démarrage ou si pas de joueurs: afficher l'écran de setup
+                switchScreen('setupScreen');
             }
         });
     </script>
