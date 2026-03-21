@@ -7,825 +7,474 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@600&display=swap');
 
-        /* ====== RESET & BASE ====== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         * { animation: none !important; transition: background 0.15s, color 0.15s, box-shadow 0.15s, border-color 0.15s, opacity 0.15s, transform 0.1s !important; }
 
         :root {
-            --bg:          #080b12;
-            --bg2:         #0e1320;
-            --bg3:         #131926;
-            --panel:       #111827;
-            --border:      #1e2d45;
-            --border-hi:   #2a3f60;
-            --accent-blue: #2563eb;
-            --accent-red:  #dc2626;
-            --accent-gold: #b8972a;
-            --text:        #e8eaf0;
-            --text-dim:    #7a8499;
-            --text-muted:  #4a5568;
-            --blue-glow:   rgba(37,99,235,0.35);
-            --red-glow:    rgba(220,38,38,0.35);
-            --gold-glow:   rgba(184,151,42,0.3);
+            --bg:#080b12; --bg2:#0e1320; --bg3:#131926; --panel:#111827;
+            --border:#1e2d45; --border-hi:#2a3f60;
+            --accent-blue:#2563eb; --accent-red:#dc2626; --accent-gold:#b8972a;
+            --text:#e8eaf0; --text-dim:#7a8499; --text-muted:#4a5568;
+            --blue-glow:rgba(37,99,235,0.35); --red-glow:rgba(220,38,38,0.35); --gold-glow:rgba(184,151,42,0.3);
         }
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-        }
+        html, body { height:100%; width:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:14px; }
 
-        /* ====== LAYOUT PRINCIPAL ====== */
-        /* App = colonne : header fixe + zone principale */
-        #app {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
+        /* APP */
+        #app { display:flex; flex-direction:column; height:100vh; width:100vw; overflow:hidden; }
 
-        /* Header */
         #app-header {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            height: 52px;
-            background: var(--bg2);
-            border-bottom: 1px solid var(--border);
-            gap: 12px;
+            flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
+            padding:0 16px; height:52px; background:var(--bg2); border-bottom:1px solid var(--border); gap:12px;
         }
-
         .logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            white-space: nowrap;
+            font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:3px;
+            background:linear-gradient(90deg,var(--accent-red),var(--accent-blue));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; white-space:nowrap;
         }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .header-right { display:flex; align-items:center; gap:8px; }
+        .hbtn {
+            display:flex; align-items:center; gap:5px;
+            background:var(--bg3); border:1px solid var(--border-hi); color:var(--text-dim);
+            padding:6px 12px; border-radius:6px; cursor:pointer;
+            font-weight:700; font-size:0.78rem; letter-spacing:1px; text-transform:uppercase; white-space:nowrap;
         }
+        .hbtn:hover { border-color:var(--text-dim); color:var(--text); }
+        .hbtn.gold { color:var(--accent-gold); border-color:rgba(184,151,42,0.4); }
+        .hbtn.gold:hover { background:rgba(184,151,42,0.1); border-color:var(--accent-gold); }
+        #theme-select { background:var(--bg3); border:1px solid var(--border); color:var(--text-dim); padding:5px 8px; border-radius:6px; font-size:0.78rem; cursor:pointer; }
 
-        /* Bouton scores permanent */
-        #btn-scores {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--bg3);
-            border: 1px solid var(--border-hi);
-            color: var(--accent-gold);
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            white-space: nowrap;
+        /* SCREENS */
+        #screens { flex:1; overflow:hidden; }
+        .screen { display:none; width:100%; height:100%; overflow:hidden; }
+        .screen.active { display:flex; }
+
+        /* ====== HOME ====== */
+        #homeScreen { flex-direction:row; }
+        .home-left {
+            flex:0 0 290px; display:flex; flex-direction:column;
+            padding:16px; border-right:1px solid var(--border); background:var(--bg2); gap:10px; overflow-y:auto;
         }
-        #btn-scores:hover { border-color: var(--accent-gold); background: rgba(184,151,42,0.1); }
+        .home-right { flex:1; display:flex; flex-direction:column; padding:16px; gap:10px; overflow-y:auto; }
+        .saves-list { display:flex; flex-direction:column; gap:8px; }
 
-        #theme-select {
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            cursor: pointer;
+        .save-card {
+            background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+            padding:12px; cursor:pointer; position:relative;
         }
-
-        /* ====== ZONE ÉCRANS ====== */
-        #screens {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
+        .save-card:hover { border-color:var(--border-hi); }
+        .save-card.active-save { border-color:var(--accent-gold); background:rgba(184,151,42,0.06); }
+        .save-card-name { font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:4px; padding-right:28px; }
+        .save-card-players { font-size:0.78rem; color:var(--text-dim); margin-bottom:6px; }
+        .save-card-del {
+            position:absolute; top:8px; right:8px; background:transparent; border:none;
+            color:var(--text-muted); cursor:pointer; font-size:0.9rem; padding:2px 6px; border-radius:4px; opacity:0;
         }
-
-        .screen {
-            display: none;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        .save-card:hover .save-card-del { opacity:1; }
+        .save-card-del:hover { color:var(--accent-red); background:rgba(220,38,38,0.1); }
+        .no-saves { color:var(--text-muted); font-size:0.85rem; text-align:center; padding:32px 16px; }
+        .game-name-input {
+            width:100%; background:var(--bg3); border:1px solid var(--border-hi); color:var(--text);
+            padding:10px 14px; border-radius:8px; font-size:0.95rem; font-family:'Inter',sans-serif; font-weight:700;
         }
-        .screen.active { display: flex; }
+        .game-name-input:focus { outline:none; border-color:var(--accent-gold); }
 
-        /* ====== SETUP SCREEN – colonnes côte à côte ====== */
-        #setupScreen {
-            flex-direction: row;
-            gap: 0;
-        }
+        /* ====== SETUP ====== */
+        #setupScreen { flex-direction:row; }
+        .setup-col { flex:1; padding:16px; overflow-y:auto; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:12px; }
+        .setup-col:last-child { border-right:none; }
 
-        .setup-col {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .setup-col:last-child { border-right: none; }
-
-        /* Colonne saved game */
-        .col-save { flex: 0 0 240px; background: var(--bg2); }
-        /* Colonne joueurs */
-        .col-players { flex: 1; }
-        /* Colonne tableau + start */
-        .col-table { flex: 0 0 220px; background: var(--bg2); }
-
-        /* ====== GAME SCREEN ====== */
-        #gameScreen {
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            background: var(--bg);
-            position: relative;
-        }
-
-        .manche-badge {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 4px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
+        /* ====== GAME ====== */
+        #gameScreen { flex-direction:column; align-items:center; justify-content:center; gap:20px; background:var(--bg); }
+        .manche-badge { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:4px; color:var(--text-dim); }
         .manche-number {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 5rem;
-            line-height: 1;
-            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family:'Bebas Neue',sans-serif; font-size:5rem; line-height:1;
+            background:linear-gradient(135deg,var(--accent-red),var(--accent-blue));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
         }
-
-        #sabotage-msg {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 3px;
-            color: var(--accent-red);
-            opacity: 0.7;
-            min-height: 2rem;
-            text-align: center;
-        }
-
+        #sabotage-msg { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:3px; color:var(--accent-red); opacity:0.7; min-height:2rem; text-align:center; }
         .btn-end-manche {
-            padding: 18px 48px;
-            background: linear-gradient(135deg, var(--accent-red), #991b1b);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 3px;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(220,38,38,0.4);
+            padding:18px 48px; background:linear-gradient(135deg,var(--accent-red),#991b1b);
+            color:#fff; border:none; border-radius:10px;
+            font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:3px;
+            cursor:pointer; box-shadow:0 0 30px rgba(220,38,38,0.4);
         }
-        .btn-end-manche:hover { transform: scale(1.03) !important; box-shadow: 0 0 50px rgba(220,38,38,0.6); }
+        .btn-end-manche:hover { transform:scale(1.03) !important; }
+        .game-actions { display:flex; gap:10px; position:absolute; bottom:20px; flex-wrap:wrap; justify-content:center; }
 
-        /* ====== END TURN SCREEN ====== */
-        #endTurnScreen {
-            flex-direction: row;
-        }
+        /* ====== END TURN ====== */
+        #endTurnScreen { flex-direction:row; }
+        .end-col { flex:1; padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+        .end-col-left { border-right:1px solid var(--border); }
+        .col-header { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:4px; }
+        .team-row { display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid var(--border); padding:8px 12px; border-radius:8px; }
+        .team-row-name { flex:1; font-weight:700; font-size:0.9rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .team-toggle { display:flex; border-radius:6px; overflow:hidden; }
+        .team-btn { padding:6px 14px; border:none; cursor:pointer; font-weight:700; font-size:0.82rem; background:var(--bg3); color:var(--text-muted); }
+        .team-btn.active.blue { background:var(--accent-blue); color:#fff; }
+        .team-btn.active.red  { background:var(--accent-red);  color:#fff; }
+        .winner-label { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:10px; text-align:center; }
+        .winner-buttons { display:flex; gap:12px; }
+        .btn-winner { flex:1; padding:14px; border:2px solid; border-radius:8px; font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:2px; cursor:pointer; }
+        .btn-winner.blue { background:rgba(37,99,235,0.15); border-color:var(--accent-blue); color:#93c5fd; }
+        .btn-winner.red  { background:rgba(220,38,38,0.15);  border-color:var(--accent-red);  color:#fca5a5; }
+        .btn-winner.blue:hover { background:rgba(37,99,235,0.3); }
+        .btn-winner.red:hover  { background:rgba(220,38,38,0.3); }
 
-        .end-col {
-            flex: 1;
-            padding: 14px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        /* ====== STATS ====== */
+        #statsScreen { flex-direction:column; }
+        .stats-top { flex:1; display:flex; flex-direction:row; overflow:hidden; }
+        .stats-col { flex:1; padding:14px; overflow-y:auto; border-right:1px solid var(--border); }
+        .stats-col:last-child { border-right:none; }
+        .stats-footer { flex-shrink:0; display:flex; gap:8px; padding:10px 16px; border-top:1px solid var(--border); background:var(--bg2); flex-wrap:wrap; align-items:center; }
 
-        .end-col-left { border-right: 1px solid var(--border); }
+        /* ====== EDIT MANCHE ====== */
+        #editMancheScreen { flex-direction:row; }
+        .edit-col { flex:1; padding:14px; overflow-y:auto; border-right:1px solid var(--border); }
+        .edit-col:last-child { border-right:none; }
 
-        .col-header {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 3px;
-            color: var(--text-dim);
-            margin-bottom: 4px;
-        }
+        /* ====== PODIUM ====== */
+        #podiumScreen { flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+        .podium-title { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:5px; background:linear-gradient(90deg,var(--accent-red),var(--accent-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        #podium { display:flex; align-items:flex-end; gap:20px; }
+        .podium-item { display:flex; flex-direction:column; align-items:center; gap:8px; }
+        .podium-platform { width:100px; display:flex; align-items:center; justify-content:center; border-radius:6px 6px 0 0; font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#fff; }
 
-        /* Team selector */
-        .team-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 8px;
-        }
-        .team-row-name {
-            flex: 1;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .team-toggle { display: flex; border-radius: 6px; overflow: hidden; }
-        .team-btn {
-            padding: 6px 14px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.82rem;
-            background: var(--bg3);
-            color: var(--text-muted);
-        }
-        .team-btn:hover { color: var(--text-dim); }
-        .team-btn.active.blue { background: var(--accent-blue); color: #fff; }
-        .team-btn.active.red  { background: var(--accent-red);  color: #fff; }
-
-        /* Winner section */
-        .winner-section {
-            padding: 14px;
-            border-top: 1px solid var(--border);
-            background: var(--bg2);
-            flex-shrink: 0;
-        }
-        .winner-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            color: var(--text-dim);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .winner-buttons { display: flex; gap: 12px; }
-        .btn-winner {
-            flex: 1;
-            padding: 14px;
-            border: 2px solid;
-            border-radius: 8px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .btn-winner.blue { background: rgba(37,99,235,0.15); border-color: var(--accent-blue); color: #93c5fd; }
-        .btn-winner.red  { background: rgba(220,38,38,0.15); border-color: var(--accent-red);  color: #fca5a5; }
-        .btn-winner.blue:hover { background: rgba(37,99,235,0.35); }
-        .btn-winner.red:hover  { background: rgba(220,38,38,0.35); }
-
-        /* ====== STATS SCREEN ====== */
-        #statsScreen {
-            flex-direction: column;
-        }
-
-        .stats-top {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-            overflow: hidden;
-        }
-
-        .stats-col {
-            flex: 1;
-            padding: 14px;
-            overflow-y: auto;
-            border-right: 1px solid var(--border);
-        }
-        .stats-col:last-child { border-right: none; }
-
-        .stats-footer {
-            flex-shrink: 0;
-            display: flex;
-            gap: 10px;
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            background: var(--bg2);
-        }
-
-        /* ====== EDIT MANCHE SCREEN ====== */
-        #editMancheScreen {
-            flex-direction: row;
-        }
-        .edit-col {
-            flex: 1;
-            padding: 14px;
-            overflow-y: auto;
-            border-right: 1px solid var(--border);
-        }
-        .edit-col:last-child { border-right: none; }
-        .edit-footer {
-            display: none; /* handled in stats-footer style of edit screen */
-        }
-
-        /* ====== PODIUM SCREEN ====== */
-        #podiumScreen {
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-        .podium-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        #podium {
-            display: flex;
-            align-items: flex-end;
-            gap: 20px;
-        }
-        .podium-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .podium-platform {
-            width: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px 6px 0 0;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: #fff;
-        }
-        .podium-name { font-weight: 700; font-size: 0.9rem; text-align: center; }
-        .podium-wins { font-size: 0.8rem; color: var(--text-dim); }
-
-        /* ====== COMPOSANTS COMMUNS ====== */
+        /* ====== COMPOSANTS ====== */
         .section-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 0.95rem;
-            letter-spacing: 3px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px;
+            color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;
+            display:flex; align-items:center; gap:8px; flex-shrink:0;
         }
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        /* Inputs */
-        .player-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .player-input {
-            flex: 1;
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-family: 'Inter', sans-serif;
-        }
-        .player-input:focus { outline: none; border-color: var(--accent-blue); }
+        .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+        .player-row { display:flex; gap:8px; margin-bottom:8px; }
+        .player-input { flex:1; background:var(--bg3); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; font-size:0.9rem; font-family:'Inter',sans-serif; }
+        .player-input:focus { outline:none; border-color:var(--accent-blue); }
 
         /* Boutons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
+            display:inline-flex; align-items:center; justify-content:center; gap:6px;
+            padding:8px 16px; border-radius:6px; border:none; cursor:pointer;
+            font-weight:700; font-size:0.82rem; letter-spacing:1px; text-transform:uppercase;
+            font-family:'Inter',sans-serif; white-space:nowrap;
         }
-        .btn:hover { transform: translateY(-1px) !important; }
+        .btn:hover { transform:translateY(-1px) !important; }
+        .btn-primary  { background:linear-gradient(135deg,var(--accent-blue),#1d4ed8); color:#fff; box-shadow:0 2px 12px var(--blue-glow); }
+        .btn-danger   { background:linear-gradient(135deg,var(--accent-red),#991b1b);  color:#fff; box-shadow:0 2px 12px var(--red-glow); }
+        .btn-gold     { background:linear-gradient(135deg,var(--accent-gold),#92740d); color:#fff; box-shadow:0 2px 12px var(--gold-glow); }
+        .btn-ghost    { background:transparent; border:1px solid var(--border-hi); color:var(--text-dim); }
+        .btn-ghost:hover { border-color:var(--text-dim); color:var(--text); }
+        .btn-ghost-red { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); }
+        .btn-ghost-red:hover { background:rgba(220,38,38,0.1); }
+        .btn-full { width:100%; }
+        .btn-sm { padding:5px 10px; font-size:0.72rem; }
+        .btn-icon { padding:6px 10px; }
+        .btn-red-ghost  { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
+        .btn-blue-ghost { background:transparent; border:1px solid rgba(37,99,235,0.4); color:#93c5fd; font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), #1d4ed8);
-            color: #fff;
-            box-shadow: 0 2px 12px var(--blue-glow);
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, var(--accent-red), #991b1b);
-            color: #fff;
-            box-shadow: 0 2px 12px var(--red-glow);
-        }
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--border-hi);
-            color: var(--text-dim);
-        }
-        .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--accent-gold), #92740d);
-            color: #fff;
-            box-shadow: 0 2px 12px var(--gold-glow);
-        }
-        .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
-        .btn-icon { padding: 6px 10px; font-size: 0.9rem; }
-        .btn-full { width: 100%; }
-        .btn-red-ghost { background: transparent; border: 1px solid rgba(220,38,38,0.4); color: var(--accent-red); font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 700; }
-        .btn-blue-ghost { background: transparent; border: 1px solid rgba(37,99,235,0.4); color: #93c5fd; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 700; }
-
-        /* Saved game card */
-        .save-card {
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 0.82rem;
-            color: var(--text-dim);
-            line-height: 1.8;
-        }
-        .save-card.active { border-color: var(--accent-gold); background: rgba(184,151,42,0.06); }
-        .save-card .save-title { color: var(--accent-gold); font-weight: 700; margin-bottom: 8px; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
-        .save-score-row { display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border); margin-top: 8px; }
-
-        /* Setup table */
-        .setup-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.82rem;
-        }
-        .setup-table th {
-            background: var(--bg3);
-            color: var(--accent-gold);
-            padding: 6px 8px;
-            text-align: center;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border);
-        }
-        .setup-table td {
-            padding: 7px 8px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-dim);
-        }
-        .setup-table tr.highlight td { color: var(--text); background: rgba(37,99,235,0.12); font-weight: 700; }
-        .setup-table tr.highlight td:first-child { border-left: 3px solid var(--accent-blue); }
+        /* Tables */
+        .setup-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+        .setup-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:center; font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid var(--border); }
+        .setup-table td { padding:7px 8px; text-align:center; border-bottom:1px solid var(--border); color:var(--text-dim); }
+        .setup-table tr.highlight td { color:var(--text); background:rgba(37,99,235,0.12); font-weight:700; }
+        .setup-table tr.highlight td:first-child { border-left:3px solid var(--accent-blue); }
+        .summary-table { width:100%; border-collapse:collapse; font-size:0.78rem; }
+        .summary-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:left; border-bottom:1px solid var(--border); font-weight:800; text-transform:uppercase; font-size:0.72rem; }
+        .summary-table td { padding:6px 8px; border-bottom:1px solid var(--border); color:var(--text-dim); vertical-align:middle; }
+        .summary-table tr:hover td { background:rgba(255,255,255,0.03); }
+        .badge-blue { background:rgba(37,99,235,0.2); color:#93c5fd; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
+        .badge-red  { background:rgba(220,38,38,0.2);  color:#fca5a5; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
 
         /* Histogram */
-        .histogram-wrap {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            min-height: 140px;
-            padding-bottom: 4px;
-            overflow-x: auto;
-        }
-        .histo-bar { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 52px; }
-        .histo-col {
-            width: 40px;
-            height: 120px;
-            display: flex;
-            flex-direction: column-reverse;
-            border-radius: 4px 4px 0 0;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-        .seg {
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; font-weight: 800; color: #fff;
-            min-height: 16px;
-        }
-        .seg.bw { background: rgba(37,99,235,0.85); }
-        .seg.bl { background: rgba(37,99,235,0.35); }
-        .seg.rw { background: rgba(220,38,38,0.85); }
-        .seg.rl { background: rgba(220,38,38,0.35); }
-        .histo-name { font-size: 0.72rem; color: var(--text-dim); text-align: center; font-weight: 600; }
-        .histo-score { font-size: 0.68rem; color: var(--accent-gold); }
+        .histogram-wrap { display:flex; gap:12px; align-items:flex-end; min-height:140px; padding-bottom:4px; overflow-x:auto; }
+        .histo-bar { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:52px; }
+        .histo-col { width:40px; height:120px; display:flex; flex-direction:column-reverse; border-radius:4px 4px 0 0; overflow:hidden; border:1px solid var(--border); }
+        .seg { display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:800; color:#fff; min-height:16px; }
+        .seg.bw { background:rgba(37,99,235,0.85); } .seg.bl { background:rgba(37,99,235,0.35); }
+        .seg.rw { background:rgba(220,38,38,0.85); }  .seg.rl { background:rgba(220,38,38,0.35); }
+        .histo-name { font-size:0.72rem; color:var(--text-dim); text-align:center; font-weight:600; }
+        .histo-score { font-size:0.68rem; color:var(--accent-gold); }
 
         /* Progression */
-        .prog-player { margin-bottom: 10px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
-        .prog-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; color: var(--text); }
-        .prog-rank { font-size: 0.75rem; color: var(--accent-gold); margin-left: 6px; }
-        .prog-icons { display: flex; gap: 6px; flex-wrap: wrap; }
-        .prog-icon {
-            width: 30px; height: 30px; border-radius: 50%; border: 2px solid;
-            display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+        .prog-player { margin-bottom:10px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:10px; }
+        .prog-name { font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--text); }
+        .prog-rank { font-size:0.75rem; color:var(--accent-gold); margin-left:6px; }
+        .prog-icons { display:flex; gap:6px; flex-wrap:wrap; }
+        .prog-icon { width:30px; height:30px; border-radius:50%; border:2px solid; display:flex; align-items:center; justify-content:center; font-size:0.85rem; }
+        .prog-icon.bw { background:rgba(37,99,235,0.2); border-color:var(--accent-blue); }
+        .prog-icon.bl { background:rgba(37,99,235,0.08); border-color:rgba(37,99,235,0.3); }
+        .prog-icon.rw { background:rgba(220,38,38,0.2); border-color:var(--accent-red); }
+        .prog-icon.rl { background:rgba(220,38,38,0.08); border-color:rgba(220,38,38,0.3); }
+
+        /* Overlays & Modals */
+        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:9000; align-items:center; justify-content:center; }
+        .overlay.visible { display:flex; }
+        .overlay-panel { background:var(--bg2); border:1px solid var(--border-hi); border-radius:12px; width:min(600px,92vw); max-height:82vh; overflow-y:auto; box-shadow:0 0 60px rgba(0,0,0,0.8); }
+        .overlay-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg2); }
+        .overlay-title { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:3px; color:var(--accent-gold); }
+        .overlay-body { padding:16px 20px; }
+        .btn-close { background:var(--bg3); border:1px solid var(--border); color:var(--text-dim); padding:5px 10px; border-radius:5px; cursor:pointer; }
+
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.86); z-index:10000; align-items:center; justify-content:center; }
+        .modal.visible { display:flex; }
+        .modal-panel { background:var(--bg2); border:1px solid; border-radius:12px; padding:28px 24px; max-width:420px; width:90vw; text-align:center; }
+        .modal-title { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:3px; margin-bottom:10px; }
+        .modal-body { color:var(--text-dim); font-size:0.88rem; margin-bottom:22px; line-height:1.6; }
+        .modal-buttons { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+        /* Toast */
+        #tb-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--accent-gold); color:#fff; padding:10px 20px; border-radius:8px; font-weight:700; font-size:0.85rem; z-index:99999; letter-spacing:1px; box-shadow:0 4px 20px rgba(0,0,0,0.5); opacity:0; pointer-events:none; }
+
+        ::-webkit-scrollbar { width:4px; height:4px; }
+        ::-webkit-scrollbar-track { background:var(--bg); }
+        ::-webkit-scrollbar-thumb { background:var(--border-hi); border-radius:2px; }
+
+        /* Responsive */
+        @media (max-width:768px) {
+            html,body { overflow:auto; }
+            #app { height:auto; min-height:100vh; overflow:visible; }
+            #screens { overflow:visible; height:auto; }
+            .screen.active { flex-direction:column; height:auto; min-height:80vh; }
+            #homeScreen,#setupScreen,#endTurnScreen { flex-direction:column; }
+            .home-left { flex:none; width:100%; border-right:none; border-bottom:1px solid var(--border); }
+            .setup-col { flex:none; width:100%; border-right:none; border-bottom:1px solid var(--border); }
+            .end-col { flex:none; overflow:visible; }
+            .end-col-left { border-right:none; border-bottom:1px solid var(--border); }
+            .stats-top { flex-direction:column; overflow:visible; }
+            .stats-col { flex:none; border-right:none; border-bottom:1px solid var(--border); overflow:visible; }
+            .manche-number { font-size:4rem; }
+            .logo { font-size:1.2rem; }
+            .game-actions { position:static; }
         }
-        .prog-icon.bw { background: rgba(37,99,235,0.2); border-color: var(--accent-blue); }
-        .prog-icon.bl { background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); }
-        .prog-icon.rw { background: rgba(220,38,38,0.2); border-color: var(--accent-red); }
-        .prog-icon.rl { background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.3); }
-
-        /* Summary table */
-        .summary-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-        .summary-table th { background: var(--bg3); color: var(--accent-gold); padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 800; text-transform: uppercase; font-size: 0.72rem; }
-        .summary-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: middle; }
-        .summary-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .badge-blue { background: rgba(37,99,235,0.2); color: #93c5fd; padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
-        .badge-red  { background: rgba(220,38,38,0.2); color: #fca5a5; padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
-
-        /* ====== SCORES OVERLAY ====== */
-        #scores-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.82);
-            z-index: 9000;
-            align-items: center;
-            justify-content: center;
-        }
-        #scores-overlay.visible { display: flex; }
-        .scores-panel {
-            background: var(--bg2);
-            border: 1px solid var(--border-hi);
-            border-radius: 12px;
-            width: min(600px, 92vw);
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 0 60px rgba(0,0,0,0.8);
-        }
-        .scores-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--bg2);
-        }
-        .scores-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 3px;
-            color: var(--accent-gold);
-        }
-        .btn-close-overlay {
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .scores-body { padding: 16px 20px; }
-
-        /* ====== DELETE MODAL ====== */
-        #deleteConfirmModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-        }
-        #deleteConfirmModal.modal-visible { display: flex; }
-        .delete-panel {
-            background: var(--bg2);
-            border: 1px solid var(--accent-red);
-            border-radius: 12px;
-            padding: 32px 28px;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 0 60px rgba(220,38,38,0.3);
-        }
-        .delete-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; color: var(--accent-red); margin-bottom: 12px; }
-        .delete-body { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6; }
-        .delete-buttons { display: flex; gap: 14px; justify-content: center; }
-
-        /* ====== HIDDEN ====== */
-        .hidden { display: none !important; }
-
-        /* ====== SCROLLBAR ====== */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
-
-        /* ====== RESPONSIVE TABLET ====== */
-        @media (max-width: 768px) {
-            html, body { overflow: auto; }
-            #app { height: auto; min-height: 100vh; overflow: visible; }
-            #screens { overflow: visible; height: auto; }
-            .screen.active { flex-direction: column; height: auto; min-height: 80vh; }
-
-            /* Setup: colonnes → lignes */
-            #setupScreen { flex-direction: column; gap: 0; }
-            .setup-col { flex: none; width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 14px; }
-            .col-save, .col-table { flex: none; }
-
-            /* End turn: colonnes → lignes */
-            #endTurnScreen { flex-direction: column; }
-            .end-col { flex: none; overflow: visible; }
-            .end-col-left { border-right: none; border-bottom: 1px solid var(--border); }
-
-            /* Stats: 3 colonnes → 1 colonne */
-            .stats-top { flex-direction: column; overflow: visible; }
-            .stats-col { flex: none; border-right: none; border-bottom: 1px solid var(--border); overflow: visible; }
-            .stats-footer { flex-wrap: wrap; }
-
-            .manche-number { font-size: 4rem; }
-
-            /* Header compact */
-            .logo { font-size: 1.2rem; }
-        }
-
-        @media (max-width: 480px) {
-            #app-header { padding: 0 10px; height: 46px; }
-            .logo { font-size: 1rem; }
-            #btn-scores { padding: 5px 10px; font-size: 0.75rem; }
-            .btn-end-manche { padding: 14px 32px; font-size: 1.2rem; }
-            .manche-number { font-size: 3rem; }
-            .winner-buttons { flex-direction: column; }
+        @media (max-width:480px) {
+            #app-header { padding:0 10px; height:46px; }
+            .logo { font-size:1rem; }
+            .hbtn span { display:none; }
+            .btn-end-manche { padding:14px 32px; font-size:1.2rem; }
+            .manche-number { font-size:3rem; }
+            .winner-buttons { flex-direction:column; }
         }
     </style>
 </head>
 <body>
 <div id="app">
 
-    <!-- ====== HEADER ====== -->
-    <header id="app-header">
-        <div class="logo">💣 TIMEBOMB</div>
-        <div class="header-right">
-            <button id="btn-scores" onclick="openScoresOverlay()">📊 Scores</button>
-            <select id="theme-select" onchange="applyTheme(this.value)">
-                <option value="sabotage">🗡️ Sabotage</option>
-                <option value="cold">❄️ Cold War</option>
-                <option value="neon">⚡ Neon</option>
-            </select>
+<header id="app-header">
+    <div class="logo">💣 TIMEBOMB</div>
+    <div class="header-right">
+        <button class="hbtn" id="btn-menu" onclick="goToMenu()" style="display:none">⬅ <span>Menu</span></button>
+        <button class="hbtn gold" onclick="openScoresOverlay()">📊 <span>Scores</span></button>
+        <select id="theme-select" onchange="applyTheme(this.value)">
+            <option value="sabotage">🗡️ Sabotage</option>
+            <option value="cold">❄️ Cold War</option>
+            <option value="neon">⚡ Neon</option>
+        </select>
+    </div>
+</header>
+
+<div id="screens">
+
+    <!-- HOME -->
+    <div id="homeScreen" class="screen active">
+        <div class="home-left">
+            <div class="section-label">Nouvelle partie</div>
+            <input class="game-name-input" id="new-game-name" placeholder="Nom de la partie…" maxlength="40">
+            <div style="color:var(--text-muted);font-size:0.72rem;margin-bottom:2px;">Laisse vide pour nommer automatiquement</div>
+            <button class="btn btn-primary btn-full" onclick="newGame()" style="padding:12px;font-size:0.9rem;letter-spacing:2px;">+ Nouvelle Partie</button>
+
+            <div style="margin-top:12px;" class="section-label">Import / Export</div>
+            <button class="btn btn-ghost btn-full" onclick="exportSaves()">⬆ Exporter JSON</button>
+            <button class="btn btn-ghost btn-full" onclick="document.getElementById('import-input').click()">⬇ Importer JSON</button>
+            <input type="file" id="import-input" accept=".json" style="display:none" onchange="importSaves(event)">
+
+            <div style="flex:1;min-height:16px;"></div>
+            <div style="color:var(--text-muted);font-size:0.7rem;text-align:center;margin-top:8px;">Données stockées localement dans votre navigateur</div>
         </div>
-    </header>
+        <div class="home-right">
+            <div class="section-label">Parties sauvegardées</div>
+            <div class="saves-list" id="saves-list"></div>
+        </div>
+    </div>
 
-    <!-- ====== SCREENS ====== -->
-    <div id="screens">
-
-        <!-- ===== SETUP ===== -->
-        <div id="setupScreen" class="screen active">
-
-            <!-- Col 1: Partie sauvegardée -->
-            <div class="setup-col col-save">
-                <div class="section-label">Reprendre</div>
-                <div id="savedGameAlert" class="save-card">
-                    <div id="savedGameDetails" style="color:var(--text-muted);font-size:0.8rem;">Aucune partie sauvegardée.</div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;" id="save-actions" class="hidden">
-                    <button class="btn btn-gold btn-full" onclick="continueSavedGame()">↻ Continuer</button>
-                    <button class="btn btn-ghost btn-full" onclick="goToStats()">📊 Stats</button>
-                    <button class="btn btn-ghost btn-full" style="color:var(--accent-red);border-color:rgba(220,38,38,0.3)" onclick="clearSavedGame()">🗑️ Supprimer</button>
-                </div>
-            </div>
-
-            <!-- Col 2: Joueurs -->
-            <div class="setup-col col-players">
-                <div class="section-label">Joueurs</div>
-                <div id="playersInput"></div>
-                <button class="btn btn-ghost" onclick="addPlayer()" style="margin-top:4px;">+ Joueur</button>
-                <div style="flex:1;"></div>
-                <button id="btnStart" class="btn btn-primary btn-full hidden" onclick="startGame()" style="margin-top:12px;padding:12px;font-size:1rem;letter-spacing:2px;">🚀 Démarrer la Partie</button>
-            </div>
-
-            <!-- Col 3: Tableau + règles -->
-            <div class="setup-col col-table">
-                <div class="section-label">Tableau</div>
-                <table class="setup-table">
-                    <thead><tr><th>J</th><th>🎴</th><th>⚡</th><th>💣</th></tr></thead>
-                    <tbody id="setupTableBody">
-                        <tr><td>4</td><td>15</td><td>4</td><td>1</td></tr>
-                        <tr><td>5</td><td>19</td><td>5</td><td>1</td></tr>
-                        <tr><td>6</td><td>23</td><td>6</td><td>1</td></tr>
-                        <tr><td>7</td><td>27</td><td>7</td><td>1</td></tr>
-                        <tr><td>8</td><td>31</td><td>8</td><td>1</td></tr>
-                    </tbody>
-                </table>
-                <div style="margin-top:16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);">
-                    <div style="color:var(--accent-red);font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:6px;">RÈGLES</div>
-                    <div style="color:var(--text-muted);font-size:0.75rem;line-height:1.7;">
-                        🔵 Sherlock = couper le bon fil<br>
-                        🔴 Moriarty = faire exploser<br>
-                        4 manches max • 1 bombe par partie
-                    </div>
-                </div>
+    <!-- SETUP -->
+    <div id="setupScreen" class="screen">
+        <div class="setup-col" style="flex:0 0 220px;background:var(--bg2);">
+            <div class="section-label">Partie en cours</div>
+            <div id="current-save-info" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--text-dim);">—</div>
+            <div style="margin-top:12px;" class="section-label">Actions</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <button class="btn btn-gold btn-full" onclick="saveAndContinue()">💾 Sauvegarder et Continuer</button>
+                <button class="btn btn-ghost btn-full" onclick="saveAndGoMenu()">💾 Sauvegarder et Retour Menu</button>
+                <button class="btn btn-ghost-red btn-full" onclick="quitGame()">✕ Quitter</button>
             </div>
         </div>
-
-        <!-- ===== GAME ===== -->
-        <div id="gameScreen" class="screen">
-            <div class="manche-badge">Manche en cours</div>
-            <div class="manche-number" id="mancheDisplay">1</div>
-            <div id="sabotage-msg">MENTEZ BIEN !</div>
-            <button class="btn-end-manche" onclick="endTurn()">⏱ FIN DE MANCHE</button>
+        <div class="setup-col" style="flex:1;">
+            <div class="section-label">Joueurs</div>
+            <div id="playersInput"></div>
+            <button class="btn btn-ghost" onclick="addPlayer()" style="margin-top:4px;">+ Joueur</button>
+            <div style="flex:1;"></div>
+            <button id="btnStart" class="btn btn-primary btn-full" onclick="startGame()" style="display:none;margin-top:12px;padding:12px;font-size:1rem;letter-spacing:2px;">🚀 Démarrer</button>
         </div>
-
-        <!-- ===== END TURN ===== -->
-        <div id="endTurnScreen" class="screen">
-            <div class="end-col end-col-left">
-                <div class="col-header">Attribution des équipes — Manche <span id="mancheEndDisplay">1</span></div>
-                <div id="teamAssignment"></div>
+        <div class="setup-col" style="flex:0 0 210px;background:var(--bg2);">
+            <div class="section-label">Tableau</div>
+            <table class="setup-table">
+                <thead><tr><th>J</th><th>🎴</th><th>⚡</th><th>💣</th></tr></thead>
+                <tbody id="setupTableBody">
+                    <tr><td>4</td><td>15</td><td>4</td><td>1</td></tr>
+                    <tr><td>5</td><td>19</td><td>5</td><td>1</td></tr>
+                    <tr><td>6</td><td>23</td><td>6</td><td>1</td></tr>
+                    <tr><td>7</td><td>27</td><td>7</td><td>1</td></tr>
+                    <tr><td>8</td><td>31</td><td>8</td><td>1</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:14px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);">
+                <div style="color:var(--accent-red);font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:6px;">RÈGLES</div>
+                <div style="color:var(--text-muted);font-size:0.75rem;line-height:1.7;">🔵 Sherlock = couper le bon fil<br>🔴 Moriarty = faire exploser<br>4 manches max • 1 bombe</div>
             </div>
-            <div style="display:flex;flex-direction:column;flex:0 0 260px;border-left:none;">
-                <div class="end-col" style="flex:1;">
-                    <div class="col-header">Résultat</div>
-                    <div class="winner-section" style="padding:0;border-top:none;background:transparent;">
-                        <div class="winner-label">QUI A GAGNÉ ?</div>
-                        <div class="winner-buttons">
-                            <button class="btn-winner blue" onclick="setWinner('blue')">🔵<br>Sherlock</button>
-                            <button class="btn-winner red"  onclick="setWinner('red')">🔴<br>Moriarty</button>
-                        </div>
-                    </div>
+        </div>
+    </div>
+
+    <!-- GAME -->
+    <div id="gameScreen" class="screen">
+        <div class="manche-badge">Manche en cours</div>
+        <div class="manche-number" id="mancheDisplay">1</div>
+        <div id="sabotage-msg">MENTEZ BIEN !</div>
+        <button class="btn-end-manche" onclick="endTurn()">⏱ FIN DE MANCHE</button>
+        <div class="game-actions">
+            <button class="btn btn-gold btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+            <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
+        </div>
+    </div>
+
+    <!-- END TURN -->
+    <div id="endTurnScreen" class="screen">
+        <div class="end-col end-col-left">
+            <div class="col-header">Équipes — Manche <span id="mancheEndDisplay">1</span></div>
+            <div id="teamAssignment"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;flex:0 0 260px;">
+            <div class="end-col" style="flex:1;">
+                <div class="col-header">Résultat</div>
+                <div class="winner-label">QUI A GAGNÉ ?</div>
+                <div class="winner-buttons">
+                    <button class="btn-winner blue" onclick="setWinner('blue')">🔵<br>Sherlock</button>
+                    <button class="btn-winner red"  onclick="setWinner('red')">🔴<br>Moriarty</button>
                 </div>
             </div>
-        </div>
-
-        <!-- ===== STATS ===== -->
-        <div id="statsScreen" class="screen">
-            <div class="stats-top">
-                <div class="stats-col">
-                    <div class="section-label">Histogramme</div>
-                    <div class="histogram-wrap" id="histogram"></div>
-                </div>
-                <div class="stats-col">
-                    <div class="section-label">Progression</div>
-                    <div id="progressionChart"></div>
-                </div>
-                <div class="stats-col">
-                    <div class="section-label">Manches</div>
-                    <div id="manchesSummary"></div>
-                </div>
-            </div>
-            <div class="stats-footer">
-                <button class="btn btn-primary" id="continueBtn" onclick="nextManche()">➜ Manche Suivante</button>
-                <button class="btn btn-danger" onclick="endGame()">🏆 Fin du Jeu</button>
-                <button class="btn btn-ghost" onclick="resetGame()" style="margin-left:auto;">🔄 Nouvelle Partie</button>
+            <div style="padding:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;background:var(--bg2);">
+                <button class="btn btn-gold btn-full btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
+                <button class="btn btn-ghost btn-full btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+                <button class="btn btn-ghost-red btn-full btn-sm" onclick="quitGame()">✕ Quitter</button>
             </div>
         </div>
+    </div>
 
-        <!-- ===== EDIT MANCHE ===== -->
-        <div id="editMancheScreen" class="screen">
-            <div class="edit-col">
-                <div class="section-label">🔵 Sherlock</div>
-                <div id="editBlueTeam" style="display:flex;flex-direction:column;gap:8px;min-height:80px;"></div>
+    <!-- STATS -->
+    <div id="statsScreen" class="screen">
+        <div class="stats-top">
+            <div class="stats-col">
+                <div class="section-label">Histogramme</div>
+                <div class="histogram-wrap" id="histogram"></div>
             </div>
-            <div class="edit-col">
-                <div class="section-label">🔴 Moriarty</div>
-                <div id="editRedTeam" style="display:flex;flex-direction:column;gap:8px;min-height:80px;"></div>
+            <div class="stats-col">
+                <div class="section-label">Progression</div>
+                <div id="progressionChart"></div>
             </div>
-            <div style="flex:0 0 180px;padding:14px;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--border);background:var(--bg2);">
-                <div class="section-label" id="editMancheTitle">Modifier</div>
-                <div style="color:var(--text-muted);font-size:0.8rem;line-height:1.6;">Clique sur un joueur pour le déplacer dans l'autre équipe.</div>
-                <div style="flex:1;"></div>
-                <button class="btn btn-gold btn-full" onclick="saveEditManche()">✅ Sauvegarder</button>
-                <button class="btn btn-ghost btn-full" onclick="cancelEditManche()">❌ Annuler</button>
+            <div class="stats-col">
+                <div class="section-label">Manches</div>
+                <div id="manchesSummary"></div>
             </div>
         </div>
-
-        <!-- ===== PODIUM ===== -->
-        <div id="podiumScreen" class="screen">
-            <div class="podium-title">🏆 PODIUM FINAL 🏆</div>
-            <div id="podium"></div>
-            <button class="btn btn-primary" onclick="resetGame()">🔄 Nouvelle Partie</button>
+        <div class="stats-footer">
+            <button class="btn btn-primary" id="continueBtn" onclick="nextManche()">➜ Manche Suivante</button>
+            <button class="btn btn-danger" onclick="endGame()">🏆 Fin du Jeu</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-gold btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+            <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
         </div>
+    </div>
 
-    </div><!-- /screens -->
+    <!-- EDIT MANCHE -->
+    <div id="editMancheScreen" class="screen">
+        <div class="edit-col">
+            <div class="section-label">🔵 Sherlock</div>
+            <div id="editBlueTeam" style="display:flex;flex-direction:column;gap:8px;min-height:80px;"></div>
+        </div>
+        <div class="edit-col">
+            <div class="section-label">🔴 Moriarty</div>
+            <div id="editRedTeam" style="display:flex;flex-direction:column;gap:8px;min-height:80px;"></div>
+        </div>
+        <div style="flex:0 0 180px;padding:14px;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--border);background:var(--bg2);">
+            <div class="section-label" id="editMancheTitle">Modifier</div>
+            <div style="color:var(--text-muted);font-size:0.8rem;line-height:1.6;">Clique sur un joueur pour le déplacer dans l'autre équipe.</div>
+            <div style="flex:1;"></div>
+            <button class="btn btn-gold btn-full" onclick="saveEditManche()">✅ Sauvegarder</button>
+            <button class="btn btn-ghost btn-full" onclick="cancelEditManche()">❌ Annuler</button>
+        </div>
+    </div>
+
+    <!-- PODIUM -->
+    <div id="podiumScreen" class="screen">
+        <div class="podium-title">🏆 PODIUM FINAL 🏆</div>
+        <div id="podium"></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+            <button class="btn btn-gold" onclick="saveAndGoMenu()">💾 Sauvegarder et Retour Menu</button>
+            <button class="btn btn-ghost-red" onclick="quitNoSave()">✕ Quitter sans sauvegarder</button>
+        </div>
+    </div>
+
+</div><!-- /screens -->
 </div><!-- /app -->
 
-<!-- ====== SCORES OVERLAY ====== -->
-<div id="scores-overlay" onclick="closeScoresOnBg(event)">
-    <div class="scores-panel">
-        <div class="scores-header">
-            <div class="scores-title">📊 Classement</div>
-            <button class="btn-close-overlay" onclick="closeScoresOverlay()">✕</button>
+<!-- TOAST -->
+<div id="tb-toast"></div>
+
+<!-- SCORES OVERLAY -->
+<div id="scores-overlay" class="overlay" onclick="closeOnBg(event,'scores-overlay')">
+    <div class="overlay-panel">
+        <div class="overlay-header">
+            <div class="overlay-title">📊 Classement</div>
+            <button class="btn-close" onclick="closeOverlay('scores-overlay')">✕</button>
         </div>
-        <div class="scores-body" id="scores-body"></div>
+        <div class="overlay-body" id="scores-body"></div>
     </div>
 </div>
 
-<!-- ====== DELETE MODAL ====== -->
-<div id="deleteConfirmModal">
-    <div class="delete-panel">
-        <div class="delete-title">⚠️ Supprimer la Manche ?</div>
-        <div class="delete-body">Cette action est <strong>DÉFINITIVE</strong> et ne peut pas être annulée.</div>
-        <div class="delete-buttons">
+<!-- DELETE SAVE MODAL -->
+<div id="modal-delete-save" class="modal">
+    <div class="modal-panel" style="border-color:var(--accent-red);">
+        <div class="modal-title" style="color:var(--accent-red);">⚠️ Supprimer ?</div>
+        <div class="modal-body" id="modal-delete-save-body">Cette sauvegarde sera supprimée définitivement.</div>
+        <div class="modal-buttons">
+            <button class="btn btn-danger" onclick="confirmDeleteSave()">🗑️ Supprimer</button>
+            <button class="btn btn-ghost" onclick="closeModal('modal-delete-save')">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE MANCHE MODAL -->
+<div id="modal-delete-manche" class="modal">
+    <div class="modal-panel" style="border-color:var(--accent-red);">
+        <div class="modal-title" style="color:var(--accent-red);">⚠️ Supprimer la manche ?</div>
+        <div class="modal-body">Cette action est <strong>définitive</strong> et ne peut pas être annulée.</div>
+        <div class="modal-buttons">
             <button class="btn btn-danger" onclick="confirmDeleteManche()">🗑️ Supprimer</button>
-            <button class="btn btn-ghost" onclick="cancelDeleteManche()">Annuler</button>
+            <button class="btn btn-ghost" onclick="closeModal('modal-delete-manche')">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- QUIT MODAL -->
+<div id="modal-quit" class="modal">
+    <div class="modal-panel" style="border-color:var(--border-hi);">
+        <div class="modal-title" style="color:var(--text);">Quitter la partie ?</div>
+        <div class="modal-body">Que veux-tu faire avant de quitter ?</div>
+        <div class="modal-buttons">
+            <button class="btn btn-gold" onclick="quitSaveAndMenu()">💾 Sauvegarder et Retour Menu</button>
+            <button class="btn btn-ghost-red" onclick="quitNoSave()">🗑️ Quitter sans sauvegarder</button>
+            <button class="btn btn-ghost" onclick="closeModal('modal-quit')">Annuler</button>
         </div>
     </div>
 </div>
@@ -833,124 +482,145 @@
 <script>
 // ====== THEMES ======
 const THEMES = {
-    sabotage: {
-        '--bg':          '#080b12',
-        '--bg2':         '#0e1320',
-        '--bg3':         '#131926',
-        '--panel':       '#111827',
-        '--border':      '#1e2d45',
-        '--border-hi':   '#2a3f60',
-        '--accent-blue': '#2563eb',
-        '--accent-red':  '#dc2626',
-        '--accent-gold': '#b8972a',
-        '--text':        '#e8eaf0',
-        '--text-dim':    '#7a8499',
-        '--text-muted':  '#4a5568',
-        '--blue-glow':   'rgba(37,99,235,0.35)',
-        '--red-glow':    'rgba(220,38,38,0.35)',
-        '--gold-glow':   'rgba(184,151,42,0.3)',
-    },
-    cold: {
-        '--bg':          '#05090f',
-        '--bg2':         '#0a1117',
-        '--bg3':         '#0f1820',
-        '--panel':       '#0d1520',
-        '--border':      '#172232',
-        '--border-hi':   '#1e3048',
-        '--accent-blue': '#0ea5e9',
-        '--accent-red':  '#ef4444',
-        '--accent-gold': '#94a3b8',
-        '--text':        '#cbd5e1',
-        '--text-dim':    '#64748b',
-        '--text-muted':  '#334155',
-        '--blue-glow':   'rgba(14,165,233,0.3)',
-        '--red-glow':    'rgba(239,68,68,0.3)',
-        '--gold-glow':   'rgba(148,163,184,0.2)',
-    },
-    neon: {
-        '--bg':          '#05010d',
-        '--bg2':         '#09021a',
-        '--bg3':         '#0d0320',
-        '--panel':       '#0a0118',
-        '--border':      '#1a0535',
-        '--border-hi':   '#2d0a55',
-        '--accent-blue': '#818cf8',
-        '--accent-red':  '#f43f5e',
-        '--accent-gold': '#fbbf24',
-        '--text':        '#e9d5ff',
-        '--text-dim':    '#7c3aed',
-        '--text-muted':  '#4c1d95',
-        '--blue-glow':   'rgba(129,140,248,0.4)',
-        '--red-glow':    'rgba(244,63,94,0.4)',
-        '--gold-glow':   'rgba(251,191,36,0.3)',
-    },
+    sabotage:{'--bg':'#080b12','--bg2':'#0e1320','--bg3':'#131926','--panel':'#111827','--border':'#1e2d45','--border-hi':'#2a3f60','--accent-blue':'#2563eb','--accent-red':'#dc2626','--accent-gold':'#b8972a','--text':'#e8eaf0','--text-dim':'#7a8499','--text-muted':'#4a5568','--blue-glow':'rgba(37,99,235,0.35)','--red-glow':'rgba(220,38,38,0.35)','--gold-glow':'rgba(184,151,42,0.3)'},
+    cold:{'--bg':'#05090f','--bg2':'#0a1117','--bg3':'#0f1820','--panel':'#0d1520','--border':'#172232','--border-hi':'#1e3048','--accent-blue':'#0ea5e9','--accent-red':'#ef4444','--accent-gold':'#94a3b8','--text':'#cbd5e1','--text-dim':'#64748b','--text-muted':'#334155','--blue-glow':'rgba(14,165,233,0.3)','--red-glow':'rgba(239,68,68,0.3)','--gold-glow':'rgba(148,163,184,0.2)'},
+    neon:{'--bg':'#05010d','--bg2':'#09021a','--bg3':'#0d0320','--panel':'#0a0118','--border':'#1a0535','--border-hi':'#2d0a55','--accent-blue':'#818cf8','--accent-red':'#f43f5e','--accent-gold':'#fbbf24','--text':'#e9d5ff','--text-dim':'#7c3aed','--text-muted':'#4c1d95','--blue-glow':'rgba(129,140,248,0.4)','--red-glow':'rgba(244,63,94,0.4)','--gold-glow':'rgba(251,191,36,0.3)'},
 };
-
 function applyTheme(name) {
     const t = THEMES[name] || THEMES.sabotage;
-    const root = document.documentElement;
-    Object.entries(t).forEach(([k,v]) => root.style.setProperty(k, v));
+    Object.entries(t).forEach(([k,v]) => document.documentElement.style.setProperty(k,v));
     localStorage.setItem('tb_theme', name);
-    const sel = document.getElementById('theme-select');
-    if (sel) sel.value = name;
+    const s = document.getElementById('theme-select');
+    if (s) s.value = name;
 }
 
-// ====== SABOTAGE MESSAGES ======
-const SABOTAGE_MSGS = [
-    'MENTEZ BIEN !',
-    'VOUS ÊTES DES ESCROCS !',
-    'NE FAITES CONFIANCE À PERSONNE !',
-    'TRAHISSEZ SANS REMORDS',
-    'CHAQUE AMI EST UN SUSPECT',
-    'LE MENSONGE, C\'EST UN ART',
-    'QUI COUPE LE BON FIL ?',
-    'LA BOMBE TIQUE…',
-    'INFILTREZ. SABOTEZ. SURVIVEZ.',
-    'LE TRAÎTRE EST PARMI VOUS',
-    'SOURIEZ ET TRAHISSEZ',
-    'LA CONFIANCE TUE',
-];
-
-let msgTimer = null;
-function startMsgCycle() {
-    let idx = 0;
-    const el = document.getElementById('sabotage-msg');
-    if (!el) return;
-    el.textContent = SABOTAGE_MSGS[idx];
-    clearInterval(msgTimer);
-    msgTimer = setInterval(() => {
-        idx = (idx + 1) % SABOTAGE_MSGS.length;
-        el.textContent = SABOTAGE_MSGS[idx];
-    }, 2500);
+// ====== SAVES SYSTEM ======
+const SAVES_KEY = 'tb_saves_v2';
+function loadAllSaves() { try { return JSON.parse(localStorage.getItem(SAVES_KEY)) || []; } catch { return []; } }
+function persistAllSaves(saves) { localStorage.setItem(SAVES_KEY, JSON.stringify(saves)); }
+function generateId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})
+        + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 }
 
-// ====== GAME STATE ======
-let gameState = { players: [], currentManche: 1, teamAssignment: {}, mancheHistory: [] };
+let activeSaveId = null;
+let gameState = { players:[], currentManche:1, teamAssignment:{}, mancheHistory:[] };
 
-function saveGameData() { localStorage.setItem('timebombGameState', JSON.stringify(gameState)); }
-function loadGameData() {
-    const s = localStorage.getItem('timebombGameState');
-    if (s) gameState = JSON.parse(s);
+function persistCurrentGame() {
+    const saves = loadAllSaves();
+    const idx = saves.findIndex(s => s.id === activeSaveId);
+    const now = new Date().toISOString();
+    const entry = {
+        id: activeSaveId,
+        name: gameState.name || 'Partie sans nom',
+        updatedAt: now,
+        createdAt: (idx >= 0 ? saves[idx].createdAt : null) || now,
+        state: JSON.parse(JSON.stringify(gameState))
+    };
+    if (idx >= 0) saves[idx] = entry;
+    else saves.push(entry);
+    persistAllSaves(saves);
 }
 
-// ====== SCREENS ======
-function switchScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(id);
-    if (el) el.classList.add('active');
-    if (id === 'gameScreen') startMsgCycle();
-    else clearInterval(msgTimer);
+function loadSave(saveId) {
+    const entry = loadAllSaves().find(s => s.id === saveId);
+    if (!entry) return false;
+    gameState = JSON.parse(JSON.stringify(entry.state));
+    activeSaveId = saveId;
+    return true;
+}
+
+function deleteSave(saveId) {
+    persistAllSaves(loadAllSaves().filter(s => s.id !== saveId));
+    if (activeSaveId === saveId) activeSaveId = null;
+}
+
+// ====== HOME ======
+function renderSavesList() {
+    const el = document.getElementById('saves-list');
+    const saves = loadAllSaves().sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    if (saves.length === 0) {
+        el.innerHTML = '<div class="no-saves">Aucune partie sauvegardée.<br>Crée une nouvelle partie !</div>';
+        return;
+    }
+    el.innerHTML = '';
+    saves.forEach(save => {
+        const gs = save.state || {};
+        const blueW = (gs.mancheHistory||[]).filter(m=>m.winner==='blue').length;
+        const redW  = (gs.mancheHistory||[]).filter(m=>m.winner==='red').length;
+        const card = document.createElement('div');
+        card.className = 'save-card' + (save.id === activeSaveId ? ' active-save' : '');
+        card.innerHTML =
+            `<button class="save-card-del" data-id="${save.id}" title="Supprimer">🗑️</button>` +
+            `<div class="save-card-name">${esc(save.name)}</div>` +
+            `<div class="save-card-players">${esc((gs.players||[]).join(' · ') || '—')}</div>` +
+            `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">` +
+              `<div style="font-size:0.7rem;color:var(--text-muted);">M${gs.currentManche||1}/4 · ${formatDate(save.updatedAt)}</div>` +
+              `<div style="display:flex;gap:6px;"><span class="badge-blue">🔵 ${blueW}V</span><span class="badge-red">🔴 ${redW}V</span></div>` +
+            `</div>`;
+        card.querySelector('.save-card-del').addEventListener('click', e => { e.stopPropagation(); promptDeleteSave(save.id); });
+        card.addEventListener('click', () => openSave(save.id));
+        el.appendChild(card);
+    });
+}
+
+function openSave(saveId) {
+    loadSave(saveId);
+    enterSetupScreen();
+}
+
+function newGame() {
+    const nameInput = document.getElementById('new-game-name');
+    const name = nameInput.value.trim() || autoName();
+    gameState = { name, players:[], currentManche:1, teamAssignment:{}, mancheHistory:[] };
+    activeSaveId = generateId();
+    nameInput.value = '';
+    enterSetupScreen();
+}
+
+function autoName() {
+    const d = new Date();
+    return 'Partie du ' + d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})
+        + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 }
 
 // ====== SETUP ======
-function addPlayer() {
+function enterSetupScreen() {
+    const c = document.getElementById('playersInput');
+    c.innerHTML = '';
+    (gameState.players||[]).forEach(p => appendPlayerInput(p));
+    updateTableHighlight();
+    updateButtonVisibility();
+    updateCurrentSaveInfo();
+    showMenuBtn(true);
+    switchScreen('setupScreen');
+}
+
+function updateCurrentSaveInfo() {
+    const el = document.getElementById('current-save-info');
+    if (!el) return;
+    el.innerHTML =
+        `<div style="font-weight:700;color:var(--text);margin-bottom:4px;">${esc(gameState.name||'—')}</div>` +
+        `<div style="color:var(--text-muted);font-size:0.75rem;">Manche ${gameState.currentManche||1}/4 · ${(gameState.players||[]).length} joueur(s)</div>` +
+        `<div style="color:var(--text-muted);font-size:0.75rem;">${(gameState.mancheHistory||[]).length} manche(s) jouée(s)</div>`;
+}
+
+function appendPlayerInput(val) {
     const c = document.getElementById('playersInput');
     const div = document.createElement('div');
     div.className = 'player-row';
-    div.innerHTML = `<input type="text" placeholder="Nom du joueur" class="player-input">
-        <button class="btn btn-ghost btn-icon" onclick="removePlayer(this)" style="flex-shrink:0;color:var(--accent-red);border-color:rgba(220,38,38,0.3)">✕</button>`;
+    div.innerHTML = `<input type="text" placeholder="Nom du joueur" class="player-input" value="${esc(val)}">` +
+        `<button class="btn btn-ghost btn-icon" onclick="removePlayer(this)" style="flex-shrink:0;color:var(--accent-red);border-color:rgba(220,38,38,0.3)">✕</button>`;
     c.appendChild(div);
-    div.querySelector('input').focus();
+}
+
+function addPlayer() {
+    appendPlayerInput('');
+    const inputs = document.querySelectorAll('.player-input');
+    if (inputs.length) inputs[inputs.length-1].focus();
     updateTableHighlight();
     updateButtonVisibility();
 }
@@ -971,64 +641,127 @@ function updateTableHighlight() {
 function updateButtonVisibility() {
     const n = document.querySelectorAll('.player-input').length;
     const btn = document.getElementById('btnStart');
-    if (btn) btn.classList.toggle('hidden', !(n >= 4 && n <= 8));
+    if (btn) btn.style.display = (n >= 4 && n <= 8) ? '' : 'none';
 }
 
 function startGame() {
     const inputs = document.querySelectorAll('.player-input');
     gameState.players = Array.from(inputs).map(i => i.value.trim()).filter(n => n.length > 0);
-    if (gameState.players.length < 4) { alert('Minimum 4 joueurs!'); return; }
+    if (gameState.players.length < 4) { alert('Minimum 4 joueurs !'); return; }
     gameState.currentManche = 1;
     gameState.mancheHistory = [];
     gameState.teamAssignment = {};
     gameState.players.forEach(p => { gameState.teamAssignment[p] = null; });
     document.getElementById('mancheDisplay').textContent = 1;
     switchScreen('gameScreen');
-    saveGameData();
 }
 
-// ====== SAVED GAME ======
-function checkSavedGame() {
-    const saved = localStorage.getItem('timebombGameState');
-    const alert = document.getElementById('savedGameAlert');
-    const details = document.getElementById('savedGameDetails');
-    const actions = document.getElementById('save-actions');
-
-    if (saved) {
-        const data = JSON.parse(saved);
-        if (data.players && data.players.length > 0) {
-            alert.classList.add('active');
-            actions.classList.remove('hidden');
-            const blueWins = (data.mancheHistory||[]).filter(m => m.winner === 'blue').length;
-            const redWins  = (data.mancheHistory||[]).filter(m => m.winner === 'red').length;
-            details.innerHTML = `
-                <div style="color:var(--text);font-weight:700;margin-bottom:6px;">${data.players.length} joueurs • Manche ${data.currentManche}/4</div>
-                <div style="color:var(--text-dim);font-size:0.78rem;margin-bottom:4px;">${data.players.join(' · ')}</div>
-                <div class="save-score-row">
-                    <span class="badge-blue">🔵 ${blueWins}V</span>
-                    <span class="badge-red">🔴 ${redWins}V</span>
-                </div>`;
-            return;
-        }
-    }
-    alert.classList.remove('active');
-    actions.classList.add('hidden');
-    details.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem;">Aucune partie sauvegardée.</span>';
+// ====== SAVE ACTIONS ======
+function saveAndContinue() {
+    persistCurrentGame();
+    showToast('💾 Partie sauvegardée !');
 }
 
-function continueSavedGame() { location.reload(); }
-function goToStats() { renderStats(); switchScreen('statsScreen'); }
-function clearSavedGame() {
-    if (confirm('Supprimer la partie sauvegardée ?')) {
-        localStorage.removeItem('timebombGameState');
-        gameState = { players: [], currentManche: 1, teamAssignment: {}, mancheHistory: [] };
-        document.getElementById('playersInput').innerHTML = '';
-        checkSavedGame();
-        updateButtonVisibility();
-    }
+function saveAndGoMenu() {
+    persistCurrentGame();
+    showToast('💾 Partie sauvegardée !');
+    setTimeout(goToMenu, 700);
 }
 
-// ====== END TURN ======
+function quitGame() { openModal('modal-quit'); }
+
+function quitSaveAndMenu() {
+    persistCurrentGame();
+    closeModal('modal-quit');
+    goToMenu();
+}
+
+function quitNoSave() {
+    closeModal('modal-quit');
+    goToMenu();
+}
+
+function goToMenu() {
+    gameState = { players:[], currentManche:1, teamAssignment:{}, mancheHistory:[] };
+    activeSaveId = null;
+    showMenuBtn(false);
+    renderSavesList();
+    switchScreen('homeScreen');
+}
+
+function showMenuBtn(show) {
+    const b = document.getElementById('btn-menu');
+    if (b) b.style.display = show ? '' : 'none';
+}
+
+// ====== DELETE SAVE ======
+let pendingDeleteSaveId = null;
+function promptDeleteSave(saveId) {
+    pendingDeleteSaveId = saveId;
+    const saves = loadAllSaves();
+    const save = saves.find(s => s.id === saveId);
+    document.getElementById('modal-delete-save-body').textContent =
+        `Supprimer "${save ? save.name : 'cette partie'}" ? Action irréversible.`;
+    openModal('modal-delete-save');
+}
+function confirmDeleteSave() {
+    if (pendingDeleteSaveId) deleteSave(pendingDeleteSaveId);
+    closeModal('modal-delete-save');
+    renderSavesList();
+}
+
+// ====== IMPORT / EXPORT ======
+function exportSaves() {
+    const saves = loadAllSaves();
+    if (saves.length === 0) { alert('Aucune sauvegarde à exporter.'); return; }
+    const json = JSON.stringify({ version:2, exportedAt:new Date().toISOString(), saves }, null, 2);
+    const a = Object.assign(document.createElement('a'), {
+        href: URL.createObjectURL(new Blob([json], {type:'application/json'})),
+        download: `timebomb_${new Date().toISOString().slice(0,10)}.json`
+    });
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function importSaves(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            const incoming = data.saves || (Array.isArray(data) ? data : null);
+            if (!incoming) { alert('Format invalide.'); return; }
+            const existing = loadAllSaves();
+            const ids = new Set(existing.map(s => s.id));
+            let added = 0;
+            incoming.forEach(s => { if (!ids.has(s.id)) { existing.push(s); added++; } });
+            persistAllSaves(existing);
+            renderSavesList();
+            showToast(`✅ ${added} partie(s) importée(s) !`);
+        } catch { alert('Erreur lors de la lecture du fichier JSON.'); }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+
+// ====== GAME FLOW ======
+let msgTimer = null;
+const MSGS = ['MENTEZ BIEN !','VOUS ÊTES DES ESCROCS !','NE FAITES CONFIANCE À PERSONNE !','TRAHISSEZ SANS REMORDS','CHAQUE AMI EST UN SUSPECT','LE MENSONGE, C\'EST UN ART','QUI COUPE LE BON FIL ?','LA BOMBE TIQUE…','INFILTREZ. SABOTEZ. SURVIVEZ.','LE TRAÎTRE EST PARMI VOUS','SOURIEZ ET TRAHISSEZ','LA CONFIANCE TUE'];
+function startMsgCycle() {
+    let idx = 0; const el = document.getElementById('sabotage-msg'); if (!el) return;
+    el.textContent = MSGS[idx]; clearInterval(msgTimer);
+    msgTimer = setInterval(() => { idx = (idx+1)%MSGS.length; el.textContent = MSGS[idx]; }, 2500);
+}
+
+function switchScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+    if (id === 'gameScreen') startMsgCycle(); else clearInterval(msgTimer);
+    if (id === 'homeScreen') showMenuBtn(false);
+}
+
 function endTurn() {
     document.getElementById('mancheEndDisplay').textContent = gameState.currentManche;
     renderTeamAssignment();
@@ -1042,335 +775,194 @@ function renderTeamAssignment() {
         const sel = gameState.teamAssignment[player];
         const div = document.createElement('div');
         div.className = 'team-row';
-        div.innerHTML = `
-            <div class="team-row-name">${player}</div>
-            <div class="team-toggle">
-                <button class="team-btn blue ${sel === 'blue' ? 'active' : ''}" onclick="assignTeam('${player}','blue')">🔵</button>
-                <button class="team-btn red  ${sel === 'red'  ? 'active' : ''}" onclick="assignTeam('${player}','red')">🔴</button>
-            </div>`;
+        div.innerHTML = `<div class="team-row-name">${esc(player)}</div>` +
+            `<div class="team-toggle">` +
+            `<button class="team-btn blue ${sel==='blue'?'active':''}" onclick="assignTeam('${esc(player)}','blue')">🔵</button>` +
+            `<button class="team-btn red  ${sel==='red'?'active':''}" onclick="assignTeam('${esc(player)}','red')">🔴</button>` +
+            `</div>`;
         c.appendChild(div);
     });
 }
 
-function assignTeam(player, team) {
-    gameState.teamAssignment[player] = team;
-    renderTeamAssignment();
-}
+function assignTeam(player, team) { gameState.teamAssignment[player] = team; renderTeamAssignment(); }
 
 function setWinner(team) {
-    const allAssigned = gameState.players.every(p => gameState.teamAssignment[p]);
-    if (!allAssigned) { alert('Tous les joueurs doivent avoir une équipe!'); return; }
-    gameState.mancheHistory.push({ manche: gameState.currentManche, assignments: {...gameState.teamAssignment}, winner: team });
+    if (!gameState.players.every(p => gameState.teamAssignment[p])) { alert('Tous les joueurs doivent avoir une équipe !'); return; }
+    gameState.mancheHistory.push({ manche:gameState.currentManche, assignments:{...gameState.teamAssignment}, winner:team });
     renderStats();
     switchScreen('statsScreen');
-    saveGameData();
-    if (gameState.currentManche >= 4) {
-        const btn = document.getElementById('continueBtn');
-        if (btn) btn.style.display = 'none';
-    }
+    if (gameState.currentManche >= 4) { const b = document.getElementById('continueBtn'); if(b) b.style.display='none'; }
 }
 
-// ====== STATS ======
-function renderStats() {
-    const ps = {};
-    gameState.players.forEach(p => { ps[p] = []; });
-    gameState.mancheHistory.forEach(round => {
-        gameState.players.forEach(p => {
-            const team = round.assignments[p];
-            const won = round.winner === team;
-            ps[p].push({ team, won, manche: round.manche });
-        });
-    });
-    renderHistogram(ps);
-    renderProgression(ps);
-    renderManchesSummary();
-    const btn = document.getElementById('continueBtn');
-    if (btn) btn.style.display = gameState.currentManche >= 4 ? 'none' : '';
-}
-
-function renderHistogram(ps) {
-    const el = document.getElementById('histogram');
-    el.innerHTML = '';
-    gameState.players.forEach(player => {
-        let bw=0,bl=0,rw=0,rl=0,tw=0;
-        ps[player].forEach(s => {
-            if (s.team==='blue') { if(s.won){bw++;tw++;}else bl++; }
-            else if (s.team==='red') { if(s.won){rw++;tw++;}else rl++; }
-        });
-        const total = bw+bl+rw+rl;
-        let segs='';
-        if(bw>0) segs+=`<div class="seg bw" style="flex:${bw}">${bw}</div>`;
-        if(bl>0) segs+=`<div class="seg bl" style="flex:${bl}">${bl}</div>`;
-        if(rw>0) segs+=`<div class="seg rw" style="flex:${rw}">${rw}</div>`;
-        if(rl>0) segs+=`<div class="seg rl" style="flex:${rl}">${rl}</div>`;
-        el.innerHTML += `<div class="histo-bar">
-            <div class="histo-col">${segs}</div>
-            <div class="histo-name">${player}</div>
-            <div class="histo-score">${tw}/${total}</div>
-        </div>`;
-    });
-}
-
-function renderProgression(ps) {
-    const el = document.getElementById('progressionChart');
-    el.innerHTML = '';
-    const wins = p => ps[p].filter(s=>s.won).length;
-    gameState.players.forEach(player => {
-        const tw = wins(player);
-        const rank = gameState.players.filter(p => wins(p) > tw).length + 1;
-        const rankLabels = ['🥇 1er','🥈 2ème','🥉 3ème','4ème','5ème','6ème','7ème','8ème'];
-        const icons = ps[player].map(s => {
-            let cls, em;
-            if (s.won) { cls = s.team==='blue'?'bw':'rw'; em = s.team==='blue'?'✂️':'💣'; }
-            else { cls = s.team==='blue'?'bl':'rl'; em='😭'; }
-            return `<div class="prog-icon ${cls}" title="M${s.manche}">${em}</div>`;
-        }).join('');
-        el.innerHTML += `<div class="prog-player">
-            <div class="prog-name">${player}<span class="prog-rank">${rankLabels[rank-1]||rank+'ème'}</span></div>
-            <div class="prog-icons">${icons}</div>
-        </div>`;
-    });
-}
-
-function renderManchesSummary() {
-    const el = document.getElementById('manchesSummary');
-    let html = `<table class="summary-table"><thead><tr>
-        <th>M</th><th>🔵</th><th>🔴</th><th>Gagnant</th><th></th>
-    </tr></thead><tbody>`;
-    gameState.mancheHistory.forEach((round, idx) => {
-        const blue = gameState.players.filter(p=>round.assignments[p]==='blue').join(', ');
-        const red  = gameState.players.filter(p=>round.assignments[p]==='red').join(', ');
-        const wbadge = round.winner==='blue' ? '<span class="badge-blue">🔵</span>' : '<span class="badge-red">🔴</span>';
-        const bg = round.winner==='blue' ? 'rgba(37,99,235,0.06)' : 'rgba(220,38,38,0.06)';
-        html += `<tr style="background:${bg}">
-            <td>M${round.manche}</td>
-            <td>${blue}</td>
-            <td>${red}</td>
-            <td>${wbadge}</td>
-            <td style="white-space:nowrap">
-                <button class="btn-blue-ghost btn-edit-manche" data-idx="${idx}">✏️</button>
-                <button class="btn-red-ghost btn-delete-manche" data-idx="${idx}" style="margin-left:4px">🗑️</button>
-            </td>
-        </tr>`;
-    });
-    html += '</tbody></table>';
-    el.innerHTML = html;
-
-    el.querySelectorAll('.btn-edit-manche').forEach(btn => {
-        btn.addEventListener('click', e => editManche(parseInt(e.currentTarget.dataset.idx)));
-    });
-    el.querySelectorAll('.btn-delete-manche').forEach(btn => {
-        btn.addEventListener('click', e => deleteManche(parseInt(e.currentTarget.dataset.idx)));
-    });
-}
-
-// ====== EDIT MANCHE ======
-function editManche(idx) {
-    window.currentEditIdx = idx;
-    window.currentEditAssignments = {...gameState.mancheHistory[idx].assignments};
-    document.getElementById('editMancheTitle').textContent = `Manche ${gameState.mancheHistory[idx].manche}`;
-    updateEditDisplay();
-    switchScreen('editMancheScreen');
-}
-
-function updateEditDisplay() {
-    const bt = document.getElementById('editBlueTeam');
-    const rt = document.getElementById('editRedTeam');
-    bt.innerHTML = ''; rt.innerHTML = '';
-    gameState.players.forEach(player => {
-        const team = window.currentEditAssignments[player];
-        const btn = document.createElement('button');
-        btn.className = `btn ${team==='blue'?'btn-primary':'btn-danger'} btn-full`;
-        btn.textContent = player;
-        if (team==='blue') { btn.onclick = ()=>movePlayer(player,'red'); bt.appendChild(btn); }
-        else { btn.onclick = ()=>movePlayer(player,'blue'); rt.appendChild(btn); }
-    });
-}
-
-function movePlayer(player, newTeam) {
-    window.currentEditAssignments[player] = newTeam;
-    updateEditDisplay();
-}
-
-function saveEditManche() {
-    gameState.mancheHistory[window.currentEditIdx].assignments = window.currentEditAssignments;
-    renderStats(); saveGameData(); switchScreen('statsScreen');
-}
-
-function cancelEditManche() { switchScreen('statsScreen'); }
-
-// ====== DELETE MANCHE ======
-function deleteManche(idx) {
-    window.pendingDeleteIdx = idx;
-    document.getElementById('deleteConfirmModal').classList.add('modal-visible');
-}
-function confirmDeleteManche() {
-    gameState.mancheHistory.splice(window.pendingDeleteIdx, 1);
-    renderStats(); saveGameData();
-    document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
-}
-function cancelDeleteManche() {
-    document.getElementById('deleteConfirmModal').classList.remove('modal-visible');
-}
-
-// ====== NEXT MANCHE / END ======
 function nextManche() {
     gameState.currentManche++;
     gameState.teamAssignment = {};
     gameState.players.forEach(p => { gameState.teamAssignment[p] = null; });
     document.getElementById('mancheDisplay').textContent = gameState.currentManche;
     switchScreen('gameScreen');
-    saveGameData();
 }
 
-function endGame() { renderPodium(); switchScreen('podiumScreen'); saveGameData(); }
+function endGame() { renderPodium(); switchScreen('podiumScreen'); }
 
-function renderPodium() {
-    const ps = {};
-    gameState.players.forEach(p => { ps[p] = []; });
-    gameState.mancheHistory.forEach(round => {
-        gameState.players.forEach(p => {
-            ps[p].push({ team: round.assignments[p], won: round.winner === round.assignments[p] });
-        });
+// ====== STATS ======
+function buildPS() {
+    const ps = {}; gameState.players.forEach(p => { ps[p] = []; });
+    gameState.mancheHistory.forEach(r => { gameState.players.forEach(p => { ps[p].push({team:r.assignments[p], won:r.winner===r.assignments[p], manche:r.manche}); }); });
+    return ps;
+}
+
+function renderStats() {
+    const ps = buildPS();
+    renderHistogram(ps); renderProgression(ps); renderManchesSummary();
+    const b = document.getElementById('continueBtn');
+    if (b) b.style.display = gameState.currentManche >= 4 ? 'none' : '';
+}
+
+function renderHistogram(ps) {
+    const el = document.getElementById('histogram'); el.innerHTML = '';
+    gameState.players.forEach(player => {
+        let bw=0,bl=0,rw=0,rl=0,tw=0;
+        (ps[player]||[]).forEach(s => { if(s.team==='blue'){if(s.won){bw++;tw++;}else bl++;} else if(s.team==='red'){if(s.won){rw++;tw++;}else rl++;} });
+        const total=bw+bl+rw+rl;
+        let segs='';
+        if(bw) segs+=`<div class="seg bw" style="flex:${bw}">${bw}</div>`;
+        if(bl) segs+=`<div class="seg bl" style="flex:${bl}">${bl}</div>`;
+        if(rw) segs+=`<div class="seg rw" style="flex:${rw}">${rw}</div>`;
+        if(rl) segs+=`<div class="seg rl" style="flex:${rl}">${rl}</div>`;
+        el.innerHTML += `<div class="histo-bar"><div class="histo-col">${segs}</div><div class="histo-name">${esc(player)}</div><div class="histo-score">${tw}/${total}</div></div>`;
     });
-    const rankings = gameState.players.map(p => {
-        let wins = 0; ps[p].forEach(s => { if(s.won) wins++; });
-        return { name: p, wins };
-    }).sort((a,b) => b.wins - a.wins);
+}
 
-    const podium = document.getElementById('podium');
-    podium.innerHTML = '';
-    const heights  = [200, 150, 110];
-    const colors   = ['#b8972a','#6b7280','#b45309'];
-    const medals   = ['🥇','🥈','🥉'];
-    const order    = [1,0,2]; // 2nd, 1st, 3rd
+function renderProgression(ps) {
+    const el = document.getElementById('progressionChart'); el.innerHTML = '';
+    const wOf = p => (ps[p]||[]).filter(s=>s.won).length;
+    gameState.players.forEach(player => {
+        const tw = wOf(player);
+        const rank = gameState.players.filter(p=>wOf(p)>tw).length + 1;
+        const rl = ['🥇 1er','🥈 2ème','🥉 3ème','4ème','5ème','6ème','7ème','8ème'];
+        const icons = (ps[player]||[]).map(s => {
+            let cls,em;
+            if(s.won){cls=s.team==='blue'?'bw':'rw';em=s.team==='blue'?'✂️':'💣';}
+            else{cls=s.team==='blue'?'bl':'rl';em='😭';}
+            return `<div class="prog-icon ${cls}" title="M${s.manche}">${em}</div>`;
+        }).join('');
+        el.innerHTML += `<div class="prog-player"><div class="prog-name">${esc(player)}<span class="prog-rank">${rl[rank-1]||rank+'ème'}</span></div><div class="prog-icons">${icons}</div></div>`;
+    });
+}
 
-    order.forEach(i => {
-        const pl = rankings[i];
-        if (!pl) return;
-        const div = document.createElement('div');
-        div.className = 'podium-item';
-        div.innerHTML = `
-            <div style="font-size:1.5rem">${medals[i]||'🎖️'}</div>
-            <div class="podium-name" style="color:var(--text)">${pl.name}</div>
-            <div class="podium-wins">${pl.wins} victoire${pl.wins>1?'s':''}</div>
-            <div class="podium-platform" style="height:${heights[i]}px;background:${colors[i]}">${i+1}</div>`;
+function renderManchesSummary() {
+    const el = document.getElementById('manchesSummary');
+    let html = `<table class="summary-table"><thead><tr><th>M</th><th>🔵</th><th>🔴</th><th>W</th><th></th></tr></thead><tbody>`;
+    gameState.mancheHistory.forEach((round,idx) => {
+        const blue = gameState.players.filter(p=>round.assignments[p]==='blue').join(', ');
+        const red  = gameState.players.filter(p=>round.assignments[p]==='red').join(', ');
+        const w = round.winner==='blue' ? '<span class="badge-blue">🔵</span>' : '<span class="badge-red">🔴</span>';
+        const bg = round.winner==='blue' ? 'rgba(37,99,235,0.06)' : 'rgba(220,38,38,0.06)';
+        html += `<tr style="background:${bg}"><td>M${round.manche}</td><td>${esc(blue)}</td><td>${esc(red)}</td><td>${w}</td>` +
+            `<td style="white-space:nowrap"><button class="btn-blue-ghost btn-edit-manche" data-idx="${idx}">✏️</button>` +
+            `<button class="btn-red-ghost btn-delete-manche" data-idx="${idx}" style="margin-left:4px">🗑️</button></td></tr>`;
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+    el.querySelectorAll('.btn-edit-manche').forEach(b => b.addEventListener('click', e => editManche(parseInt(e.currentTarget.dataset.idx))));
+    el.querySelectorAll('.btn-delete-manche').forEach(b => b.addEventListener('click', e => deleteManche(parseInt(e.currentTarget.dataset.idx))));
+}
+
+// ====== EDIT MANCHE ======
+function editManche(idx) {
+    window._editIdx = idx;
+    window._editAssign = {...gameState.mancheHistory[idx].assignments};
+    document.getElementById('editMancheTitle').textContent = `Manche ${gameState.mancheHistory[idx].manche}`;
+    updateEditDisplay();
+    switchScreen('editMancheScreen');
+}
+function updateEditDisplay() {
+    const bt=document.getElementById('editBlueTeam'), rt=document.getElementById('editRedTeam');
+    bt.innerHTML=''; rt.innerHTML='';
+    gameState.players.forEach(player => {
+        const team = window._editAssign[player];
+        const btn = document.createElement('button');
+        btn.className = `btn ${team==='blue'?'btn-primary':'btn-danger'} btn-full`;
+        btn.textContent = player;
+        if(team==='blue'){btn.onclick=()=>movePlayer(player,'red');bt.appendChild(btn);}
+        else{btn.onclick=()=>movePlayer(player,'blue');rt.appendChild(btn);}
+    });
+}
+function movePlayer(p,t){window._editAssign[p]=t;updateEditDisplay();}
+function saveEditManche(){gameState.mancheHistory[window._editIdx].assignments=window._editAssign;renderStats();switchScreen('statsScreen');}
+function cancelEditManche(){switchScreen('statsScreen');}
+
+// ====== DELETE MANCHE ======
+function deleteManche(idx){window._delMancheIdx=idx;openModal('modal-delete-manche');}
+function confirmDeleteManche(){gameState.mancheHistory.splice(window._delMancheIdx,1);renderStats();closeModal('modal-delete-manche');}
+
+// ====== PODIUM ======
+function renderPodium() {
+    const ps = buildPS();
+    const rankings = gameState.players.map(p=>{let w=0;(ps[p]||[]).forEach(s=>{if(s.won)w++;});return{name:p,wins:w};}).sort((a,b)=>b.wins-a.wins);
+    const podium = document.getElementById('podium'); podium.innerHTML='';
+    const H=[200,150,110], C=['#b8972a','#6b7280','#b45309'], M=['🥇','🥈','🥉'], O=[1,0,2];
+    O.forEach(i=>{
+        const pl=rankings[i]; if(!pl)return;
+        const div=document.createElement('div'); div.className='podium-item';
+        div.innerHTML=`<div style="font-size:1.5rem">${M[i]||'🎖️'}</div>` +
+            `<div class="podium-name" style="color:var(--text)">${esc(pl.name)}</div>` +
+            `<div style="font-size:0.8rem;color:var(--text-dim)">${pl.wins} victoire${pl.wins>1?'s':''}</div>` +
+            `<div class="podium-platform" style="height:${H[i]}px;background:${C[i]}">${i+1}</div>`;
         podium.appendChild(div);
     });
 }
 
-function resetGame() {
-    gameState = { players: [], currentManche: 1, teamAssignment: {}, mancheHistory: [] };
-    localStorage.removeItem('timebombGameState');
-    location.reload();
-}
-
 // ====== SCORES OVERLAY ======
 function openScoresOverlay() {
-    renderScoresOverlay();
-    document.getElementById('scores-overlay').classList.add('visible');
-}
-function closeScoresOverlay() {
-    document.getElementById('scores-overlay').classList.remove('visible');
-}
-function closeScoresOnBg(e) {
-    if (e.target === document.getElementById('scores-overlay')) closeScoresOverlay();
-}
-
-function renderScoresOverlay() {
     const el = document.getElementById('scores-body');
     if (!gameState.mancheHistory || gameState.mancheHistory.length === 0) {
         el.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:24px;">Aucune manche jouée.</div>';
-        return;
+    } else {
+        const ps={}; gameState.players.forEach(p=>{ps[p]={wins:0,played:0,bw:0,rw:0};});
+        gameState.mancheHistory.forEach(r=>{gameState.players.forEach(p=>{const t=r.assignments[p],w=r.winner===t;ps[p].played++;if(t==='blue'&&w)ps[p].bw++;if(t==='red'&&w)ps[p].rw++;if(w)ps[p].wins++;});});
+        const sorted=gameState.players.slice().sort((a,b)=>ps[b].wins-ps[a].wins);
+        const bW=gameState.mancheHistory.filter(m=>m.winner==='blue').length;
+        const rW=gameState.mancheHistory.filter(m=>m.winner==='red').length;
+        const M=['🥇','🥈','🥉'];
+        el.innerHTML=`<div style="display:flex;gap:12px;margin-bottom:16px;">
+            <div style="flex:1;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:8px;padding:12px;text-align:center;">
+                <div style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:#93c5fd;">🔵 Sherlock</div>
+                <div style="font-size:2rem;font-weight:900;color:#93c5fd;">${bW}</div></div>
+            <div style="flex:1;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:12px;text-align:center;">
+                <div style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:#fca5a5;">🔴 Moriarty</div>
+                <div style="font-size:2rem;font-weight:900;color:#fca5a5;">${rW}</div></div>
+        </div>
+        <table class="summary-table"><thead><tr><th>#</th><th>Joueur</th><th>V/J</th><th>🔵W</th><th>🔴W</th></tr></thead><tbody>
+        ${sorted.map((p,i)=>`<tr><td>${M[i]||i+1}</td><td style="font-weight:700;color:var(--text)">${esc(p)}</td><td style="color:var(--accent-gold);font-weight:800">${ps[p].wins}/${ps[p].played}</td><td><span class="badge-blue">${ps[p].bw}</span></td><td><span class="badge-red">${ps[p].rw}</span></td></tr>`).join('')}
+        </tbody></table>`;
     }
-
-    const ps = {};
-    gameState.players.forEach(p => { ps[p] = { wins: 0, played: 0, blue: 0, red: 0, bw: 0, rw: 0 }; });
-    gameState.mancheHistory.forEach(round => {
-        gameState.players.forEach(p => {
-            const t = round.assignments[p];
-            const won = round.winner === t;
-            ps[p].played++;
-            if (t === 'blue') { ps[p].blue++; if(won) ps[p].bw++; }
-            if (t === 'red')  { ps[p].red++;  if(won) ps[p].rw++; }
-            if (won) ps[p].wins++;
-        });
-    });
-
-    const sorted = gameState.players.slice().sort((a,b) => ps[b].wins - ps[a].wins);
-    const medals = ['🥇','🥈','🥉'];
-    const blueW = gameState.mancheHistory.filter(m=>m.winner==='blue').length;
-    const redW  = gameState.mancheHistory.filter(m=>m.winner==='red').length;
-
-    let html = `<div style="display:flex;gap:12px;margin-bottom:16px;">
-        <div style="flex:1;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:8px;padding:12px;text-align:center;">
-            <div style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:#93c5fd;">🔵 SHERLOCK</div>
-            <div style="font-size:2rem;font-weight:900;color:#93c5fd;">${blueW}</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);">victoire${blueW>1?'s':''}</div>
-        </div>
-        <div style="flex:1;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:12px;text-align:center;">
-            <div style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:#fca5a5;">🔴 MORIARTY</div>
-            <div style="font-size:2rem;font-weight:900;color:#fca5a5;">${redW}</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);">victoire${redW>1?'s':''}</div>
-        </div>
-    </div>
-    <table class="summary-table" style="margin-bottom:0"><thead><tr>
-        <th>#</th><th>Joueur</th><th>V</th><th>🔵W</th><th>🔴W</th>
-    </tr></thead><tbody>`;
-
-    sorted.forEach((p,i) => {
-        const s = ps[p];
-        html += `<tr>
-            <td>${medals[i]||i+1}</td>
-            <td style="font-weight:700;color:var(--text)">${p}</td>
-            <td style="color:var(--accent-gold);font-weight:800">${s.wins}/${s.played}</td>
-            <td><span class="badge-blue">${s.bw}</span></td>
-            <td><span class="badge-red">${s.rw}</span></td>
-        </tr>`;
-    });
-    html += '</tbody></table>';
-    el.innerHTML = html;
+    openOverlay('scores-overlay');
 }
+
+// ====== TOAST ======
+function showToast(msg) {
+    const t = document.getElementById('tb-toast');
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._t);
+    t._t = setTimeout(() => { t.style.opacity = '0'; }, 2000);
+}
+
+// ====== MODAL/OVERLAY ======
+function openModal(id)   { document.getElementById(id).classList.add('visible'); }
+function closeModal(id)  { document.getElementById(id).classList.remove('visible'); }
+function openOverlay(id)  { document.getElementById(id).classList.add('visible'); }
+function closeOverlay(id) { document.getElementById(id).classList.remove('visible'); }
+function closeOnBg(e,id) { if(e.target.id===id) closeOverlay(id); }
+
+// ====== UTILS ======
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ====== INIT ======
 window.addEventListener('DOMContentLoaded', () => {
-    // Theme
-    const t = localStorage.getItem('tb_theme') || 'sabotage';
-    applyTheme(t);
-
-    // Load game
-    loadGameData();
-
-    // Check saved
-    checkSavedGame();
-    updateButtonVisibility();
-
-    // Restore players if setup
-    if (gameState.players.length > 0) {
-        // Restore player inputs
-        const c = document.getElementById('playersInput');
-        gameState.players.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'player-row';
-            div.innerHTML = `<input type="text" placeholder="Nom du joueur" class="player-input" value="${p}">
-                <button class="btn btn-ghost btn-icon" onclick="removePlayer(this)" style="flex-shrink:0;color:var(--accent-red);border-color:rgba(220,38,38,0.3)">✕</button>`;
-            c.appendChild(div);
-        });
-        updateTableHighlight();
-        updateButtonVisibility();
-
-        const allAssigned = gameState.players.every(p => gameState.teamAssignment[p] !== null);
-        if (allAssigned && gameState.mancheHistory.length > 0) {
-            renderStats(); switchScreen('statsScreen');
-        } else if (gameState.mancheHistory.length > 0) {
-            document.getElementById('mancheDisplay').textContent = gameState.currentManche;
-            switchScreen('gameScreen');
-        } else {
-            switchScreen('setupScreen');
-        }
-    } else {
-        switchScreen('setupScreen');
-    }
+    applyTheme(localStorage.getItem('tb_theme') || 'sabotage');
+    renderSavesList();
+    switchScreen('homeScreen');
 });
 </script>
 </body>
