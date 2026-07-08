@@ -144,207 +144,55 @@
         .stats-col { flex:1 1 380px; min-width:280px; padding:16px; }
         .stats-footer { flex-shrink:0; display:flex; gap:8px; padding:10px 16px; border-top:1px solid var(--border); background:var(--bg2); flex-wrap:wrap; align-items:center; }
 
-        /* ====== EDIT MANCHE ====== */
-        #editMancheScreen { flex-direction:row; }
-        .edit-col { flex:1; padding:14px; overflow-y:auto; border-right:1px solid var(--border); }
-        .edit-col:last-child { border-right:none; }
+        /* ====== MODE TOGGLE (setup) ====== */
+        .mode-toggle { display:flex; gap:8px; margin-bottom:4px; }
+        .mode-toggle .btn { flex:1; }
 
-        /* ====== PODIUM ====== */
-        #podiumScreen { flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:20px; overflow-y:auto; }
-        .podium-title { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:5px; background:linear-gradient(90deg,var(--accent-red),var(--accent-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-        #podium { display:flex; align-items:flex-end; gap:20px; }
-        .podium-item { display:flex; flex-direction:column; align-items:center; gap:8px; }
-        .podium-platform { width:100px; display:flex; align-items:center; justify-content:center; border-radius:6px 6px 0 0; font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#fff; }
+        /* ====== CARD REVEAL (pass-the-tablet) ====== */
+        #modeRevealScreen { flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; text-align:center; }
+        .reveal-pass-label { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; color:var(--text-dim); }
+        .reveal-pass-name { font-family:'Bebas Neue',sans-serif; font-size:3rem; color:var(--accent-gold); }
+        .reveal-role-badge { font-size:1.6rem; font-weight:800; }
+        .card-face { width:58px; height:78px; border-radius:8px; background:var(--bg3); border:2px solid var(--border-hi); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+        .card-face .cf-emoji { font-size:1.5rem; }
+        .card-face .cf-pos { font-size:0.6rem; color:var(--text-muted); }
+        .card-hand-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 
-        .podium-titles { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:900px; }
-        .title-badge { background:var(--bg3); border:1px solid var(--border-hi); border-radius:12px; padding:14px 18px; text-align:center; min-width:150px; }
-        .title-badge .tb-emoji { font-size:1.7rem; }
-        .title-badge .tb-label { font-size:0.68rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
-        .title-badge .tb-name { font-weight:800; color:var(--accent-gold); font-size:1.05rem; margin-top:2px; }
-        .title-badge .tb-detail { color:var(--text-muted); font-size:0.72rem; margin-top:2px; }
-        .podium-playtime { color:var(--text-dim); font-size:0.9rem; font-weight:700; }
-
-        .confetti-field { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:7000; }
-        .confetti-piece { position:absolute; top:-24px; width:8px; height:14px; opacity:0.95; }
-        @keyframes confettiFall { 0%{ transform:translateY(0) rotate(0deg); opacity:1; } 100%{ transform:translateY(110vh) rotate(560deg); opacity:0.2; } }
-        .confetti-piece { animation-name:confettiFall; animation-timing-function:linear; animation-fill-mode:forwards; }
-
-        .home-left, .home-right, .setup-col, .edit-col, .stats-col, .end-col { min-height:0; }
-
-        /* ====== COMPOSANTS ====== */
-        .section-label {
-            font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px;
-            color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;
-            display:flex; align-items:center; gap:8px; flex-shrink:0;
+        /* ====== TABLE VIEW ====== */
+        #tableScreen { flex-direction:column; gap:16px; padding:16px; overflow-y:auto; align-items:center; }
+        .turn-banner { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; color:var(--accent-gold); text-align:center; }
+        .table-grid { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1100px; }
+        .table-player { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; display:flex; flex-direction:column; align-items:center; gap:8px; min-width:150px; }
+        .table-player.active-turn { border-color:var(--accent-gold); box-shadow:0 0 20px var(--gold-glow); }
+        .table-player-name { font-weight:800; color:var(--text); cursor:pointer; padding:4px 10px; border-radius:6px; }
+        .table-player-name:hover { background:var(--bg3); }
+        .table-cards { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+        .card-slot { width:42px; height:56px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; background:var(--bg3); border:2px solid var(--border-hi); color:var(--text-dim); }
+        .card-slot.face-down.clickable { cursor:pointer; }
+        .card-slot.face-down.clickable:hover { border-color:var(--accent-gold); transform:translateY(-2px); }
+        .card-slot.revealed-wire { background:rgba(37,99,235,0.28); border-color:var(--accent-blue); }
+        .card-slot.revealed-bomb { background:rgba(220,38,38,0.35); border-color:var(--accent-red); }
+        .card-slot.revealed-blank { background:var(--bg2); border-color:var(--border); opacity:0.55; }
+        .starter-buttons { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+        .game-progress-wrap { display:flex; flex-direction:column; gap:4px; align-items:center; }
+        .game-progress-bar { width:100%; height:10px; background:var(--bg3); border:1px solid var(--border); border-radius:999px; overflow:hidden; }
+        .game-progress-fill { height:100%; background:linear-gradient(90deg,var(--accent-blue),var(--accent-gold)); border-radius:999px; transition:width 0.4s ease; }
+        .game-progress-label { font-size:0.72rem; color:var(--text-muted); text-align:center; }
+        .wire-progress-badge {
+            display:inline-block; margin:6px auto 0; padding:6px 16px; border-radius:999px;
+            background:rgba(37,99,235,0.14); border:1px solid var(--accent-blue); color:var(--accent-blue);
+            font-weight:800; font-size:0.85rem; text-align:center;
         }
-        .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
-        .player-row { display:flex; gap:8px; margin-bottom:8px; }
-        .player-input { flex:1; background:var(--bg3); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; font-size:0.9rem; font-family:'Inter',sans-serif; }
-        .player-input:focus { outline:none; border-color:var(--accent-blue); }
-
-        /* Boutons */
-        .btn {
-            display:inline-flex; align-items:center; justify-content:center; gap:6px;
-            padding:8px 16px; border-radius:6px; border:none; cursor:pointer;
-            font-weight:700; font-size:0.82rem; letter-spacing:1px; text-transform:uppercase;
-            font-family:'Inter',sans-serif; white-space:nowrap;
+        .wire-credits-list { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+        .wire-credit-pill {
+            background:var(--bg3); border:1px solid var(--border-hi); border-radius:999px;
+            padding:4px 12px; font-size:0.75rem; font-weight:700; color:var(--text);
         }
-        .btn:hover { transform:translateY(-1px); }
-        .btn:disabled { cursor:not-allowed; transform:none; }
-        .btn-primary  { background:linear-gradient(135deg,var(--accent-blue),#1d4ed8); color:#fff; box-shadow:0 2px 12px var(--blue-glow); }
-        .btn-danger   { background:linear-gradient(135deg,var(--accent-red),#991b1b);  color:#fff; box-shadow:0 2px 12px var(--red-glow); }
-        .btn-gold     { background:linear-gradient(135deg,var(--accent-gold),#92740d); color:#fff; box-shadow:0 2px 12px var(--gold-glow); }
-        .btn-ghost    { background:transparent; border:1px solid var(--border-hi); color:var(--text-dim); }
-        .btn-ghost:hover { border-color:var(--text-dim); color:var(--text); }
-        .btn-ghost-red { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); }
-        .btn-ghost-red:hover { background:rgba(220,38,38,0.1); }
-        .btn-full { width:100%; }
-        .setup-col .btn-full, .edit-col .btn-full { white-space:normal; line-height:1.3; text-align:center; }
-        .btn-sm { padding:5px 10px; font-size:0.72rem; }
-        .btn-icon { padding:6px 10px; }
-        .btn-red-ghost  { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
-        .btn-blue-ghost { background:transparent; border:1px solid rgba(37,99,235,0.4); color:#93c5fd; font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
-
-        /* Tables */
-        .setup-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-        .setup-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:center; font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid var(--border); }
-        .setup-table td { padding:7px 8px; text-align:center; border-bottom:1px solid var(--border); color:var(--text-dim); }
-        .setup-table tr.highlight td { color:var(--text); background:rgba(37,99,235,0.12); font-weight:700; }
-        .setup-table tr.highlight td:first-child { border-left:3px solid var(--accent-blue); }
-        .summary-table { width:100%; border-collapse:collapse; font-size:0.78rem; }
-        .summary-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:left; border-bottom:1px solid var(--border); font-weight:800; text-transform:uppercase; font-size:0.72rem; }
-        .summary-table td { padding:6px 8px; border-bottom:1px solid var(--border); color:var(--text-dim); vertical-align:middle; }
-        .summary-table tr:hover td { background:rgba(255,255,255,0.03); }
-        .badge-blue { background:rgba(37,99,235,0.2); color:#93c5fd; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
-        .badge-red  { background:rgba(220,38,38,0.2);  color:#fca5a5; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
-
-        /* Manches grid: rows = players, columns = manches */
-        .manches-grid-wrap { overflow-x:auto; }
-        .manches-grid { border-collapse:collapse; width:100%; font-size:0.82rem; }
-        .manches-grid th, .manches-grid td { padding:9px 12px; text-align:center; border:1px solid var(--border); white-space:nowrap; }
-        .manches-grid thead th { background:var(--bg3); color:var(--accent-gold); font-weight:800; text-transform:uppercase; font-size:0.72rem; letter-spacing:1px; }
-        .mg-player-col { text-align:left; font-weight:700; color:var(--text); background:var(--bg2); position:sticky; left:0; z-index:2; }
-        .manches-grid thead .mg-player-col { z-index:3; }
-        .mg-col-actions { display:flex; gap:6px; justify-content:center; margin-top:4px; }
-        .mg-icon-btn { background:transparent; border:none; cursor:pointer; font-size:0.8rem; opacity:0.65; padding:2px; }
-        .mg-icon-btn:hover { opacity:1; }
-        .mg-cell { font-size:1.05rem; color:var(--text-dim); }
-        .mg-cell.blue.win { background:rgba(37,99,235,0.35); color:#fff; }
-        .mg-cell.blue.lose { background:rgba(37,99,235,0.08); }
-        .mg-cell.red.win { background:rgba(220,38,38,0.35); color:#fff; }
-        .mg-cell.red.lose { background:rgba(220,38,38,0.08); }
-        .mg-total-col { font-weight:800; color:var(--accent-gold); background:var(--bg3); }
-        .mg-empty { color:var(--text-muted); text-align:center; padding:32px 16px; }
-
-        /* Progression */
-        .prog-player { margin-bottom:10px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:10px; }
-        .prog-name { font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--text); }
-        .prog-rank { font-size:0.75rem; color:var(--accent-gold); margin-left:6px; }
-        .prog-icons { display:flex; gap:6px; flex-wrap:wrap; }
-        .prog-icon { width:30px; height:30px; border-radius:50%; border:2px solid; display:flex; align-items:center; justify-content:center; font-size:0.85rem; }
-        .prog-icon.bw { background:rgba(37,99,235,0.2); border-color:var(--accent-blue); }
-        .prog-icon.bl { background:rgba(37,99,235,0.08); border-color:rgba(37,99,235,0.3); }
-        .prog-icon.rw { background:rgba(220,38,38,0.2); border-color:var(--accent-red); }
-        .prog-icon.rl { background:rgba(220,38,38,0.08); border-color:rgba(220,38,38,0.3); }
-
-        /* Bubbles */
-        .bubble-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px; }
-        .bubble-btn {
-            display:inline-flex; align-items:center; gap:6px;
-            background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.35); color:#93c5fd;
-            padding:8px 14px; border-radius:999px; font-size:0.82rem; font-weight:700; cursor:pointer;
-        }
-        .bubble-btn:hover { background:rgba(37,99,235,0.22); }
-        .bubble-btn.selected { background:rgba(37,99,235,0.85); border-color:var(--accent-blue); color:#fff; box-shadow:0 2px 10px var(--blue-glow); }
-        .bubble-del { font-size:0.7rem; opacity:0.6; padding:0 2px; border-radius:50%; }
-        .bubble-del:hover { opacity:1; color:var(--accent-red); }
-
-        /* Overlays & Modals */
-        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:9000; align-items:center; justify-content:center; }
-        .overlay.visible { display:flex; }
-        .overlay-panel { background:var(--bg2); border:1px solid var(--border-hi); border-radius:12px; 
-        .save-card {
-            background:var(--bg3); border:1px solid var(--border); border-radius:8px;
-            padding:12px; cursor:pointer; position:relative;
-        }
-        .save-card:hover { border-color:var(--border-hi); }
-        .save-card.active-save { border-color:var(--accent-gold); background:rgba(184,151,42,0.06); }
-        .save-card-name { font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:4px; padding-right:28px; }
-        .save-card-players { font-size:0.78rem; color:var(--text-dim); margin-bottom:6px; }
-        .save-card-del {
-            position:absolute; top:8px; right:8px; background:transparent; border:none;
-            color:var(--text-muted); cursor:pointer; font-size:0.9rem; padding:2px 6px; border-radius:4px; opacity:0;
-        }
-        .save-card:hover .save-card-del { opacity:1; }
-        .save-card-del:hover { color:var(--accent-red); background:rgba(220,38,38,0.1); }
-        .no-saves { color:var(--text-muted); font-size:0.85rem; text-align:center; padding:32px 16px; }
-        .game-name-input {
-            width:100%; background:var(--bg3); border:1px solid var(--border-hi); color:var(--text);
-            padding:10px 14px; border-radius:8px; font-size:0.95rem; font-family:'Inter',sans-serif; font-weight:700;
-        }
-        .game-name-input:focus { outline:none; border-color:var(--accent-gold); }
-
-        /* ====== SETUP ====== */
-        #setupScreen { flex-direction:row; }
-        .setup-col { flex:1; padding:16px; overflow-y:auto; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:12px; }
-        .setup-col:last-child { border-right:none; }
-
-        /* ====== GAME ====== */
-        #gameScreen { flex-direction:column; align-items:center; justify-content:center; gap:14px; background:var(--bg); position:relative; }
-        .manche-badge { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:4px; color:var(--text-dim); }
-        .manche-number-wrap { border-radius:50%; padding:14px 26px; }
-        .manche-number {
-            font-family:'Bebas Neue',sans-serif; font-size:5rem; line-height:1;
-            background:linear-gradient(135deg,var(--accent-red),var(--accent-blue));
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-        }
-        #sabotage-msg { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:3px; color:var(--accent-red); opacity:0.7; min-height:2rem; text-align:center; }
-
-        .timer-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; }
-        .game-timer { font-family:'JetBrains Mono',monospace; font-size:2.6rem; font-weight:700; color:var(--text); letter-spacing:2px; }
-        .timer-controls { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
-
-        .spark-field { position:relative; width:100%; max-width:420px; height:6px; }
-        .spark { position:absolute; bottom:0; width:5px; height:5px; border-radius:50%; background:var(--accent-gold); box-shadow:0 0 8px 2px var(--accent-gold); }
-
-        .btn-end-manche {
-            padding:18px 48px; background:linear-gradient(135deg,var(--accent-red),#991b1b);
-            color:#fff; border:none; border-radius:10px;
-            font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:3px;
-            cursor:pointer; box-shadow:0 0 30px rgba(220,38,38,0.4);
-        }
-        .btn-end-manche:hover { transform:scale(1.03); }
-        .game-actions { display:flex; gap:10px; position:absolute; bottom:20px; flex-wrap:wrap; justify-content:center; }
-
-        .defuse-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:8000; opacity:0; background:rgba(37,99,235,0); }
-        .defuse-overlay.active { animation:defuseFlash 0.9s ease-out forwards; }
-        .defuse-text { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:4px; color:#0c1a33; opacity:0; }
-        .defuse-overlay.active .defuse-text { animation:defuseTextPop 0.9s ease-out forwards; }
-
-        /* ====== END TURN ====== */
-        #endTurnScreen { flex-direction:row; }
-        .end-col { flex:1; padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
-        .end-col-left { border-right:1px solid var(--border); }
-        .col-header { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:4px; }
-        .team-row { display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid var(--border); padding:8px 12px; border-radius:8px; }
-        .team-row-name { flex:1; font-weight:700; font-size:0.9rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .team-toggle { display:flex; border-radius:6px; overflow:hidden; }
-        .team-btn { padding:6px 14px; border:none; cursor:pointer; font-weight:700; font-size:0.82rem; background:var(--bg3); color:var(--text-muted); }
-        .team-btn.active.blue { background:var(--accent-blue); color:#fff; }
-        .team-btn.active.red  { background:var(--accent-red);  color:#fff; }
-        .winner-label { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:10px; text-align:center; }
-        .winner-buttons { display:flex; gap:12px; }
-        .btn-winner { flex:1; padding:14px; border:2px solid; border-radius:8px; font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:2px; cursor:pointer; }
-        .btn-winner.blue { background:rgba(37,99,235,0.15); border-color:var(--accent-blue); color:#93c5fd; }
-        .btn-winner.red  { background:rgba(220,38,38,0.15);  border-color:var(--accent-red);  color:#fca5a5; }
-        .btn-winner.blue:hover { background:rgba(37,99,235,0.3); }
-        .btn-winner.red:hover  { background:rgba(220,38,38,0.3); }
-
-        /* ====== STATS ====== */
-        #statsScreen { flex-direction:column; }
-        .stats-top { flex:1; display:flex; flex-wrap:wrap; overflow-y:auto; align-content:flex-start; }
-        .stats-col { flex:1 1 380px; min-width:280px; padding:16px; }
-        .stats-footer { flex-shrink:0; display:flex; gap:8px; padding:10px 16px; border-top:1px solid var(--border); background:var(--bg2); flex-wrap:wrap; align-items:center; }
+        .wire-credits-history { margin-top:8px; max-height:110px; overflow-y:auto; width:100%; }
+        .wire-history-line { font-size:0.72rem; color:var(--text-muted); text-align:center; padding:2px 0; }
+        .history-banner { max-width:640px; width:100%; max-height:130px; overflow-y:auto; background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:8px 14px; font-size:0.8rem; color:var(--text-dim); }
+        .history-entry { padding:4px 0; border-bottom:1px solid var(--border); }
+        .history-entry:last-child { border-bottom:none; }
 
         /* ====== EDIT MANCHE ====== */
         #editMancheScreen { flex-direction:row; }
@@ -460,181 +308,6 @@
         .bubble-btn.selected { background:rgba(37,99,235,0.85); border-color:var(--accent-blue); color:#fff; box-shadow:0 2px 10px var(--blue-glow); }
         .bubble-del { font-size:0.7rem; opacity:0.6; padding:0 2px; border-radius:50%; }
         .bubble-del:hover { opacity:1; color:var(--accent-red); }
-
-        /* Overlays & Modals */
-        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:9000; align-items:center; justify-content:center; }
-        .overlay.visible { display:flex; }
-        .overlay-panel { background:var(--bg2); border:1px solid var(--border-hi); border-radius:12px; width:min(600px,92vw); max-height:8            display:flex; align-items:center; gap:5px;
-            background:var(--bg3); border:1px solid var(--border-hi); color:var(--text-dim);
-            padding:6px 12px; border-radius:6px; cursor:pointer;
-            font-weight:700; font-size:0.78rem; letter-spacing:1px; text-transform:uppercase; white-space:nowrap;
-        }
-        .hbtn:hover { border-color:var(--text-dim); color:var(--text); }
-        .hbtn.gold { color:var(--accent-gold); border-color:rgba(184,151,42,0.4); }
-        .hbtn.gold:hover { background:rgba(184,151,42,0.1); border-color:var(--accent-gold); }
-        #theme-select { background:var(--bg3); border:1px solid var(--border); color:var(--text-dim); padding:5px 8px; border-radius:6px; font-size:0.78rem; cursor:pointer; }
-
-        /* SCREENS */
-        #screens { flex:1; overflow:hidden; }
-        .screen { display:none; width:100%; height:100%; overflow:hidden; }
-        .screen.active { display:flex; }
-
-        /* ====== HOME ====== */
-        #homeScreen { flex-direction:row; }
-        .home-left {
-            flex:0 0 290px; display:flex; flex-direction:column;
-            padding:16px; border-right:1px solid var(--border); background:var(--bg2); gap:10px; overflow-y:auto;
-        }
-        .home-right { flex:1; display:flex; flex-direction:column; padding:16px; gap:10px; overflow-y:auto; }
-        .saves-list { display:flex; flex-direction:column; gap:8px; }
-
-        .save-card {
-            background:var(--bg3); border:1px solid var(--border); border-radius:8px;
-            padding:12px; cursor:pointer; position:relative;
-        }
-        .save-card:hover { border-color:var(--border-hi); }
-        .save-card.active-save { border-color:var(--accent-gold); background:rgba(184,151,42,0.06); }
-        .save-card-name { font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:4px; padding-right:28px; }
-        .save-card-players { font-size:0.78rem; color:var(--text-dim); margin-bottom:6px; }
-        .save-card-del {
-            position:absolute; top:8px; right:8px; background:transparent; border:none;
-            color:var(--text-muted); cursor:pointer; font-size:0.9rem; padding:2px 6px; border-radius:4px; opacity:0;
-        }
-        .save-card:hover .save-card-del { opacity:1; }
-        .save-card-del:hover { color:var(--accent-red); background:rgba(220,38,38,0.1); }
-        .no-saves { color:var(--text-muted); font-size:0.85rem; text-align:center; padding:32px 16px; }
-        .game-name-input {
-            width:100%; background:var(--bg3); border:1px solid var(--border-hi); color:var(--text);
-            padding:10px 14px; border-radius:8px; font-size:0.95rem; font-family:'Inter',sans-serif; font-weight:700;
-        }
-        .game-name-input:focus { outline:none; border-color:var(--accent-gold); }
-
-        /* ====== SETUP ====== */
-        #setupScreen { flex-direction:row; }
-        .setup-col { flex:1; padding:16px; overflow-y:auto; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:12px; }
-        .setup-col:last-child { border-right:none; }
-
-        /* ====== GAME ====== */
-        #gameScreen { flex-direction:column; align-items:center; justify-content:center; gap:20px; background:var(--bg); }
-        .manche-badge { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:4px; color:var(--text-dim); }
-        .manche-number {
-            font-family:'Bebas Neue',sans-serif; font-size:5rem; line-height:1;
-            background:linear-gradient(135deg,var(--accent-red),var(--accent-blue));
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-        }
-        #sabotage-msg { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:3px; color:var(--accent-red); opacity:0.7; min-height:2rem; text-align:center; }
-        .btn-end-manche {
-            padding:18px 48px; background:linear-gradient(135deg,var(--accent-red),#991b1b);
-            color:#fff; border:none; border-radius:10px;
-            font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:3px;
-            cursor:pointer; box-shadow:0 0 30px rgba(220,38,38,0.4);
-        }
-        .btn-end-manche:hover { transform:scale(1.03) !important; }
-        .game-actions { display:flex; gap:10px; position:absolute; bottom:20px; flex-wrap:wrap; justify-content:center; }
-
-        /* ====== END TURN ====== */
-        #endTurnScreen { flex-direction:row; }
-        .end-col { flex:1; padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
-        .end-col-left { border-right:1px solid var(--border); }
-        .col-header { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:4px; }
-        .team-row { display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid var(--border); padding:8px 12px; border-radius:8px; }
-        .team-row-name { flex:1; font-weight:700; font-size:0.9rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .team-toggle { display:flex; border-radius:6px; overflow:hidden; }
-        .team-btn { padding:6px 14px; border:none; cursor:pointer; font-weight:700; font-size:0.82rem; background:var(--bg3); color:var(--text-muted); }
-        .team-btn.active.blue { background:var(--accent-blue); color:#fff; }
-        .team-btn.active.red  { background:var(--accent-red);  color:#fff; }
-        .winner-label { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--text-dim); margin-bottom:10px; text-align:center; }
-        .winner-buttons { display:flex; gap:12px; }
-        .btn-winner { flex:1; padding:14px; border:2px solid; border-radius:8px; font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:2px; cursor:pointer; }
-        .btn-winner.blue { background:rgba(37,99,235,0.15); border-color:var(--accent-blue); color:#93c5fd; }
-        .btn-winner.red  { background:rgba(220,38,38,0.15);  border-color:var(--accent-red);  color:#fca5a5; }
-        .btn-winner.blue:hover { background:rgba(37,99,235,0.3); }
-        .btn-winner.red:hover  { background:rgba(220,38,38,0.3); }
-
-        /* ====== STATS ====== */
-        #statsScreen { flex-direction:column; }
-        .stats-top { flex:1; display:flex; flex-direction:row; overflow:hidden; }
-        .stats-col { flex:1; padding:14px; overflow-y:auto; border-right:1px solid var(--border); }
-        .stats-col:last-child { border-right:none; }
-        .stats-footer { flex-shrink:0; display:flex; gap:8px; padding:10px 16px; border-top:1px solid var(--border); background:var(--bg2); flex-wrap:wrap; align-items:center; }
-
-        /* ====== EDIT MANCHE ====== */
-        #editMancheScreen { flex-direction:row; }
-        .edit-col { flex:1; padding:14px; overflow-y:auto; border-right:1px solid var(--border); }
-        .edit-col:last-child { border-right:none; }
-
-        /* ====== PODIUM ====== */
-        #podiumScreen { flex-direction:column; align-items:center; justify-content:center; gap:20px; }
-        .podium-title { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:5px; background:linear-gradient(90deg,var(--accent-red),var(--accent-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-        #podium { display:flex; align-items:flex-end; gap:20px; }
-        .podium-item { display:flex; flex-direction:column; align-items:center; gap:8px; }
-        .podium-platform { width:100px; display:flex; align-items:center; justify-content:center; border-radius:6px 6px 0 0; font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#fff; }
-
-        /* ====== COMPOSANTS ====== */
-        .section-label {
-            font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px;
-            color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;
-            display:flex; align-items:center; gap:8px; flex-shrink:0;
-        }
-        .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
-        .player-row { display:flex; gap:8px; margin-bottom:8px; }
-        .player-input { flex:1; background:var(--bg3); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; font-size:0.9rem; font-family:'Inter',sans-serif; }
-        .player-input:focus { outline:none; border-color:var(--accent-blue); }
-
-        /* Boutons */
-        .btn {
-            display:inline-flex; align-items:center; justify-content:center; gap:6px;
-            padding:8px 16px; border-radius:6px; border:none; cursor:pointer;
-            font-weight:700; font-size:0.82rem; letter-spacing:1px; text-transform:uppercase;
-            font-family:'Inter',sans-serif; white-space:nowrap;
-        }
-        .btn:hover { transform:translateY(-1px) !important; }
-        .btn-primary  { background:linear-gradient(135deg,var(--accent-blue),#1d4ed8); color:#fff; box-shadow:0 2px 12px var(--blue-glow); }
-        .btn-danger   { background:linear-gradient(135deg,var(--accent-red),#991b1b);  color:#fff; box-shadow:0 2px 12px var(--red-glow); }
-        .btn-gold     { background:linear-gradient(135deg,var(--accent-gold),#92740d); color:#fff; box-shadow:0 2px 12px var(--gold-glow); }
-        .btn-ghost    { background:transparent; border:1px solid var(--border-hi); color:var(--text-dim); }
-        .btn-ghost:hover { border-color:var(--text-dim); color:var(--text); }
-        .btn-ghost-red { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); }
-        .btn-ghost-red:hover { background:rgba(220,38,38,0.1); }
-        .btn-full { width:100%; }
-        .btn-sm { padding:5px 10px; font-size:0.72rem; }
-        .btn-icon { padding:6px 10px; }
-        .btn-red-ghost  { background:transparent; border:1px solid rgba(220,38,38,0.4); color:var(--accent-red); font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
-        .btn-blue-ghost { background:transparent; border:1px solid rgba(37,99,235,0.4); color:#93c5fd; font-size:0.75rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:700; }
-
-        /* Tables */
-        .setup-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-        .setup-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:center; font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:1px; border-bottom:1px solid var(--border); }
-        .setup-table td { padding:7px 8px; text-align:center; border-bottom:1px solid var(--border); color:var(--text-dim); }
-        .setup-table tr.highlight td { color:var(--text); background:rgba(37,99,235,0.12); font-weight:700; }
-        .setup-table tr.highlight td:first-child { border-left:3px solid var(--accent-blue); }
-        .summary-table { width:100%; border-collapse:collapse; font-size:0.78rem; }
-        .summary-table th { background:var(--bg3); color:var(--accent-gold); padding:6px 8px; text-align:left; border-bottom:1px solid var(--border); font-weight:800; text-transform:uppercase; font-size:0.72rem; }
-        .summary-table td { padding:6px 8px; border-bottom:1px solid var(--border); color:var(--text-dim); vertical-align:middle; }
-        .summary-table tr:hover td { background:rgba(255,255,255,0.03); }
-        .badge-blue { background:rgba(37,99,235,0.2); color:#93c5fd; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
-        .badge-red  { background:rgba(220,38,38,0.2);  color:#fca5a5; padding:2px 6px; border-radius:4px; font-size:0.72rem; font-weight:700; }
-
-        /* Histogram */
-        .histogram-wrap { display:flex; gap:12px; align-items:flex-end; min-height:140px; padding-bottom:4px; overflow-x:auto; }
-        .histo-bar { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:52px; }
-        .histo-col { width:40px; height:120px; display:flex; flex-direction:column-reverse; border-radius:4px 4px 0 0; overflow:hidden; border:1px solid var(--border); }
-        .seg { display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:800; color:#fff; min-height:16px; }
-        .seg.bw { background:rgba(37,99,235,0.85); } .seg.bl { background:rgba(37,99,235,0.35); }
-        .seg.rw { background:rgba(220,38,38,0.85); }  .seg.rl { background:rgba(220,38,38,0.35); }
-        .histo-name { font-size:0.72rem; color:var(--text-dim); text-align:center; font-weight:600; }
-        .histo-score { font-size:0.68rem; color:var(--accent-gold); }
-
-        /* Progression */
-        .prog-player { margin-bottom:10px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:10px; }
-        .prog-name { font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--text); }
-        .prog-rank { font-size:0.75rem; color:var(--accent-gold); margin-left:6px; }
-        .prog-icons { display:flex; gap:6px; flex-wrap:wrap; }
-        .prog-icon { width:30px; height:30px; border-radius:50%; border:2px solid; display:flex; align-items:center; justify-content:center; font-size:0.85rem; }
-        .prog-icon.bw { background:rgba(37,99,235,0.2); border-color:var(--accent-blue); }
-        .prog-icon.bl { background:rgba(37,99,235,0.08); border-color:rgba(37,99,235,0.3); }
-        .prog-icon.rw { background:rgba(220,38,38,0.2); border-color:var(--accent-red); }
-        .prog-icon.rl { background:rgba(220,38,38,0.08); border-color:rgba(220,38,38,0.3); }
 
         /* Overlays & Modals */
         .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:9000; align-items:center; justify-content:center; }
@@ -659,8 +332,34 @@
         ::-webkit-scrollbar-track { background:var(--bg); }
         ::-webkit-scrollbar-thumb { background:var(--border-hi); border-radius:2px; }
 
-        /* Responsive */
-        @media (max-width:768px) {
+        /* Light theme contrast fixes: some text colors are tuned for dark backgrounds by default */
+        html[data-theme-mode="light"] .badge-blue { color:#1d4ed8; }
+        html[data-theme-mode="light"] .badge-red { color:#b91c1c; }
+        html[data-theme-mode="light"] .bubble-btn { color:#1d4ed8; }
+        html[data-theme-mode="light"] .btn-winner.blue { color:#1d4ed8; }
+        html[data-theme-mode="light"] .btn-winner.red { color:#b91c1c; }
+        html[data-theme-mode="light"] .mg-cell.blue.win { color:#0c2f8f; }
+        html[data-theme-mode="light"] .mg-cell.red.win { color:#7f1616; }
+        html[data-theme-mode="light"] ::-webkit-scrollbar-track { background:var(--bg3); }
+
+        /* ====== ANIMATIONS ====== */
+        @keyframes bombPulse { 0%,100%{box-shadow:0 0 25px rgba(220,38,38,0.25);} 50%{box-shadow:0 0 55px rgba(220,38,38,0.6);} }
+        .manche-number-wrap { animation:bombPulse 2.2s ease-in-out infinite; }
+
+        @keyframes tickCritical { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.55;transform:scale(1.07);} }
+        .game-timer.critical { animation:tickCritical 0.6s steps(2) infinite; }
+
+        @keyframes sparkFloat { 0%{opacity:0; transform:translateY(0) translateX(0) scale(1);} 15%{opacity:1;} 100%{opacity:0; transform:translateY(-90px) translateX(var(--sx,0px)) scale(0.2);} }
+        .spark { animation:sparkFloat 1.4s ease-out forwards; }
+
+        @keyframes defuseFlash { 0%{opacity:0; background:rgba(37,99,235,0);} 12%{opacity:1; background:rgba(147,197,253,0.55);} 100%{opacity:0; background:rgba(37,99,235,0);} }
+        @keyframes defuseTextPop { 0%{opacity:0; transform:scale(0.6);} 25%{opacity:1; transform:scale(1.1);} 45%{opacity:1; transform:scale(1);} 100%{opacity:0; transform:scale(1);} }
+
+        @keyframes screenShake { 0%,100%{transform:translate(0,0);} 20%{transform:translate(-6px,3px);} 40%{transform:translate(5px,-4px);} 60%{transform:translate(-4px,4px);} 80%{transform:translate(6px,-2px);} }
+        .boom-shake { animation:screenShake 0.5s ease-in-out; }
+
+        /* Responsive: phones stack into a single column */
+        @media (max-width:600px) {
             html,body { overflow:auto; }
             #app { height:auto; min-height:100vh; overflow:visible; }
             #screens { overflow:visible; height:auto; }
@@ -670,8 +369,7 @@
             .setup-col { flex:none; width:100%; border-right:none; border-bottom:1px solid var(--border); }
             .end-col { flex:none; overflow:visible; }
             .end-col-left { border-right:none; border-bottom:1px solid var(--border); }
-            .stats-top { flex-direction:column; overflow:visible; }
-            .stats-col { flex:none; border-right:none; border-bottom:1px solid var(--border); overflow:visible; }
+            .stats-col { border-bottom:1px solid var(--border); }
             .manche-number { font-size:4rem; }
             .logo { font-size:1.2rem; }
             .game-actions { position:static; }
@@ -679,10 +377,30 @@
         @media (max-width:480px) {
             #app-header { padding:0 10px; height:46px; }
             .logo { font-size:1rem; }
-            .hbtn span { display:none; }
+            .hbtn span:not(.hbtn-icon) { display:none; }
             .btn-end-manche { padding:14px 32px; font-size:1.2rem; }
             .manche-number { font-size:3rem; }
             .winner-buttons { flex-direction:column; }
+        }
+
+        /* Tablet-optimized: keep multi-column layout but enlarge touch targets & text */
+        @media (min-width:601px) and (max-width:1200px) {
+            html, body { font-size:16px; }
+            .btn { padding:13px 22px; min-height:46px; font-size:0.9rem; }
+            .btn-sm { padding:9px 16px; min-height:38px; font-size:0.8rem; }
+            .bubble-btn { padding:11px 18px; font-size:0.95rem; }
+            .team-btn { padding:12px 20px; font-size:1rem; }
+            .player-input { padding:13px 16px; font-size:1.05rem; }
+            .setup-col { padding:24px; gap:18px; }
+            .home-left, .home-right { padding:24px; gap:14px; }
+            .save-card { padding:16px; }
+            .manche-number { font-size:6.5rem; }
+            .game-timer { font-size:3.4rem; }
+            .btn-end-manche { padding:22px 56px; font-size:1.7rem; }
+            .section-label { font-size:1.05rem; }
+            .logo { font-size:1.9rem; }
+            .hbtn { padding:11px 18px; font-size:0.95rem; }
+            .hbtn-icon { font-size:1.4em; }
         }
     </style>
 </head>
@@ -692,12 +410,14 @@
 <header id="app-header">
     <div class="logo">💣 TIMEBOMB</div>
     <div class="header-right">
-        <button class="hbtn" id="btn-menu" onclick="goToMenu()" style="display:none">⬅ <span>Menu</span></button>
-        <button class="hbtn gold" onclick="openScoresOverlay()">📊 <span>Scores</span></button>
+        <div id="contextActions" class="context-actions"></div>
+        <button class="hbtn" id="btn-menu" onclick="goToMenu()" style="display:none"><span class="hbtn-icon">⬅</span> <span>Menu</span></button>
+        <button class="hbtn gold" onclick="openScoresOverlay()"><span class="hbtn-icon">📊</span> <span>Scores</span></button>
         <select id="theme-select" onchange="applyTheme(this.value)">
             <option value="sabotage">🗡️ Sabotage</option>
-            <option value="cold">❄️ Cold War</option>
-            <option value="neon">⚡ Neon</option>
+            <option value="neon">⚡ Néon</option>
+            <option value="clair">☀️ Clair</option>
+            <option value="parchemin">📜 Parchemin</option>
         </select>
     </div>
 </header>
@@ -709,13 +429,8 @@
         <div class="home-left">
             <div class="section-label">Nouvelle partie</div>
             <input class="game-name-input" id="new-game-name" placeholder="Nom de la partie…" maxlength="40">
-            <div style="color:var(--text-muted);font-size:0.72rem;margin-bottom:2px;">Laisse vide pour nommer automatiquement</div>
+            <div style="color:var(--text-muted);font-size:0.72rem;margin-bottom:2px;">Laisse vide → nommé automatiquement (yyyymmdd-hhmmss)</div>
             <button class="btn btn-primary btn-full" onclick="newGame()" style="padding:12px;font-size:0.9rem;letter-spacing:2px;">+ Nouvelle Partie</button>
-
-            <div style="margin-top:12px;" class="section-label">Import / Export</div>
-            <button class="btn btn-ghost btn-full" onclick="exportSaves()">⬆ Exporter JSON</button>
-            <button class="btn btn-ghost btn-full" onclick="document.getElementById('import-input').click()">⬇ Importer JSON</button>
-            <input type="file" id="import-input" accept=".json" style="display:none" onchange="importSaves(event)">
 
             <div style="flex:1;min-height:16px;"></div>
             <div style="color:var(--text-muted);font-size:0.7rem;text-align:center;margin-top:8px;">Données stockées localement dans votre navigateur</div>
@@ -733,17 +448,42 @@
             <div id="current-save-info" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--text-dim);">—</div>
             <div style="margin-top:12px;" class="section-label">Actions</div>
             <div style="display:flex;flex-direction:column;gap:8px;">
-                <button class="btn btn-gold btn-full" onclick="saveAndContinue()">💾 Sauvegarder et Continuer</button>
-                <button class="btn btn-ghost btn-full" onclick="saveAndGoMenu()">💾 Sauvegarder et Retour Menu</button>
+                <button class="btn btn-gold btn-full" onclick="saveAndContinue()">💾 Sauvegarder</button>
+                <button class="btn btn-ghost btn-full" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
                 <button class="btn btn-ghost-red btn-full" onclick="quitGame()">✕ Quitter</button>
             </div>
         </div>
         <div class="setup-col" style="flex:1;">
-            <div class="section-label">Joueurs</div>
-            <div id="playersInput"></div>
-            <button class="btn btn-ghost" onclick="addPlayer()" style="margin-top:4px;">+ Joueur</button>
-            <div style="flex:1;"></div>
-            <button id="btnStart" class="btn btn-primary btn-full" onclick="startGame()" style="display:none;margin-top:12px;padding:12px;font-size:1rem;letter-spacing:2px;">🚀 Démarrer</button>
+            <div class="section-label">Mode de jeu</div>
+            <div class="mode-toggle">
+                <button id="modeBtnCards" class="btn btn-primary btn-sm" onclick="setGameMode('cards')">🃏 Avec cartes</button>
+                <button id="modeBtnTablet" class="btn btn-ghost btn-sm" onclick="setGameMode('tablet')">📱 Full Tablet</button>
+            </div>
+            <div style="color:var(--text-muted);font-size:0.7rem;margin-bottom:6px;">Full Tablet : pas besoin des cartes physiques, tout se joue en passant la tablette.</div>
+            <div id="roleSplitBlock" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+                <div class="section-label" style="margin-bottom:6px;">Répartition des équipes</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                    <span style="color:var(--accent-red);font-weight:800;">🔴 Moriarty</span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="btn btn-ghost btn-icon" onclick="adjustRedCount(-1)">−</button>
+                        <span id="redCountDisplay" style="font-weight:800;min-width:20px;text-align:center;">2</span>
+                        <button class="btn btn-ghost btn-icon" onclick="adjustRedCount(1)">+</button>
+                    </div>
+                </div>
+                <div style="color:var(--text-muted);font-size:0.75rem;margin-top:6px;">🔵 Sherlock : <span id="blueCountDisplay">2</span> (le reste des joueurs)</div>
+                <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+                    <button class="btn btn-ghost btn-sm" onclick="resetRoleSplit()">↺ Recommandé</button>
+                    <span id="roleSplitHint" style="color:var(--text-muted);font-size:0.7rem;"></span>
+                </div>
+            </div>
+            <div class="section-label">Ajouter un joueur</div>
+            <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <input type="text" id="newPlayerInput" class="player-input" placeholder="Nom du joueur…" maxlength="24" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomPlayer();}">
+                <button class="btn btn-primary btn-icon" onclick="addCustomPlayer()">+</button>
+            </div>
+            <div class="section-label">Joueurs (clique pour sélectionner)</div>
+            <div id="playerBubbles" class="bubble-wrap player-bubbles-target"></div>
+            <div style="color:var(--text-muted);font-size:0.72rem;">4 à 8 joueurs sélectionnés pour démarrer. Les noms restent en mémoire pour les prochaines parties.</div>
         </div>
         <div class="setup-col" style="flex:0 0 210px;background:var(--bg2);">
             <div class="section-label">Tableau</div>
@@ -759,7 +499,7 @@
             </table>
             <div style="margin-top:14px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);">
                 <div style="color:var(--accent-red);font-size:0.75rem;font-weight:700;letter-spacing:1px;margin-bottom:6px;">RÈGLES</div>
-                <div style="color:var(--text-muted);font-size:0.75rem;line-height:1.7;">🔵 Sherlock = couper le bon fil<br>🔴 Moriarty = faire exploser<br>4 manches max • 1 bombe</div>
+                <div style="color:var(--text-muted);font-size:0.75rem;line-height:1.7;">🔵 Sherlock = couper le bon fil<br>🔴 Moriarty = faire exploser<br>Manches illimitées • 1 bombe</div>
             </div>
         </div>
     </div>
@@ -767,12 +507,73 @@
     <!-- GAME -->
     <div id="gameScreen" class="screen">
         <div class="manche-badge">Manche en cours</div>
-        <div class="manche-number" id="mancheDisplay">1</div>
+        <div class="manche-number-wrap"><div class="manche-number" id="mancheDisplay">1</div></div>
+        <div class="timer-wrap">
+            <div class="game-timer" id="gameTimer">00:00</div>
+            <div class="timer-controls">
+                <button class="btn btn-primary btn-sm" id="timerToggleBtn" onclick="toggleRoundTimer()">▶ Lancer</button>
+                <button class="btn btn-ghost btn-sm" onclick="resetRoundTimer()">↺ RAZ</button>
+            </div>
+        </div>
         <div id="sabotage-msg">MENTEZ BIEN !</div>
-        <button class="btn-end-manche" onclick="endTurn()">⏱ FIN DE MANCHE</button>
+        <div class="spark-field" id="sparkField"></div>
+        <button class="btn-end-manche" onclick="triggerEndManche()">✂️ FIN DE MANCHE</button>
         <div class="game-actions">
             <button class="btn btn-gold btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
-            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
+            <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
+        </div>
+        <div class="defuse-overlay" id="defuseOverlay"><div class="defuse-text">✂️ FIL COUPÉ !</div></div>
+    </div>
+
+    <!-- MODE REVEAL (pass-the-tablet) -->
+    <div id="modeRevealScreen" class="screen">
+        <div id="revealCover">
+            <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:6px;" id="revealMancheTag"></div>
+            <div class="reveal-pass-label">PASSE LA TABLETTE À</div>
+            <div class="reveal-pass-name" id="revealPlayerName">—</div>
+            <div style="color:var(--text-muted);font-size:0.85rem;margin:8px 0 20px;">Assure-toi que les autres ne regardent pas.</div>
+            <button class="btn btn-primary" style="padding:18px 40px;font-size:1.1rem;" onclick="showMyRole()">👁️ Voir mon rôle</button>
+            <div style="margin-top:14px;">
+                <button class="btn btn-ghost btn-sm" onclick="skipAllReveals()">⏭️ Passer tous les rôles (aller à la table)</button>
+            </div>
+        </div>
+        <div id="revealContent" style="display:none;">
+            <div class="section-label" style="justify-content:center;">Ton rôle</div>
+            <div class="reveal-role-badge" id="revealRoleBadge">—</div>
+            <div class="section-label" style="justify-content:center;margin-top:16px;">Tes cartes (dans l'ordre, de gauche à droite)</div>
+            <div class="card-hand-row" id="revealHand" style="margin:14px 0 18px;"></div>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-gold" style="padding:16px 36px;" onclick="nextRevealPlayer()">✅ J'ai vu, passer au suivant</button>
+                <button class="btn btn-ghost" onclick="shuffleMyCards(gameState.players[revealIndex])">🔀 Mélanger mes cartes</button>
+            </div>
+        </div>
+        <div class="game-actions" style="position:static;margin-top:10px;">
+            <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
+        </div>
+    </div>
+
+    <!-- TABLE VIEW (Full Tablet mode) -->
+    <div id="tableScreen" class="screen">
+        <div class="game-progress-wrap" style="width:100%;max-width:600px;">
+            <div class="game-progress-bar"><div class="game-progress-fill" id="gameProgressFill" style="width:0%;"></div></div>
+            <div class="game-progress-label" id="gameProgressLabel">Progression : 0 / 0 cartes découvertes</div>
+            <div class="wire-progress-badge" id="wireProgressBadge">✂️ Fils découverts : 0 / 0</div>
+            <div class="wire-credits-list" id="wireCreditsList"></div>
+            <div class="wire-credits-history" id="wireCreditsHistory"></div>
+        </div>
+        <div id="starterPicker" style="text-align:center;">
+            <div class="section-label" style="justify-content:center;">Qui commence à couper ?</div>
+            <div class="starter-buttons" id="starterButtons"></div>
+        </div>
+        <div class="turn-banner" id="turnBanner" style="display:none;">
+            <span id="turnBannerText">—</span>
+        </div>
+        <div class="history-banner" id="historyBanner"></div>
+        <div class="table-grid" id="tableGrid"></div>
+        <div class="game-actions" style="position:static;">
+            <button class="btn btn-gold btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
             <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
         </div>
     </div>
@@ -794,7 +595,7 @@
             </div>
             <div style="padding:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;background:var(--bg2);">
                 <button class="btn btn-gold btn-full btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
-                <button class="btn btn-ghost btn-full btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+                <button class="btn btn-ghost btn-full btn-sm" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
                 <button class="btn btn-ghost-red btn-full btn-sm" onclick="quitGame()">✕ Quitter</button>
             </div>
         </div>
@@ -803,25 +604,18 @@
     <!-- STATS -->
     <div id="statsScreen" class="screen">
         <div class="stats-top">
-            <div class="stats-col">
-                <div class="section-label">Histogramme</div>
-                <div class="histogram-wrap" id="histogram"></div>
-            </div>
-            <div class="stats-col">
-                <div class="section-label">Progression</div>
-                <div id="progressionChart"></div>
-            </div>
-            <div class="stats-col">
-                <div class="section-label">Manches</div>
+            <div class="stats-col" style="flex:1 1 100%;">
+                <div class="section-label">Manches &amp; Classement</div>
                 <div id="manchesSummary"></div>
             </div>
         </div>
         <div class="stats-footer">
             <button class="btn btn-primary" id="continueBtn" onclick="nextManche()">➜ Manche Suivante</button>
             <button class="btn btn-danger" onclick="endGame()">🏆 Fin du Jeu</button>
+            <button class="btn btn-ghost btn-sm" onclick="openPlayerEditOverlay()">👥 Joueurs</button>
             <div style="flex:1;"></div>
             <button class="btn btn-gold btn-sm" onclick="saveAndContinue()">💾 Sauvegarder</button>
-            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">💾 Retour Menu</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
             <button class="btn btn-ghost-red btn-sm" onclick="quitGame()">✕ Quitter</button>
         </div>
     </div>
@@ -836,12 +630,9 @@
             <div class="section-label">🔴 Moriarty</div>
             <div id="editRedTeam" style="display:flex;flex-direction:column;gap:8px;min-height:80px;"></div>
         </div>
-        <div style="flex:0 0 180px;padding:14px;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--border);background:var(--bg2);">
+        <div class="edit-col" style="flex:0 0 220px;border-left:1px solid var(--border);border-right:none;background:var(--bg2);">
             <div class="section-label" id="editMancheTitle">Modifier</div>
-            <div style="color:var(--text-muted);font-size:0.8rem;line-height:1.6;">Clique sur un joueur pour le déplacer dans l'autre équipe.</div>
-            <div style="flex:1;"></div>
-            <button class="btn btn-gold btn-full" onclick="saveEditManche()">✅ Sauvegarder</button>
-            <button class="btn btn-ghost btn-full" onclick="cancelEditManche()">❌ Annuler</button>
+            <div style="color:var(--text-muted);font-size:0.8rem;line-height:1.6;">Clique sur un joueur pour le déplacer dans l'autre équipe. Utilise les boutons en haut pour sauvegarder.</div>
         </div>
     </div>
 
@@ -849,8 +640,10 @@
     <div id="podiumScreen" class="screen">
         <div class="podium-title">🏆 PODIUM FINAL 🏆</div>
         <div id="podium"></div>
+        <div class="podium-titles" id="podiumTitles"></div>
+        <div class="podium-playtime" id="podiumPlaytime"></div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-            <button class="btn btn-gold" onclick="saveAndGoMenu()">💾 Sauvegarder et Retour Menu</button>
+            <button class="btn btn-gold" onclick="saveAndGoMenu()">🏠 Retour Menu</button>
             <button class="btn btn-ghost-red" onclick="quitNoSave()">✕ Quitter sans sauvegarder</button>
         </div>
     </div>
@@ -869,6 +662,41 @@
             <button class="btn-close" onclick="closeOverlay('scores-overlay')">✕</button>
         </div>
         <div class="overlay-body" id="scores-body"></div>
+    </div>
+</div>
+
+<!-- PLAYER EDIT OVERLAY -->
+<div id="player-edit-overlay" class="overlay" onclick="closeOnBg(event,'player-edit-overlay')">
+    <div class="overlay-panel">
+        <div class="overlay-header">
+            <div class="overlay-title">👥 Gérer les joueurs</div>
+            <button class="btn-close" onclick="closeOverlay('player-edit-overlay')">✕</button>
+        </div>
+        <div class="overlay-body">
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <input type="text" id="midGameNewPlayerInput" class="player-input" placeholder="Nom du joueur…" maxlength="24" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomPlayer('midGameNewPlayerInput');}">
+                <button class="btn btn-primary btn-icon" onclick="addCustomPlayer('midGameNewPlayerInput')">+</button>
+            </div>
+            <div id="playerBubblesMidGame" class="bubble-wrap player-bubbles-target"></div>
+            <div style="color:var(--text-muted);font-size:0.75rem;margin-top:12px;line-height:1.5;">
+                Les scores déjà enregistrés sont conservés. Un joueur ajouté maintenant n'aura pas d'historique pour les manches déjà jouées ; un joueur retiré disparaît des prochaines manches mais son historique reste dans le tableau.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- REVIEW CARDS OVERLAY (Full Tablet mode) -->
+<div id="review-cards-overlay" class="overlay" onclick="closeOnBg(event,'review-cards-overlay')">
+    <div class="overlay-panel">
+        <div class="overlay-header">
+            <div class="overlay-title" id="reviewPlayerNameTitle">—</div>
+            <button class="btn-close" onclick="closeOverlay('review-cards-overlay')">✕</button>
+        </div>
+        <div class="overlay-body" style="text-align:center;">
+            <div class="reveal-role-badge" id="reviewRoleBadge" style="margin-bottom:14px;">—</div>
+            <div class="card-hand-row" id="reviewHand"></div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:16px;" onclick="shuffleMyCards(window._reviewPlayer)">🔀 Mélanger mes cartes</button>
+        </div>
     </div>
 </div>
 
@@ -896,13 +724,37 @@
     </div>
 </div>
 
+<!-- REVIEW CARDS CONFIRM MODAL (Full Tablet mode) -->
+<div id="modal-review-cards" class="modal">
+    <div class="modal-panel" style="border-color:var(--border-hi);">
+        <div class="modal-title" style="color:var(--text);">⚠️ Revoir tes cartes ?</div>
+        <div class="modal-body" id="modal-review-cards-body">Attention, tu vas revoir tes cartes et ton rôle.</div>
+        <div class="modal-buttons">
+            <button class="btn btn-gold" onclick="confirmReviewCards()">👁️ Confirmer</button>
+            <button class="btn btn-ghost" onclick="closeModal('modal-review-cards')">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- SKIP ALL REVEALS CONFIRM MODAL (Full Tablet mode) -->
+<div id="modal-skip-reveals" class="modal">
+    <div class="modal-panel" style="border-color:var(--border-hi);">
+        <div class="modal-title" style="color:var(--text);">⏭️ Passer à la table ?</div>
+        <div class="modal-body" id="modal-skip-reveals-body">Passer directement à la table ?</div>
+        <div class="modal-buttons">
+            <button class="btn btn-gold" onclick="confirmSkipAllReveals()">✅ Confirmer</button>
+            <button class="btn btn-ghost" onclick="closeModal('modal-skip-reveals')">Annuler</button>
+        </div>
+    </div>
+</div>
+
 <!-- QUIT MODAL -->
 <div id="modal-quit" class="modal">
     <div class="modal-panel" style="border-color:var(--border-hi);">
         <div class="modal-title" style="color:var(--text);">Quitter la partie ?</div>
         <div class="modal-body">Que veux-tu faire avant de quitter ?</div>
         <div class="modal-buttons">
-            <button class="btn btn-gold" onclick="quitSaveAndMenu()">💾 Sauvegarder et Retour Menu</button>
+            <button class="btn btn-gold" onclick="quitSaveAndMenu()">🏠 Retour Menu</button>
             <button class="btn btn-ghost-red" onclick="quitNoSave()">🗑️ Quitter sans sauvegarder</button>
             <button class="btn btn-ghost" onclick="closeModal('modal-quit')">Annuler</button>
         </div>
@@ -913,15 +765,103 @@
 // ====== THEMES ======
 const THEMES = {
     sabotage:{'--bg':'#080b12','--bg2':'#0e1320','--bg3':'#131926','--panel':'#111827','--border':'#1e2d45','--border-hi':'#2a3f60','--accent-blue':'#2563eb','--accent-red':'#dc2626','--accent-gold':'#b8972a','--text':'#e8eaf0','--text-dim':'#7a8499','--text-muted':'#4a5568','--blue-glow':'rgba(37,99,235,0.35)','--red-glow':'rgba(220,38,38,0.35)','--gold-glow':'rgba(184,151,42,0.3)'},
-    cold:{'--bg':'#05090f','--bg2':'#0a1117','--bg3':'#0f1820','--panel':'#0d1520','--border':'#172232','--border-hi':'#1e3048','--accent-blue':'#0ea5e9','--accent-red':'#ef4444','--accent-gold':'#94a3b8','--text':'#cbd5e1','--text-dim':'#64748b','--text-muted':'#334155','--blue-glow':'rgba(14,165,233,0.3)','--red-glow':'rgba(239,68,68,0.3)','--gold-glow':'rgba(148,163,184,0.2)'},
-    neon:{'--bg':'#05010d','--bg2':'#09021a','--bg3':'#0d0320','--panel':'#0a0118','--border':'#1a0535','--border-hi':'#2d0a55','--accent-blue':'#818cf8','--accent-red':'#f43f5e','--accent-gold':'#fbbf24','--text':'#e9d5ff','--text-dim':'#7c3aed','--text-muted':'#4c1d95','--blue-glow':'rgba(129,140,248,0.4)','--red-glow':'rgba(244,63,94,0.4)','--gold-glow':'rgba(251,191,36,0.3)'},
+    neon:{'--bg':'#030014','--bg2':'#0a0420','--bg3':'#150a30','--panel':'#08031a','--border':'#3b1568','--border-hi':'#7c1fa8','--accent-blue':'#2563eb','--accent-red':'#dc2626','--accent-gold':'#ff2d92','--text':'#ecdcff','--text-dim':'#b088e8','--text-muted':'#6b3aa0','--blue-glow':'rgba(37,99,235,0.5)','--red-glow':'rgba(220,38,38,0.5)','--gold-glow':'rgba(255,45,146,0.45)'},
+    clair:{'--bg':'#f4f5f9','--bg2':'#ffffff','--bg3':'#eef1f7','--panel':'#ffffff','--border':'#dbe0ea','--border-hi':'#c3cadb','--accent-blue':'#2563eb','--accent-red':'#dc2626','--accent-gold':'#a9790a','--text':'#151a24','--text-dim':'#525a6b','--text-muted':'#8992a3','--blue-glow':'rgba(37,99,235,0.22)','--red-glow':'rgba(220,38,38,0.22)','--gold-glow':'rgba(169,121,10,0.18)'},
+    parchemin:{'--bg':'#f2e8d5','--bg2':'#f8f1e2','--bg3':'#ecdfc4','--panel':'#faf3e4','--border':'#d4c3a0','--border-hi':'#b89b6d','--accent-blue':'#2563eb','--accent-red':'#dc2626','--accent-gold':'#8a5a1f','--text':'#3a2b18','--text-dim':'#6b5636','--text-muted':'#9c8563','--blue-glow':'rgba(37,99,235,0.2)','--red-glow':'rgba(220,38,38,0.2)','--gold-glow':'rgba(138,90,31,0.25)'},
 };
+const LIGHT_THEMES = ['clair', 'parchemin'];
 function applyTheme(name) {
-    const t = THEMES[name] || THEMES.sabotage;
+    const t = THEMES[name] || THEMES.clair;
     Object.entries(t).forEach(([k,v]) => document.documentElement.style.setProperty(k,v));
+    document.documentElement.setAttribute('data-theme', name);
+    document.documentElement.setAttribute('data-theme-mode', LIGHT_THEMES.includes(name) ? 'light' : 'dark');
     localStorage.setItem('tb_theme', name);
     const s = document.getElementById('theme-select');
     if (s) s.value = name;
+}
+
+// ====== ROSTER (cached player bubbles) ======
+const ROSTER_KEY = 'tb_roster_v1';
+const ROSTER_SEED = ['Pauline','Li','Mary','Pierre','Leo','Youcef','Denis'];
+
+function getRoster() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(ROSTER_KEY));
+        if (Array.isArray(stored) && stored.length) return stored;
+    } catch {}
+    persistRoster(ROSTER_SEED);
+    return [...ROSTER_SEED];
+}
+function persistRoster(list) { localStorage.setItem(ROSTER_KEY, JSON.stringify(list)); }
+function addToRoster(name) {
+    const roster = getRoster();
+    if (!roster.some(n => n.toLowerCase() === name.toLowerCase())) {
+        roster.push(name);
+        persistRoster(roster);
+    }
+}
+function removeFromRoster(name) {
+    const roster = getRoster().filter(n => n.toLowerCase() !== name.toLowerCase());
+    persistRoster(roster);
+    gameState.players = (gameState.players||[]).filter(p => p.toLowerCase() !== name.toLowerCase());
+    renderPlayerBubbles();
+    updateTableHighlight();
+    updateButtonVisibility();
+    updateCurrentSaveInfo();
+    updateRoleSplitUI();
+    refreshStatsIfActive();
+}
+function togglePlayerBubble(name) {
+    gameState.players = gameState.players || [];
+    const idx = gameState.players.findIndex(p => p.toLowerCase() === name.toLowerCase());
+    if (idx >= 0) gameState.players.splice(idx,1);
+    else gameState.players.push(name);
+    renderPlayerBubbles();
+    updateTableHighlight();
+    updateButtonVisibility();
+    updateCurrentSaveInfo();
+    updateRoleSplitUI();
+    refreshStatsIfActive();
+}
+function addCustomPlayer(inputId) {
+    const input = document.getElementById(inputId || 'newPlayerInput');
+    if (!input) return;
+    const name = input.value.trim();
+    if (!name) return;
+    addToRoster(name);
+    gameState.players = gameState.players || [];
+    if (!gameState.players.some(p => p.toLowerCase() === name.toLowerCase())) gameState.players.push(name);
+    input.value = '';
+    renderPlayerBubbles();
+    updateTableHighlight();
+    updateButtonVisibility();
+    updateCurrentSaveInfo();
+    updateRoleSplitUI();
+    refreshStatsIfActive();
+    input.focus();
+}
+function renderPlayerBubbles() {
+    const targets = document.querySelectorAll('.player-bubbles-target');
+    if (!targets.length) return;
+    const roster = getRoster();
+    const selected = gameState.players || [];
+    selected.forEach(name => { if (!roster.some(n=>n.toLowerCase()===name.toLowerCase())) roster.push(name); });
+    const html = roster.map(name => {
+        const isSel = selected.some(p => p.toLowerCase() === name.toLowerCase());
+        return `<button type="button" class="bubble-btn player-bubble${isSel?' selected':''}" onclick="togglePlayerBubble('${esc(name)}')">` +
+            `<span>${isSel?'✓ ':''}${esc(name)}</span>` +
+            `<span class="bubble-del" title="Supprimer définitivement" onclick="event.stopPropagation();removeFromRoster('${esc(name)}')">✕</span>` +
+            `</button>`;
+    }).join('');
+    targets.forEach(el => { el.innerHTML = html; });
+}
+function refreshStatsIfActive() {
+    const scr = document.getElementById('statsScreen');
+    if (scr && scr.classList.contains('active')) renderStats();
+}
+function openPlayerEditOverlay() {
+    renderPlayerBubbles();
+    openOverlay('player-edit-overlay');
 }
 
 // ====== SAVES SYSTEM ======
@@ -939,16 +879,24 @@ function formatDate(iso) {
 let activeSaveId = null;
 let gameState = { players:[], currentManche:1, teamAssignment:{}, mancheHistory:[] };
 
+function getLiveTotalPlayTime() {
+    const scr = document.getElementById('gameScreen');
+    const isLive = scr && scr.classList.contains('active');
+    return (gameState.totalPlayTime || 0) + (isLive ? roundElapsed : 0);
+}
+
 function persistCurrentGame() {
     const saves = loadAllSaves();
     const idx = saves.findIndex(s => s.id === activeSaveId);
     const now = new Date().toISOString();
+    const snapshot = JSON.parse(JSON.stringify(gameState));
+    snapshot.totalPlayTime = getLiveTotalPlayTime();
     const entry = {
         id: activeSaveId,
         name: gameState.name || 'Partie sans nom',
         updatedAt: now,
         createdAt: (idx >= 0 ? saves[idx].createdAt : null) || now,
-        state: JSON.parse(JSON.stringify(gameState))
+        state: snapshot
     };
     if (idx >= 0) saves[idx] = entry;
     else saves.push(entry);
@@ -988,7 +936,7 @@ function renderSavesList() {
             `<div class="save-card-name">${esc(save.name)}</div>` +
             `<div class="save-card-players">${esc((gs.players||[]).join(' · ') || '—')}</div>` +
             `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">` +
-              `<div style="font-size:0.7rem;color:var(--text-muted);">M${gs.currentManche||1}/4 · ${formatDate(save.updatedAt)}</div>` +
+              `<div style="font-size:0.7rem;color:var(--text-muted);">M${gs.currentManche||1} · ⏱️ ${formatTime(gs.totalPlayTime||0)} · ${formatDate(save.updatedAt)}</div>` +
               `<div style="display:flex;gap:6px;"><span class="badge-blue">🔵 ${blueW}V</span><span class="badge-red">🔴 ${redW}V</span></div>` +
             `</div>`;
         card.querySelector('.save-card-del').addEventListener('click', e => { e.stopPropagation(); promptDeleteSave(save.id); });
@@ -1005,7 +953,7 @@ function openSave(saveId) {
 function newGame() {
     const nameInput = document.getElementById('new-game-name');
     const name = nameInput.value.trim() || autoName();
-    gameState = { name, players:[], currentManche:1, teamAssignment:{}, mancheHistory:[] };
+    gameState = { name, players:[], currentManche:1, teamAssignment:{}, mancheHistory:[], mode:'cards', customRedCount:null };
     activeSaveId = generateId();
     nameInput.value = '';
     enterSetupScreen();
@@ -1013,15 +961,64 @@ function newGame() {
 
 function autoName() {
     const d = new Date();
-    return 'Partie du ' + d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})
-        + ' ' + d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const p = v => String(v).padStart(2,'0');
+    return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
 }
 
 // ====== SETUP ======
+function setGameMode(mode) {
+    gameState.mode = mode;
+    const cardsBtn = document.getElementById('modeBtnCards');
+    const tabletBtn = document.getElementById('modeBtnTablet');
+    if (cardsBtn) cardsBtn.className = 'btn btn-sm' + (mode === 'cards' ? ' btn-primary' : ' btn-ghost');
+    if (tabletBtn) tabletBtn.className = 'btn btn-sm' + (mode === 'tablet' ? ' btn-primary' : ' btn-ghost');
+    const roleBlock = document.getElementById('roleSplitBlock');
+    if (roleBlock) roleBlock.style.display = mode === 'tablet' ? '' : 'none';
+    updateRoleSplitUI();
+}
+
+function getRecommendedRedCount(n) {
+    const table = { 4:1, 5:2, 6:2, 7:2, 8:3 };
+    return table[n] || Math.max(1, Math.round(n/3));
+}
+
+function updateRoleSplitUI() {
+    const n = (gameState.players||[]).length;
+    if (!n) return;
+    const recommended = getRecommendedRedCount(n);
+    if (gameState.customRedCount == null || gameState.customRedCount > n - 1 || gameState.customRedCount < 1) {
+        gameState.customRedCount = null;
+    }
+    const shown = gameState.customRedCount != null ? gameState.customRedCount : recommended;
+    const redEl = document.getElementById('redCountDisplay');
+    const blueEl = document.getElementById('blueCountDisplay');
+    const hintEl = document.getElementById('roleSplitHint');
+    if (redEl) redEl.textContent = shown;
+    if (blueEl) blueEl.textContent = Math.max(0, n - shown);
+    if (hintEl) hintEl.textContent = gameState.customRedCount != null
+        ? '(personnalisé)'
+        : `(recommandé pour ${n} joueurs — parfois incertain de ±1 pour 4/7 joueurs)`;
+}
+
+function adjustRedCount(delta) {
+    const n = (gameState.players||[]).length;
+    if (!n) return;
+    const current = gameState.customRedCount != null ? gameState.customRedCount : getRecommendedRedCount(n);
+    const next = Math.min(n - 1, Math.max(1, current + delta));
+    gameState.customRedCount = next;
+    updateRoleSplitUI();
+}
+
+function resetRoleSplit() {
+    gameState.customRedCount = null;
+    updateRoleSplitUI();
+}
+
 function enterSetupScreen() {
-    const c = document.getElementById('playersInput');
-    c.innerHTML = '';
-    (gameState.players||[]).forEach(p => appendPlayerInput(p));
+    gameState.players = gameState.players || [];
+    gameState.mode = gameState.mode || 'cards';
+    setGameMode(gameState.mode);
+    renderPlayerBubbles();
     updateTableHighlight();
     updateButtonVisibility();
     updateCurrentSaveInfo();
@@ -1034,56 +1031,46 @@ function updateCurrentSaveInfo() {
     if (!el) return;
     el.innerHTML =
         `<div style="font-weight:700;color:var(--text);margin-bottom:4px;">${esc(gameState.name||'—')}</div>` +
-        `<div style="color:var(--text-muted);font-size:0.75rem;">Manche ${gameState.currentManche||1}/4 · ${(gameState.players||[]).length} joueur(s)</div>` +
-        `<div style="color:var(--text-muted);font-size:0.75rem;">${(gameState.mancheHistory||[]).length} manche(s) jouée(s)</div>`;
-}
-
-function appendPlayerInput(val) {
-    const c = document.getElementById('playersInput');
-    const div = document.createElement('div');
-    div.className = 'player-row';
-    div.innerHTML = `<input type="text" placeholder="Nom du joueur" class="player-input" value="${esc(val)}">` +
-        `<button class="btn btn-ghost btn-icon" onclick="removePlayer(this)" style="flex-shrink:0;color:var(--accent-red);border-color:rgba(220,38,38,0.3)">✕</button>`;
-    c.appendChild(div);
-}
-
-function addPlayer() {
-    appendPlayerInput('');
-    const inputs = document.querySelectorAll('.player-input');
-    if (inputs.length) inputs[inputs.length-1].focus();
-    updateTableHighlight();
-    updateButtonVisibility();
-}
-
-function removePlayer(btn) {
-    btn.closest('.player-row').remove();
-    updateTableHighlight();
-    updateButtonVisibility();
+        `<div style="color:var(--text-muted);font-size:0.75rem;">Manche ${gameState.currentManche||1} · ${(gameState.players||[]).length} joueur(s)</div>` +
+        `<div style="color:var(--text-muted);font-size:0.75rem;">${(gameState.mancheHistory||[]).length} manche(s) jouée(s)</div>` +
+        `<div style="color:var(--text-muted);font-size:0.75rem;">⏱️ ${formatTime(gameState.totalPlayTime||0)} de jeu</div>`;
 }
 
 function updateTableHighlight() {
-    const n = document.querySelectorAll('.player-input').length;
+    const n = (gameState.players||[]).length;
     document.querySelectorAll('#setupTableBody tr').forEach(row => {
         row.classList.toggle('highlight', parseInt(row.cells[0].textContent) === n);
     });
 }
 
 function updateButtonVisibility() {
-    const n = document.querySelectorAll('.player-input').length;
+    const n = (gameState.players||[]).length;
     const btn = document.getElementById('btnStart');
-    if (btn) btn.style.display = (n >= 4 && n <= 8) ? '' : 'none';
+    if (!btn) return;
+    const ok = n >= 4 && n <= 8;
+    btn.disabled = !ok;
+    btn.style.opacity = ok ? '1' : '0.4';
+    btn.style.cursor = ok ? 'pointer' : 'not-allowed';
+    const label = ok ? 'Démarrer' : (n < 4 ? `Démarrer (${n}/4 min)` : `Max 8 joueurs`);
+    btn.innerHTML = `<span class="hbtn-icon">🚀</span> <span>${label}</span>`;
 }
 
 function startGame() {
-    const inputs = document.querySelectorAll('.player-input');
-    gameState.players = Array.from(inputs).map(i => i.value.trim()).filter(n => n.length > 0);
-    if (gameState.players.length < 4) { alert('Minimum 4 joueurs !'); return; }
-    gameState.currentManche = 1;
-    gameState.mancheHistory = [];
+    const n = (gameState.players||[]).length;
+    if (n < 4) { alert('Minimum 4 joueurs !'); return; }
+    if (n > 8) { alert('Maximum 8 joueurs !'); return; }
+    gameState.players.forEach(addToRoster);
+    gameState.currentManche = gameState.currentManche || 1;
+    gameState.mancheHistory = gameState.mancheHistory || [];
+    gameState.totalPlayTime = gameState.totalPlayTime || 0;
     gameState.teamAssignment = {};
     gameState.players.forEach(p => { gameState.teamAssignment[p] = null; });
-    document.getElementById('mancheDisplay').textContent = 1;
-    switchScreen('gameScreen');
+    if (gameState.mode === 'tablet') {
+        startTabletManche();
+    } else {
+        document.getElementById('mancheDisplay').textContent = gameState.currentManche;
+        switchScreen('gameScreen');
+    }
 }
 
 // ====== SAVE ACTIONS ======
@@ -1140,41 +1127,6 @@ function confirmDeleteSave() {
     renderSavesList();
 }
 
-// ====== IMPORT / EXPORT ======
-function exportSaves() {
-    const saves = loadAllSaves();
-    if (saves.length === 0) { alert('Aucune sauvegarde à exporter.'); return; }
-    const json = JSON.stringify({ version:2, exportedAt:new Date().toISOString(), saves }, null, 2);
-    const a = Object.assign(document.createElement('a'), {
-        href: URL.createObjectURL(new Blob([json], {type:'application/json'})),
-        download: `timebomb_${new Date().toISOString().slice(0,10)}.json`
-    });
-    a.click();
-    URL.revokeObjectURL(a.href);
-}
-
-function importSaves(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        try {
-            const data = JSON.parse(e.target.result);
-            const incoming = data.saves || (Array.isArray(data) ? data : null);
-            if (!incoming) { alert('Format invalide.'); return; }
-            const existing = loadAllSaves();
-            const ids = new Set(existing.map(s => s.id));
-            let added = 0;
-            incoming.forEach(s => { if (!ids.has(s.id)) { existing.push(s); added++; } });
-            persistAllSaves(existing);
-            renderSavesList();
-            showToast(`✅ ${added} partie(s) importée(s) !`);
-        } catch { alert('Erreur lors de la lecture du fichier JSON.'); }
-        event.target.value = '';
-    };
-    reader.readAsText(file);
-}
-
 // ====== GAME FLOW ======
 let msgTimer = null;
 const MSGS = ['MENTEZ BIEN !','VOUS ÊTES DES ESCROCS !','NE FAITES CONFIANCE À PERSONNE !','TRAHISSEZ SANS REMORDS','CHAQUE AMI EST UN SUSPECT','LE MENSONGE, C\'EST UN ART','QUI COUPE LE BON FIL ?','LA BOMBE TIQUE…','INFILTREZ. SABOTEZ. SURVIVEZ.','LE TRAÎTRE EST PARMI VOUS','SOURIEZ ET TRAHISSEZ','LA CONFIANCE TUE'];
@@ -1184,11 +1136,102 @@ function startMsgCycle() {
     msgTimer = setInterval(() => { idx = (idx+1)%MSGS.length; el.textContent = MSGS[idx]; }, 2500);
 }
 
+// ---- Round chronometer (count-up) ----
+let roundInterval = null;
+let roundElapsed = 0;
+let roundTimerRunning = false;
+let sparkInterval = null;
+
+function formatTime(sec) {
+    sec = Math.max(0, sec);
+    const m = Math.floor(sec/60), s = sec%60;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function updateTimerDisplay() {
+    const el = document.getElementById('gameTimer');
+    if (!el) return;
+    el.textContent = formatTime(roundElapsed);
+}
+function resetRoundTimer() {
+    clearInterval(roundInterval);
+    roundInterval = null;
+    roundTimerRunning = false;
+    roundElapsed = 0;
+    updateTimerDisplay();
+    const btn = document.getElementById('timerToggleBtn');
+    if (btn) btn.textContent = '▶ Lancer';
+}
+function toggleRoundTimer() {
+    const btn = document.getElementById('timerToggleBtn');
+    if (roundTimerRunning) {
+        clearInterval(roundInterval);
+        roundTimerRunning = false;
+        if (btn) btn.textContent = '▶ Reprendre';
+        return;
+    }
+    roundTimerRunning = true;
+    if (btn) btn.textContent = '⏸ Pause';
+    roundInterval = setInterval(() => {
+        roundElapsed++;
+        updateTimerDisplay();
+    }, 1000);
+}
+function startSparks() {
+    clearInterval(sparkInterval);
+    sparkInterval = setInterval(() => {
+        const field = document.getElementById('sparkField');
+        if (!field) return;
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.left = (40 + Math.random()*20) + '%';
+        spark.style.setProperty('--sx', (Math.random()*30-15) + 'px');
+        field.appendChild(spark);
+        setTimeout(() => spark.remove(), 1500);
+    }, 350);
+}
+function stopSparks() { clearInterval(sparkInterval); sparkInterval = null; }
+
+function triggerEndManche() {
+    gameState.totalPlayTime = (gameState.totalPlayTime || 0) + roundElapsed;
+    const overlay = document.getElementById('defuseOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        void overlay.offsetWidth;
+        overlay.classList.add('active');
+    }
+    setTimeout(() => { endTurn(); }, 550);
+}
+
+function renderContextActions(screenId) {
+    const el = document.getElementById('contextActions');
+    if (!el) return;
+    if (screenId === 'setupScreen') {
+        el.innerHTML = `<button id="btnStart" class="hbtn gold"><span class="hbtn-icon">🚀</span> <span>Démarrer</span></button>`;
+        document.getElementById('btnStart').addEventListener('click', startGame);
+        updateButtonVisibility();
+    } else if (screenId === 'editMancheScreen') {
+        el.innerHTML = `<button class="hbtn gold" onclick="saveEditManche()"><span class="hbtn-icon">✅</span> <span>Sauver</span></button>` +
+            `<button class="hbtn" onclick="cancelEditManche()"><span class="hbtn-icon">❌</span> <span>Annuler</span></button>`;
+    } else {
+        el.innerHTML = '';
+    }
+}
+
 function switchScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     if (el) el.classList.add('active');
-    if (id === 'gameScreen') startMsgCycle(); else clearInterval(msgTimer);
+    renderContextActions(id);
+    if (id === 'gameScreen') {
+        startMsgCycle();
+        startSparks();
+        resetRoundTimer();
+    } else {
+        clearInterval(msgTimer);
+        stopSparks();
+        clearInterval(roundInterval);
+        roundTimerRunning = false;
+    }
     if (id === 'homeScreen') showMenuBtn(false);
 }
 
@@ -1221,10 +1264,13 @@ function setWinner(team) {
     gameState.mancheHistory.push({ manche:gameState.currentManche, assignments:{...gameState.teamAssignment}, winner:team });
     renderStats();
     switchScreen('statsScreen');
-    if (gameState.currentManche >= 4) { const b = document.getElementById('continueBtn'); if(b) b.style.display='none'; }
 }
 
 function nextManche() {
+    if (gameState.mode === 'tablet') {
+        startTabletManche();
+        return;
+    }
     gameState.currentManche++;
     gameState.teamAssignment = {};
     gameState.players.forEach(p => { gameState.teamAssignment[p] = null; });
@@ -1232,7 +1278,502 @@ function nextManche() {
     switchScreen('gameScreen');
 }
 
-function endGame() { renderPodium(); switchScreen('podiumScreen'); }
+function endGame() {
+    renderPodium();
+    renderPodiumExtras();
+    spawnConfetti();
+    switchScreen('podiumScreen');
+}
+
+// ====== FULL TABLET MODE ======
+function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function getRolePool(n) {
+    // Pool sizes per official rules. For 4 and 7 players, the pool is 1 card
+    // larger than the player count and one role card is set aside unseen,
+    // making the exact number of Moriarty members uncertain (as in the real game).
+    if (n === 4 || n === 5) return [3, 2];   // pool of 5 (blue, red)
+    if (n === 6) return [4, 2];              // pool of 6
+    if (n === 7 || n === 8) return [5, 3];   // pool of 8
+    const m = Math.max(1, Math.round(n/3));
+    return [n - m + 1, m];
+}
+
+const CARD_TYPES = {
+    wire:  { emoji:'✂️', label:'Fil' },
+    bomb:  { emoji:'💣', label:'Bombe' },
+    blank: { emoji:'➖', label:'Rien' }
+};
+
+function getHandSizeForManche(manche) {
+    const sizes = [5, 4, 3, 2];
+    const idx = Math.min(Math.max((manche||1) - 1, 0), sizes.length - 1);
+    return sizes[idx];
+}
+
+function assignRolesAndCards() {
+    const players = gameState.players;
+    const n = players.length;
+    let dealt;
+    if (gameState.customRedCount != null && gameState.customRedCount >= 1 && gameState.customRedCount <= n - 1) {
+        const redCount = gameState.customRedCount;
+        let fixedList = [];
+        for (let i = 0; i < n - redCount; i++) fixedList.push('blue');
+        for (let i = 0; i < redCount; i++) fixedList.push('red');
+        dealt = shuffleArray(fixedList);
+    } else {
+        const [sherlockPool, moriartyPool] = getRolePool(n);
+        let pool = [];
+        for (let i = 0; i < sherlockPool; i++) pool.push('blue');
+        for (let i = 0; i < moriartyPool; i++) pool.push('red');
+        pool = shuffleArray(pool);
+        dealt = pool.slice(0, n); // any extra card (pool > n) is left aside, unseen
+    }
+    const roles = {};
+    players.forEach((p, i) => { roles[p] = dealt[i]; });
+    gameState.roundRoles = roles;
+    gameState.lastCutter = null;
+    gameState.totalTourCount = 0;
+    gameState.matchWireLog = [];
+    dealCardsForManche();
+}
+
+function dealCardsForManche() {
+    const players = gameState.players;
+    const n = players.length;
+    const handSize = getHandSizeForManche(gameState.currentManche);
+    const totalCards = n * handSize;
+    const wireCount = n;
+    const bombCount = 1;
+    const blankCount = totalCards - wireCount - bombCount;
+    let deck = [];
+    for (let i = 0; i < wireCount; i++) deck.push('wire');
+    for (let i = 0; i < bombCount; i++) deck.push('bomb');
+    for (let i = 0; i < blankCount; i++) deck.push('blank');
+    deck = shuffleArray(deck);
+
+    const hands = {};
+    const revealed = {};
+    players.forEach((p, i) => {
+        hands[p] = deck.slice(i*handSize, (i+1)*handSize);
+        revealed[p] = new Array(handSize).fill(false);
+    });
+
+    gameState.roundHands = hands;
+    gameState.roundRevealed = revealed;
+    gameState.roundWiresFound = 0;
+    gameState.roundTourCount = 0;
+    gameState.roundActivePlayer = null;
+    gameState.roundLog = [];
+}
+
+function renderCardFace(type, pos) {
+    const c = CARD_TYPES[type];
+    return `<div class="card-face"><div class="cf-emoji">${c.emoji}</div><div class="cf-pos">${pos}</div></div>`;
+}
+
+let revealIndex = 0;
+
+function startTabletManche() {
+    gameState.matchNumber = (gameState.matchNumber || 0) + 1;
+    gameState.currentManche = 1;
+    assignRolesAndCards();
+    revealIndex = 0;
+    switchScreen('modeRevealScreen');
+    showRevealCover();
+}
+
+function showRevealCover() {
+    const player = gameState.players[revealIndex];
+    document.getElementById('revealPlayerName').textContent = player;
+    document.getElementById('revealCover').style.display = '';
+    document.getElementById('revealContent').style.display = 'none';
+    const tag = document.getElementById('revealMancheTag');
+    if (tag) {
+        const handSize = getHandSizeForManche(gameState.currentManche);
+        tag.textContent = `Manche ${gameState.currentManche}/4 · ${handSize} carte${handSize>1?'s':''} chacun`;
+    }
+}
+
+function showMyRole() {
+    const player = gameState.players[revealIndex];
+    const role = gameState.roundRoles[player];
+    const badge = document.getElementById('revealRoleBadge');
+    badge.innerHTML = role === 'blue'
+        ? `<div style="font-size:0.9rem;color:var(--text-dim);font-weight:700;margin-bottom:4px;">${esc(player)} est…</div>🔵 SHERLOCK<div style="font-size:0.85rem;color:var(--text-dim);font-weight:400;margin-top:4px;">Coupe le bon fil</div>`
+        : `<div style="font-size:0.9rem;color:var(--text-dim);font-weight:700;margin-bottom:4px;">${esc(player)} est…</div>🔴 MORIARTY<div style="font-size:0.85rem;color:var(--text-dim);font-weight:400;margin-top:4px;">Fais exploser la bombe</div>`;
+    badge.style.color = role === 'blue' ? 'var(--accent-blue)' : 'var(--accent-red)';
+    const hand = gameState.roundHands[player];
+    document.getElementById('revealHand').innerHTML = hand.map((c,i) => renderCardFace(c, i+1)).join('');
+    document.getElementById('revealCover').style.display = 'none';
+    document.getElementById('revealContent').style.display = '';
+}
+
+function nextRevealPlayer() {
+    revealIndex++;
+    if (revealIndex >= gameState.players.length) {
+        enterTableScreen();
+    } else {
+        showRevealCover();
+    }
+}
+
+function skipAllReveals() {
+    const remaining = gameState.players.length - revealIndex;
+    document.getElementById('modal-skip-reveals-body').textContent = remaining > 1
+        ? `${remaining} joueur(s) n'ont pas encore vu leur rôle. Passer directement à la table quand même ?`
+        : 'Passer directement à la table ?';
+    openModal('modal-skip-reveals');
+}
+
+function confirmSkipAllReveals() {
+    closeModal('modal-skip-reveals');
+    revealIndex = gameState.players.length;
+    enterTableScreen();
+}
+
+function enterTableScreen() {
+    switchScreen('tableScreen');
+    if (!gameState.roundActivePlayer && gameState.lastCutter) {
+        gameState.roundActivePlayer = gameState.lastCutter;
+    }
+    const alreadyStarted = !!gameState.roundActivePlayer;
+    document.getElementById('starterPicker').style.display = alreadyStarted ? 'none' : '';
+    document.getElementById('turnBanner').style.display = alreadyStarted ? '' : 'none';
+    document.getElementById('starterButtons').innerHTML = gameState.players.map(p =>
+        `<button class="btn btn-primary btn-sm" onclick="chooseStarter('${esc(p)}')">${esc(p)}</button>`).join('');
+    if (alreadyStarted) updateTurnBanner();
+    updateWireProgress();
+    renderWireCreditsHistory();
+    renderHistoryBanner();
+    renderProgressBar();
+    renderTableGrid();
+}
+
+function chooseStarter(player) {
+    gameState.roundActivePlayer = player;
+    document.getElementById('starterPicker').style.display = 'none';
+    document.getElementById('turnBanner').style.display = '';
+    updateTurnBanner();
+    renderTableGrid();
+}
+
+function updateTurnBanner() {
+    const el = document.getElementById('turnBannerText');
+    const maxTours = gameState.players.length;
+    if (el) el.textContent = `Manche ${gameState.currentManche}/4 · Tour ${(gameState.roundTourCount||0)+1}/${maxTours} — 🔎 Au tour de ${gameState.roundActivePlayer} de couper un fil chez quelqu'un…`;
+    updateWireProgress();
+}
+
+function updateWireProgress() {
+    const badge = document.getElementById('wireProgressBadge');
+    if (!badge || !gameState.players || !gameState.players.length) return;
+    const n = gameState.players.length;
+    const found = gameState.roundWiresFound || 0;
+    badge.textContent = `✂️ Fils découverts : ${found} / ${n}`;
+    renderWireCredits();
+}
+
+function renderWireCredits() {
+    const el = document.getElementById('wireCreditsList');
+    if (!el || !gameState.players || !gameState.players.length) return;
+    const log = gameState.roundLog || [];
+    const counts = {};
+    gameState.players.forEach(p => { counts[p] = 0; });
+    log.forEach(entry => {
+        if (entry.type === 'wire' && counts.hasOwnProperty(entry.chooser)) counts[entry.chooser]++;
+    });
+    const withFinds = gameState.players.filter(p => counts[p] > 0);
+    if (!withFinds.length) {
+        el.innerHTML = '<span style="color:var(--text-muted);font-size:0.72rem;">Aucun fil trouvé pour l\'instant.</span>';
+        return;
+    }
+    el.innerHTML = withFinds
+        .sort((a,b) => counts[b] - counts[a])
+        .map(p => `<span class="wire-credit-pill">🏅 ${esc(p)} : ${counts[p]} ✂️</span>`)
+        .join('');
+}
+
+function formatWireCreditsLine(counts) {
+    const entries = Object.entries(counts).filter(([,c]) => c > 0).sort((a,b) => b[1]-a[1]);
+    if (!entries.length) return 'aucun fil trouvé';
+    return entries.map(([name,c]) => `${name} : ${c} ✂️`).join(' et ');
+}
+
+function snapshotMancheWireCredits() {
+    gameState.matchWireLog = gameState.matchWireLog || [];
+    const handSize = getHandSizeForManche(gameState.currentManche);
+    const counts = {};
+    (gameState.roundLog || []).forEach(entry => {
+        if (entry.type === 'wire') counts[entry.chooser] = (counts[entry.chooser]||0) + 1;
+    });
+    gameState.matchWireLog.push({ manche: gameState.currentManche, handSize, counts });
+    renderWireCreditsHistory();
+}
+
+function renderWireCreditsHistory() {
+    const el = document.getElementById('wireCreditsHistory');
+    if (!el) return;
+    const log = gameState.matchWireLog || [];
+    if (!log.length) { el.innerHTML = ''; return; }
+    el.innerHTML = log.map(entry => {
+        const line = formatWireCreditsLine(entry.counts);
+        return `<div class="wire-history-line">Manche ${entry.manche} (${entry.handSize} carte${entry.handSize>1?'s':''} chacun) : ${esc(line)}</div>`;
+    }).join('');
+}
+
+function renderTableGrid() {
+    const grid = document.getElementById('tableGrid');
+    if (!grid) return;
+    grid.innerHTML = gameState.players.map(p => {
+        const hand = gameState.roundHands[p];
+        const revealed = gameState.roundRevealed[p];
+        const isActive = p === gameState.roundActivePlayer;
+        const cards = hand.map((type, i) => {
+            if (revealed[i]) {
+                const clsMap = { wire:'revealed-wire', bomb:'revealed-bomb', blank:'revealed-blank' };
+                return `<div class="card-slot ${clsMap[type]}">${CARD_TYPES[type].emoji}</div>`;
+            }
+            const clickable = gameState.roundActivePlayer && !isActive;
+            return `<div class="card-slot face-down${clickable?' clickable':''}" ${clickable?`onclick="cutCard('${esc(p)}',${i})"`:''}>❔</div>`;
+        }).join('');
+        return `<div class="table-player${isActive?' active-turn':''}">` +
+            `<div class="table-player-name" onclick="requestReviewCards('${esc(p)}')">${esc(p)}</div>` +
+            `<div class="table-cards">${cards}</div></div>`;
+    }).join('');
+}
+
+function cutCard(player, index) {
+    if (player === gameState.roundActivePlayer) return;
+    if (gameState.roundRevealed[player][index]) return;
+    const chooser = gameState.roundActivePlayer;
+    gameState.roundRevealed[player][index] = true;
+    gameState.roundTourCount = (gameState.roundTourCount || 0) + 1;
+    gameState.totalTourCount = (gameState.totalTourCount || 0) + 1;
+    const type = gameState.roundHands[player][index];
+
+    gameState.roundLog = gameState.roundLog || [];
+    gameState.roundLog.push({ tour: gameState.roundTourCount, chooser, target: player, type });
+    renderHistoryBanner();
+    renderProgressBar();
+
+    if (type === 'wire') gameState.roundWiresFound = (gameState.roundWiresFound || 0) + 1;
+
+    if (type === 'bomb') {
+        renderTableGrid();
+        finishTabletManche('red');
+        return;
+    }
+
+    const maxTours = gameState.players.length;
+
+    if (gameState.roundWiresFound >= maxTours) {
+        renderTableGrid();
+        finishTabletManche('blue');
+        return;
+    }
+
+    if (gameState.roundTourCount >= maxTours) {
+        renderTableGrid();
+        advanceManche();
+        return;
+    }
+
+    gameState.roundActivePlayer = player;
+    updateTurnBanner();
+    renderTableGrid();
+}
+
+function advanceManche() {
+    if (gameState.currentManche >= 4) {
+        // 4 manches écoulées sans dénouement : Moriarty l'emporte par défaut
+        finishTabletManche('red');
+        return;
+    }
+    const lastCutter = gameState.roundActivePlayer;
+    const el = document.getElementById('turnBannerText');
+    if (el) el.textContent = `Manche ${gameState.currentManche} terminée sans dénouement. On redistribue pour la manche ${gameState.currentManche + 1}…`;
+    snapshotMancheWireCredits();
+    setTimeout(() => {
+        gameState.currentManche++;
+        dealCardsForManche();
+        gameState.lastCutter = lastCutter;
+        revealIndex = 0;
+        switchScreen('modeRevealScreen');
+        showRevealCover();
+    }, 1600);
+}
+
+function renderProgressBar() {
+    const el = document.getElementById('gameProgressFill');
+    const label = document.getElementById('gameProgressLabel');
+    if (!el || !gameState.players || !gameState.players.length) return;
+    const n = gameState.players.length;
+    const max = n * 4;
+    const current = Math.min(gameState.totalTourCount || 0, max);
+    const pct = Math.round((current / max) * 100);
+    el.style.width = pct + '%';
+    if (label) label.textContent = `Progression : ${current} / ${max} cartes découvertes (manche ${gameState.currentManche}/4)`;
+}
+
+function renderHistoryBanner() {
+    const el = document.getElementById('historyBanner');
+    if (!el) return;
+    const log = gameState.roundLog || [];
+    if (!log.length) {
+        el.innerHTML = '<div style="color:var(--text-muted);font-size:0.78rem;">Aucun tour joué pour le moment.</div>';
+        return;
+    }
+    el.innerHTML = log.slice().reverse().map(entry => {
+        const c = CARD_TYPES[entry.type];
+        return `<div class="history-entry">Tour ${entry.tour} : <b>${esc(entry.chooser)}</b> a retourné une carte chez <b>${esc(entry.target)}</b> → ${c.emoji} ${esc(c.label)}</div>`;
+    }).join('');
+}
+
+function finishTabletManche(winner) {
+    snapshotMancheWireCredits();
+    if (winner === 'red') {
+        const el = document.getElementById('turnBannerText');
+        if (el) el.textContent = "💥 BOOM ! Moriarty l'emporte !";
+        const scr = document.getElementById('tableScreen');
+        if (scr) { scr.classList.remove('boom-shake'); void scr.offsetWidth; scr.classList.add('boom-shake'); }
+    } else {
+        const el = document.getElementById('turnBannerText');
+        if (el) el.textContent = '✂️ Tous les fils sont coupés, Sherlock gagne !';
+        const overlay = document.getElementById('defuseOverlay');
+        if (overlay) { overlay.classList.remove('active'); void overlay.offsetWidth; overlay.classList.add('active'); }
+    }
+    gameState.teamAssignment = { ...gameState.roundRoles };
+    gameState.mancheHistory.push({ manche: gameState.currentManche, match: gameState.matchNumber, assignments: { ...gameState.teamAssignment }, winner });
+    setTimeout(() => {
+        renderStats();
+        switchScreen('statsScreen');
+    }, winner === 'red' ? 900 : 700);
+}
+
+function requestReviewCards(player) {
+    window._reviewPlayer = player;
+    document.getElementById('modal-review-cards-body').textContent =
+        `${player}, tu vas revoir tes cartes et ton rôle. Confirmer ?`;
+    openModal('modal-review-cards');
+}
+
+function confirmReviewCards() {
+    closeModal('modal-review-cards');
+    const player = window._reviewPlayer;
+    if (!player) return;
+    const role = gameState.roundRoles[player];
+    const hand = gameState.roundHands[player];
+    const badge = document.getElementById('reviewRoleBadge');
+    badge.innerHTML = role === 'blue'
+        ? `<div style="font-size:0.9rem;color:var(--text-dim);font-weight:700;margin-bottom:4px;">${esc(player)} est…</div>🔵 SHERLOCK<div style="font-size:0.85rem;color:var(--text-dim);font-weight:400;margin-top:4px;">Coupe le bon fil</div>`
+        : `<div style="font-size:0.9rem;color:var(--text-dim);font-weight:700;margin-bottom:4px;">${esc(player)} est…</div>🔴 MORIARTY<div style="font-size:0.85rem;color:var(--text-dim);font-weight:400;margin-top:4px;">Fais exploser la bombe</div>`;
+    badge.style.color = role === 'blue' ? 'var(--accent-blue)' : 'var(--accent-red)';
+    document.getElementById('reviewHand').innerHTML = hand.map((c,i) => renderCardFace(c, i+1)).join('');
+    document.getElementById('reviewPlayerNameTitle').textContent = player;
+    openOverlay('review-cards-overlay');
+}
+
+function shuffleMyCards(player) {
+    if (!player || !gameState.roundHands || !gameState.roundHands[player]) return;
+    const hand = gameState.roundHands[player];
+    const revealed = gameState.roundRevealed[player];
+    const idxs = [];
+    hand.forEach((_, i) => { if (!revealed[i]) idxs.push(i); });
+    const values = idxs.map(i => hand[i]);
+    const shuffled = shuffleArray(values);
+    idxs.forEach((idx, k) => { hand[idx] = shuffled[k]; });
+
+    const reviewOverlay = document.getElementById('review-cards-overlay');
+    if (reviewOverlay && reviewOverlay.classList.contains('visible')) {
+        closeOverlay('review-cards-overlay');
+    }
+    const revealContentEl = document.getElementById('revealContent');
+    if (revealContentEl && revealContentEl.style.display !== 'none') {
+        document.getElementById('revealHand').innerHTML = hand.map((c,i) => renderCardFace(c, i+1)).join('');
+    }
+    renderTableGrid();
+    showToast(`🔀 Cartes de ${player} mélangées`);
+}
+
+function spawnConfetti(count = 130) {
+    let field = document.getElementById('confettiField');
+    if (!field) {
+        field = document.createElement('div');
+        field.id = 'confettiField';
+        field.className = 'confetti-field';
+        document.body.appendChild(field);
+    }
+    field.innerHTML = '';
+    const colors = ['#2563eb','#dc2626','#b8972a','#22c55e','#e879f9','#38bdf8','#f97316'];
+    for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random()*100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2.2 + Math.random()*1.8) + 's';
+        piece.style.animationDelay = (Math.random()*0.5) + 's';
+        field.appendChild(piece);
+    }
+    setTimeout(() => { field.innerHTML = ''; }, 4800);
+}
+
+function computePodiumTitles(ps) {
+    const players = gameState.players;
+    if (!players || !players.length) return null;
+    const wins = p => (ps[p]||[]).filter(s=>s.won).length;
+    const played = p => (ps[p]||[]).length;
+    const redWins = p => (ps[p]||[]).filter(s=>s.team==='red' && s.won).length;
+    const losses = p => played(p) - wins(p);
+    const longestStreak = p => {
+        let best = 0, cur = 0;
+        (ps[p]||[]).forEach(s => { if (s.won) { cur++; best = Math.max(best, cur); } else cur = 0; });
+        return best;
+    };
+    const mvp = players.slice().sort((a,b) => wins(b)-wins(a))[0];
+    const traitre = players.slice().sort((a,b) => redWins(b)-redWins(a))[0];
+    const bouc = players.slice().sort((a,b) => losses(b)-losses(a))[0];
+    const streaker = players.slice().sort((a,b) => longestStreak(b)-longestStreak(a))[0];
+    return {
+        mvp: { name: mvp, value: wins(mvp) },
+        traitre: { name: traitre, value: redWins(traitre) },
+        bouc: { name: bouc, value: losses(bouc) },
+        streak: { name: streaker, value: longestStreak(streaker) }
+    };
+}
+
+function renderPodiumExtras() {
+    const ps = buildPS();
+    const t = computePodiumTitles(ps);
+    const titlesEl = document.getElementById('podiumTitles');
+    if (titlesEl) {
+        if (!t) { titlesEl.innerHTML = ''; }
+        else {
+            const cards = [
+                { emoji:'🏆', label:'MVP', name:t.mvp.name, detail:`${t.mvp.value} victoire${t.mvp.value>1?'s':''} au total` },
+                { emoji:'🎭', label:'Traître le plus rusé', name:t.traitre.name, detail:`${t.traitre.value} victoire${t.traitre.value>1?'s':''} en Moriarty` },
+                { emoji:'🐐', label:'Bouc émissaire', name:t.bouc.name, detail:`${t.bouc.value} défaite${t.bouc.value>1?'s':''}` },
+                { emoji:'🔥', label:'Série la plus longue', name:t.streak.name, detail:`${t.streak.value} victoire${t.streak.value>1?'s':''} d'affilée` }
+            ];
+            titlesEl.innerHTML = cards.map(c =>
+                `<div class="title-badge"><div class="tb-emoji">${c.emoji}</div><div class="tb-label">${esc(c.label)}</div>` +
+                `<div class="tb-name">${esc(c.name)}</div><div class="tb-detail">${esc(c.detail)}</div></div>`
+            ).join('');
+        }
+    }
+    const timeEl = document.getElementById('podiumPlaytime');
+    if (timeEl) {
+        timeEl.textContent = `⏱️ Temps de jeu total : ${formatTime(gameState.totalPlayTime || 0)}`;
+    }
+}
 
 // ====== STATS ======
 function buildPS() {
@@ -1243,66 +1784,52 @@ function buildPS() {
 
 function renderStats() {
     const ps = buildPS();
-    renderHistogram(ps); renderProgression(ps); renderManchesSummary();
-    const b = document.getElementById('continueBtn');
-    if (b) b.style.display = gameState.currentManche >= 4 ? 'none' : '';
+    renderManchesGrid(ps);
 }
 
-function renderHistogram(ps) {
-    const el = document.getElementById('histogram'); el.innerHTML = '';
-    gameState.players.forEach(player => {
-        let bw=0,bl=0,rw=0,rl=0,tw=0;
-        (ps[player]||[]).forEach(s => { if(s.team==='blue'){if(s.won){bw++;tw++;}else bl++;} else if(s.team==='red'){if(s.won){rw++;tw++;}else rl++;} });
-        const total=bw+bl+rw+rl;
-        let segs='';
-        if(bw) segs+=`<div class="seg bw" style="flex:${bw}">${bw}</div>`;
-        if(bl) segs+=`<div class="seg bl" style="flex:${bl}">${bl}</div>`;
-        if(rw) segs+=`<div class="seg rw" style="flex:${rw}">${rw}</div>`;
-        if(rl) segs+=`<div class="seg rl" style="flex:${rl}">${rl}</div>`;
-        el.innerHTML += `<div class="histo-bar"><div class="histo-col">${segs}</div><div class="histo-name">${esc(player)}</div><div class="histo-score">${tw}/${total}</div></div>`;
-    });
-}
-
-function renderProgression(ps) {
-    const el = document.getElementById('progressionChart'); el.innerHTML = '';
-    const wOf = p => (ps[p]||[]).filter(s=>s.won).length;
-    gameState.players.forEach(player => {
-        const tw = wOf(player);
-        const rank = gameState.players.filter(p=>wOf(p)>tw).length + 1;
-        const rl = ['🥇 1er','🥈 2ème','🥉 3ème','4ème','5ème','6ème','7ème','8ème'];
-        const icons = (ps[player]||[]).map(s => {
-            let cls,em;
-            if(s.won){cls=s.team==='blue'?'bw':'rw';em=s.team==='blue'?'✂️':'💣';}
-            else{cls=s.team==='blue'?'bl':'rl';em='😭';}
-            return `<div class="prog-icon ${cls}" title="M${s.manche}">${em}</div>`;
-        }).join('');
-        el.innerHTML += `<div class="prog-player"><div class="prog-name">${esc(player)}<span class="prog-rank">${rl[rank-1]||rank+'ème'}</span></div><div class="prog-icons">${icons}</div></div>`;
-    });
-}
-
-function renderManchesSummary() {
+function renderManchesGrid(ps) {
     const el = document.getElementById('manchesSummary');
-    let html = `<table class="summary-table"><thead><tr><th>M</th><th>🔵</th><th>🔴</th><th>W</th><th></th></tr></thead><tbody>`;
-    gameState.mancheHistory.forEach((round,idx) => {
-        const blue = gameState.players.filter(p=>round.assignments[p]==='blue').join(', ');
-        const red  = gameState.players.filter(p=>round.assignments[p]==='red').join(', ');
-        const w = round.winner==='blue' ? '<span class="badge-blue">🔵</span>' : '<span class="badge-red">🔴</span>';
-        const bg = round.winner==='blue' ? 'rgba(37,99,235,0.06)' : 'rgba(220,38,38,0.06)';
-        html += `<tr style="background:${bg}"><td>M${round.manche}</td><td>${esc(blue)}</td><td>${esc(red)}</td><td>${w}</td>` +
-            `<td style="white-space:nowrap"><button class="btn-blue-ghost btn-edit-manche" data-idx="${idx}">✏️</button>` +
-            `<button class="btn-red-ghost btn-delete-manche" data-idx="${idx}" style="margin-left:4px">🗑️</button></td></tr>`;
+    if (!el) return;
+    const history = gameState.mancheHistory;
+    if (!history || history.length === 0) {
+        el.innerHTML = '<div class="mg-empty">Aucune manche jouée pour le moment.</div>';
+        return;
+    }
+    const wins = {};
+    gameState.players.forEach(p => { wins[p] = (ps[p]||[]).filter(s=>s.won).length; });
+    const sortedPlayers = gameState.players.slice().sort((a,b) => wins[b]-wins[a]);
+    const M = ['🥇','🥈','🥉'];
+
+    let html = '<div class="manches-grid-wrap"><table class="manches-grid"><thead><tr><th class="mg-player-col">Joueur</th>';
+    history.forEach((r, idx) => {
+        const label = r.match != null ? `Partie ${r.match}` : `M${r.manche}`;
+        html += `<th>${label}${r.winner==='blue'?' 🔵':' 🔴'}<div class="mg-col-actions">` +
+            `<button class="mg-icon-btn" onclick="editManche(${idx})" title="Modifier">✏️</button>` +
+            `<button class="mg-icon-btn" onclick="deleteManche(${idx})" title="Supprimer">🗑️</button></div></th>`;
     });
-    html += '</tbody></table>';
+    html += '<th>V</th></tr></thead><tbody>';
+
+    sortedPlayers.forEach((player, rankIdx) => {
+        html += `<tr><td class="mg-player-col">${M[rankIdx]||''} ${esc(player)}</td>`;
+        history.forEach(r => {
+            const team = r.assignments[player];
+            const won = r.winner === team;
+            if (!team) { html += `<td class="mg-cell">—</td>`; return; }
+            const icon = team==='blue' ? (won?'✂️':'😭') : (won?'💣':'😭');
+            html += `<td class="mg-cell ${team} ${won?'win':'lose'}">${icon}</td>`;
+        });
+        html += `<td class="mg-total-col">${wins[player]}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
     el.innerHTML = html;
-    el.querySelectorAll('.btn-edit-manche').forEach(b => b.addEventListener('click', e => editManche(parseInt(e.currentTarget.dataset.idx))));
-    el.querySelectorAll('.btn-delete-manche').forEach(b => b.addEventListener('click', e => deleteManche(parseInt(e.currentTarget.dataset.idx))));
 }
 
 // ====== EDIT MANCHE ======
 function editManche(idx) {
     window._editIdx = idx;
     window._editAssign = {...gameState.mancheHistory[idx].assignments};
-    document.getElementById('editMancheTitle').textContent = `Manche ${gameState.mancheHistory[idx].manche}`;
+    const r = gameState.mancheHistory[idx];
+    document.getElementById('editMancheTitle').textContent = r.match != null ? `Partie ${r.match}` : `Manche ${r.manche}`;
     updateEditDisplay();
     switchScreen('editMancheScreen');
 }
@@ -1390,7 +1917,7 @@ function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'
 
 // ====== INIT ======
 window.addEventListener('DOMContentLoaded', () => {
-    applyTheme(localStorage.getItem('tb_theme') || 'sabotage');
+    applyTheme(localStorage.getItem('tb_theme') || 'clair');
     renderSavesList();
     switchScreen('homeScreen');
 });
